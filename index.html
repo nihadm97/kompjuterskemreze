@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Računarske mreže — interaktivna lekcija</title>
+<title>Računarske mreže</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:Arial,Helvetica,sans-serif}
 :root{--dark:#111827;--panel:#0f172a;--blue:#2563eb;--green:#22c55e;--red:#ef4444;--orange:#f97316;--muted:#64748b;--line:#cbd5e1;--soft:#f8fafc}
@@ -13,8 +13,19 @@ input,textarea,.cmd-box{user-select:text;-webkit-user-select:text}
 .logo{display:flex;align-items:center;gap:12px;font-size:22px;font-weight:900;flex-shrink:0}.logo-badge{width:38px;height:38px;border-radius:12px;background:#fff;padding:4px;display:flex;align-items:center;justify-content:center;overflow:hidden}.logo-badge img{width:100%;height:100%;object-fit:contain}.top-definition{flex:1;max-width:650px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:999px;padding:8px 14px;color:#e5e7eb;font-size:13px;font-weight:800;line-height:1.25;text-align:center}
 .top-info{display:flex;align-items:center;gap:10px;flex-shrink:0}.pill,select{background:rgba(255,255,255,.09);color:#fff;border:1px solid rgba(255,255,255,.12);padding:9px 13px;border-radius:999px;font-weight:800}.pill.dark{background:#eef2f7;color:#111827;border-color:#dbe2ea}select option{color:#111827;background:#fff}
 .main{height:calc(100vh - 66px);display:grid;grid-template-columns:350px 1fr;background:#0b1220}.sidebar{background:#eef2f7;color:#111827;overflow:auto;padding:14px;border-right:2px solid rgba(15,23,42,.12)}.stage{overflow:auto;background:radial-gradient(circle at top,#334155 0,#1f2937 48%,#111827 100%);padding:18px}
-.intro{padding:14px}.chapter{display:inline-flex;border-radius:999px;background:#dcfce7;border:1px solid #86efac;color:#166534;padding:6px 10px;font-size:12px;font-weight:900;margin-bottom:10px}.intro h1{font-size:24px;line-height:1.1;margin-bottom:8px}.intro p{font-size:14px;color:#475569;font-weight:700;line-height:1.35}
+.intro{padding:8px 10px 12px}.chapter{display:inline-flex;border-radius:999px;background:#dcfce7;border:1px solid #86efac;color:#166534;padding:6px 10px;font-size:12px;font-weight:900;margin-bottom:10px}.intro h1{font-size:24px;line-height:1.1;margin-bottom:8px}.intro p{font-size:14px;color:#475569;font-weight:800;line-height:1.35}
 .nav{display:grid;gap:8px;margin:10px 0}.nav button{border:1px solid #dbe2ea;background:#fff;color:#111827;border-radius:16px;padding:12px;text-align:left;font-weight:900;cursor:pointer;box-shadow:0 8px 18px rgba(15,23,42,.08)}.nav button.active{background:#dbeafe;border-color:#60a5fa;color:#1e3a8a}
+.nav button.diff-easy{border-color:#86efac;background:#f0fdf4;color:#166534}
+.nav button.diff-medium{border-color:#fdba74;background:#fff7ed;color:#9a3412}
+.nav button.diff-hard{border-color:#fca5a5;background:#fef2f2;color:#991b1b}
+.nav button.active.diff-easy{background:#dcfce7;border-color:#22c55e;color:#166534;box-shadow:0 0 0 3px rgba(34,197,94,.16)}
+.nav button.active.diff-medium{background:#ffedd5;border-color:#f97316;color:#9a3412;box-shadow:0 0 0 3px rgba(249,115,22,.16)}
+.nav button.active.diff-hard{background:#fee2e2;border-color:#ef4444;color:#991b1b;box-shadow:0 0 0 3px rgba(239,68,68,.16)}
+.quiz-q.diff-easy,.card.diff-easy,.topology-card.diff-easy{border-left:8px solid #22c55e!important}
+.quiz-q.diff-medium,.card.diff-medium,.topology-card.diff-medium{border-left:8px solid #f97316!important}
+.quiz-q.diff-hard,.card.diff-hard,.topology-card.diff-hard{border-left:8px solid #ef4444!important}
+.msg-stage.diff-hard{border-color:#ef4444!important;box-shadow:0 0 0 3px rgba(239,68,68,.20),0 25px 60px rgba(0,0,0,.38)}
+
 .note{background:#0f172a;color:#fff;border-radius:18px;padding:12px;margin-bottom:10px}.note b{display:block;color:#bfdbfe;margin-bottom:6px}.note p{font-size:12px;line-height:1.35;color:#e5e7eb;font-weight:700}.mini-figure{background:#fff;border-radius:14px;padding:8px;margin-top:8px}
 .section{display:none;max-width:1180px;margin:auto}.section.active{display:block}.card{background:#fff;color:#111827;border-radius:22px;border:1px solid #dbe2ea;box-shadow:0 18px 44px rgba(0,0,0,.22);padding:16px;margin-bottom:14px}.title-row{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px}.card h2{font-size:25px;line-height:1.1}.card h3{font-size:18px;margin-bottom:8px}.sub{color:#475569;font-size:14px;line-height:1.35;font-weight:700}
 .grid{display:grid;gap:14px}.two{grid-template-columns:1.03fr .97fr}.three{grid-template-columns:repeat(3,1fr)}
@@ -29,18 +40,22 @@ input,textarea,.cmd-box{user-select:text;-webkit-user-select:text}
 .msg-stage{position:relative;height:calc(100vh - 130px);min-height:560px;border:7px solid #0f172a;border-radius:24px;overflow:hidden;background:radial-gradient(circle at top,#e0f2fe 0,#f8fafc 55%,#e2e8f0 100%);box-shadow:0 25px 60px rgba(0,0,0,.38)}.msg-line{position:absolute;height:8px;background:#64748b;border-radius:999px;transform-origin:left center}.msg-node{position:absolute;width:120px;text-align:center;color:#334155;font-weight:900}.msg-icon{width:82px;height:82px;margin:0 auto 8px;border-radius:24px;display:flex;align-items:center;justify-content:center;font-size:34px;background:#fff;border:4px solid #0f172a;box-shadow:0 12px 26px rgba(15,23,42,.15)}.phone .msg-icon{background:linear-gradient(135deg,#60a5fa,#2563eb);color:#fff}.routerN .msg-icon{background:linear-gradient(135deg,#dbeafe,#93c5fd)}.serverN .msg-icon{background:linear-gradient(135deg,#0f172a,#334155);color:#bfdbfe}.cloud .msg-icon{background:linear-gradient(135deg,#f8fafc,#cbd5e1)}.msg-packet{position:absolute;width:88px;height:48px;border-radius:16px;background:linear-gradient(135deg,#2563eb,#1d4ed8);display:flex;align-items:center;justify-content:center;color:#fff;font-size:22px;font-weight:900;box-shadow:0 12px 24px rgba(37,99,235,.35);transition:left .8s ease,top .8s ease,transform .25s ease;z-index:5}.step-panel{position:absolute;left:18px;right:18px;bottom:18px;background:rgba(15,23,42,.92);color:#fff;border-radius:20px;padding:14px;display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center}.step-panel h3{color:#bfdbfe}.step-dots{position:absolute;top:16px;left:16px;right:16px;display:flex;gap:8px;z-index:4}.step-dot{flex:1;height:8px;border-radius:999px;background:rgba(15,23,42,.18)}.step-dot.on{background:#2563eb}
 .encrypt-demo{margin-top:12px;border:1px solid #dbe2ea;background:#fff;border-radius:18px;padding:12px}.packet-row{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}.packet-chip{background:#dbeafe;border:2px solid #93c5fd;color:#1e3a8a;border-radius:12px;padding:8px 10px;font-weight:900}.flow-box{background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:10px;font-weight:800;color:#334155;line-height:1.35}.practice-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px}.route-demo{position:relative;height:340px;max-width:780px;margin:12px auto 0;border:1px solid #dbe2ea;border-radius:18px;background:#f8fafc;overflow:hidden}.route-node{position:absolute;width:98px;text-align:center;font-size:12px;font-weight:900;color:#334155}.route-icon{width:54px;height:54px;border-radius:16px;margin:0 auto 6px;display:flex;align-items:center;justify-content:center;border:3px solid #0f172a;background:#fff}.route-icon.keypub{background:#dbeafe}.route-icon.keypriv{background:#fee2e2}.route-packet{position:absolute;width:76px;height:36px;border-radius:12px;background:#2563eb;color:#fff;font-size:11px;font-weight:900;display:flex;align-items:center;justify-content:center;text-align:center;line-height:1.05;padding:2px;transition:left .9s ease, top .9s ease, opacity .4s ease, background .4s ease;box-shadow:0 8px 18px rgba(37,99,235,.25)}.route-line{position:absolute;height:4px;background:#94a3b8;border-radius:999px;transform-origin:left center}.route-bubble{position:absolute;max-width:190px;min-width:150px;padding:10px 12px;border-radius:14px;background:#fff;border:2px solid #cbd5e1;color:#1e293b;font-size:13px;font-weight:900;line-height:1.25;box-shadow:0 8px 18px rgba(15,23,42,.08);opacity:0;transition:opacity .35s ease}.route-bubble.show{opacity:1}.route-bubble.sender{left:8px;top:10px}.route-bubble.receiver{left:540px;right:auto;top:10px;max-width:220px;min-width:185px}
 @media(max-width:1050px){body{overflow:auto}.topbar{height:auto;flex-wrap:wrap}.top-definition{order:3;flex-basis:100%;max-width:none}.main{height:auto;grid-template-columns:1fr}.stage{min-height:700px}.two,.three,.multi-grid,.explain-grid{grid-template-columns:1fr}.msg-stage{height:980px}.step-panel{grid-template-columns:1fr}.task-net{height:390px}}
+
+/* Dorada topologija: odgovori kod prvih pitanja niže i restart kviza */
+#topoQuestionBox .topo-answer-row{margin-top:22px;justify-content:center;}
+#topoQuestionBox .topo-usage-note{margin-top:10px;background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;border-radius:14px;padding:9px 11px;font-size:13px;font-weight:800;line-height:1.35;}
+#topoRestartBtn.hidden{display:none!important;}
 </style>
 </head>
 <body>
 <div class="topbar">
-  <div class="logo"><span class="logo-badge"><img src="https://nihadm97.github.io/Portfolio/static/media/logo.7156bdbd7cb0672472b8.png" alt="Logo"></span> Računarske mreže</div>
-  <div class="top-definition">Računarska mreža je grupa povezanih uređaja koji razmjenjuju podatke i dijele resurse, npr. internet, printer ili datoteke.</div>
-  <div class="top-info"><div class="pill" id="indicator">1 / 5</div><select id="sectionSelect" onchange="goSection(Number(this.value))"></select></div>
+  <div class="logo"><span class="logo-badge"><img src="https://nihadm97.github.io/Portfolio/static/media/logo.7156bdbd7cb0672472b8.png" alt="Logo"></span> Kompjuterske mreže</div>
+  <div class="top-definition">Kompjuterska mreža je grupa povezanih uređaja koji razmjenjuju podatke i dijele resurse, npr. internet, printer ili datoteke.</div>
+  <div class="top-info"><select id="sectionSelect" onchange="goSection(Number(this.value))"></select></div>
 </div>
 <div class="main">
   <aside class="sidebar">
-    <div class="intro"><div class="chapter">🌐 Interaktivna lekcija</div><h1>Mreže, IP adrese i topologije</h1><p>Kviz, IP adrese rutera, topologije, CMD komande i animacija slanja poruke.</p></div>
-    <div class="nav" id="nav"></div>
+    <div class="intro"><p>Kviz, IP adrese, Command Prompt komande, topologije i slanje poruka kroz mrežu.</p></div>
     <div class="note"><b>IPv4 intervali lokalnih adresa</b><p>10.0.0.0 - 10.255.255.255<br>172.16.0.0 - 172.31.255.255<br>192.168.0.0 - 192.168.255.255<br><br>Za ruter se u lokalnoj mreži najčešće rezerviše IP adresa iz istog intervala kao i ostali uređaji, a obično <span style="white-space:nowrap">završava sa .1</span>, npr. 192.168.1.1.</p></div>
     <div class="note"><b>Struktura IPv4 adrese</b><p>IPv4 adresa ima 4 okteta od 0 do 255. Ovo je manji podsjetnik uz primjer adrese.</p><div class="mini-figure" id="ipv4SidebarBox"></div></div>
     <div class="controls"><button class="btn secondary" onclick="prevSection()">← Nazad</button><button class="btn good" onclick="nextSection()">Naprijed →</button></div>
@@ -60,7 +75,7 @@ input,textarea,.cmd-box{user-select:text;-webkit-user-select:text}
         <div id="topologyIntro"><div class="grid three" id="topologyLessons"></div></div>
         <div class="hidden" id="topologyExercise">
           <div class="quiz-q"><div class="sub" id="topoProgress">Pitanje 1 / 7</div><div id="topoQuestionBox"></div></div>
-          <div class="controls"><button class="btn" id="topoNextBtn" onclick="nextTopo()">Dalje →</button><button class="btn good hidden" id="topoFinishBtn" onclick="checkTopo()">Završi kviz</button></div>
+          <div class="controls"><button class="btn" id="topoNextBtn" onclick="nextTopo()">Dalje →</button><button class="btn good hidden" id="topoFinishBtn" onclick="checkTopo()">Završi kviz</button><button class="btn good hidden" id="topoRestartBtn" onclick="startTopoExercise()">Pokreni novi primjer</button></div>
           <div class="feedback" id="topoFeedback"></div>
           <div id="topoReview" class="result-list"></div>
         </div>
@@ -68,18 +83,18 @@ input,textarea,.cmd-box{user-select:text;-webkit-user-select:text}
     </section>
     <section class="section" id="s2">
       <div class="grid two">
-        <div class="card"><div class="title-row"><div><div class="chapter">📡 Ruter i IP adrese</div><h2>Razvrstaj IP adrese rutera</h2><p class="sub">Tri primjera idu jedan po jedan. U primjerima su ubačene i neke globalne IP adrese koje završavaju na <b>.1</b>, da učenici pažljivo razmišljaju prije odgovora.</p></div><div class="pill dark" id="pairRound">Primjer 1 / 3</div></div><div class="svg-wrap" id="pairDiagram"></div><div class="sub" style="text-align:center;margin-top:8px">Pristup internetu ide preko rutera.</div></div>
-        <div class="card"><h3>Odredi vrstu adrese</h3><p class="sub">Povuci IP adresu u odgovarajuće polje. Lokalna adresa rutera u našim primjerima najčešće završava na <b>.1</b>.</p><div class="ip-bank" id="pairBank"></div><div class="drop-grid"><div class="dropzone" data-kind="local"><h4>🟢 Lokalna IP adresa</h4></div><div class="dropzone" data-kind="global"><h4>🔵 Globalna IP adresa</h4></div></div><div class="controls"><button class="btn" id="pairNextBtn" onclick="nextPair()">Dalje →</button><button class="btn good hidden" id="pairCheckBtn" onclick="checkPairs()">Provjeri sve</button></div><div class="feedback" id="pairFeedback"></div><div class="result-list" id="pairResults"></div></div>
+        <div class="card diff-easy"><div class="title-row"><div><div class="chapter">📡 Ruter i IP adrese</div><h2>Razvrstaj IP adrese rutera</h2><p class="sub">Tri primjera idu jedan po jedan. U primjerima su ubačene i neke globalne IP adrese koje završavaju na <b>.1</b>, da učenici pažljivo razmišljaju prije odgovora.</p></div><div class="pill dark" id="pairRound">Primjer 1 / 3</div></div><div class="svg-wrap" id="pairDiagram"></div><div class="sub" style="text-align:center;margin-top:8px">Pristup internetu ide preko rutera.</div></div>
+        <div class="card diff-easy"><h3>Odredi vrstu adrese</h3><p class="sub">Povuci IP adresu u odgovarajuće polje. Lokalna adresa rutera u našim primjerima najčešće završava na <b>.1</b>.</p><div class="ip-bank" id="pairBank"></div><div class="drop-grid"><div class="dropzone" data-kind="local"><h4>🟢 Lokalna IP adresa</h4></div><div class="dropzone" data-kind="global"><h4>🔵 Globalna IP adresa</h4></div></div><div class="controls"><button class="btn" id="pairNextBtn" onclick="nextPair()">Dalje →</button><button class="btn good hidden" id="pairCheckBtn" onclick="checkPairs()">Provjeri sve</button></div><div class="feedback" id="pairFeedback"></div><div class="result-list" id="pairResults"></div></div>
       </div>
     </section>
     <section class="section" id="s3">
       <div class="grid two">
-        <div class="card"><div class="chapter">💻 CMD i pojmovi</div><h2>Kako pronaći vlastitu IP adresu</h2><p class="sub">Na računaru otvori Command Prompt, upiši <b>ipconfig</b>, a zatim pronađi IPv4 Address i Default Gateway.</p><table class="range-table"><tr><th>Korak</th><th>Šta radiš</th></tr><tr><td>1</td><td>Pretraži <b>cmd</b>.</td></tr><tr><td>2</td><td>Otvori <b>Command Prompt</b>.</td></tr><tr><td>3</td><td>Upiši <b>ipconfig</b>.</td></tr><tr><td>4</td><td>Pronađi <b>IPv4 Address</b> i <b>Default Gateway</b>.</td></tr><tr><td>5</td><td>Komandom <b>ping 8.8.8.8</b> provjeri konekciju.</td></tr></table><div class="explain-grid"><div class="explain-card"><b>IPv4 Address</b><p>Adresa tvog uređaja u lokalnoj mreži.</p></div><div class="explain-card"><b>Default Gateway</b><p>Najčešće adresa rutera. U ovoj lekciji to je obično lokalna adresa koja završava na .1.</p></div><div class="explain-card"><b>Globalna IP</b><p>Adresa kojom se mreža predstavlja prema internetu.</p></div><div class="explain-card"><b>IPv6</b><p>Novija verzija IP adrese sa dužim zapisom; ovdje vježbamo IPv4.</p></div></div></div>
-        <div class="card"><h2>CMD simulator</h2><p class="sub">Klikni komandu i pogledaj šta učenik treba prepoznati.</p><div class="cmd-box" id="cmdBox">C:\Users\Ucenik&gt; _</div><div class="controls"><button class="btn" onclick="cmd('ipconfig')">ipconfig</button><button class="btn" onclick="cmd('ping')">ping 8.8.8.8</button><button class="btn secondary" onclick="cmd('clear')">Obriši</button></div><div class="quiz-q" style="margin-top:12px"><h4>Prepiši adrese sa slike</h4><p class="sub">Iz prikaza komande <b>ipconfig</b> prepiši svoju IPv4 adresu i adresu rutera (Default Gateway).</p><div class="multi-grid"><input class="text-input" id="studentIp" placeholder="Moja IPv4 adresa"><input class="text-input" id="routerIp" placeholder="Adresa rutera"></div><div class="controls"><button class="btn good" onclick="checkCmdRead()">Provjeri unose</button></div><div class="feedback" id="cmdReadFeedback"></div></div></div>
+        <div class="card diff-easy"><div class="chapter">💻 CMD i pojmovi</div><h2>Kako pronaći vlastitu IP adresu</h2><p class="sub">Na kompjuteru otvori Command Prompt, upiši <b>ipconfig</b>, a zatim pronađi IPv4 Address i Default Gateway.</p><table class="range-table"><tr><th>Korak</th><th>Šta radiš</th></tr><tr><td>1</td><td>Pretraži <b>cmd</b>.</td></tr><tr><td>2</td><td>Otvori <b>Command Prompt</b>.</td></tr><tr><td>3</td><td>Upiši <b>ipconfig</b>.</td></tr><tr><td>4</td><td>Pronađi <b>IPv4 Address</b> i <b>Default Gateway</b>.</td></tr><tr><td>5</td><td>Komandom <b>ping 8.8.8.8</b> provjeri konekciju.</td></tr></table><div class="explain-grid"><div class="explain-card"><b>IPv4 Address</b><p>Adresa tvog uređaja u lokalnoj mreži.</p></div><div class="explain-card"><b>Default Gateway</b><p>Najčešće adresa rutera. U ovoj lekciji to je obično lokalna adresa koja završava na .1.</p></div><div class="explain-card"><b>Globalna IP</b><p>Adresa kojom se mreža predstavlja prema internetu.</p></div><div class="explain-card"><b>IPv6</b><p>Novija verzija IP adrese sa dužim zapisom; ovdje vježbamo IPv4.</p></div></div></div>
+        <div class="card diff-easy"><h2>CMD simulator</h2><p class="sub">Klikni komandu i pogledaj šta učenik treba prepoznati.</p><div class="cmd-box" id="cmdBox">C:\Users\Ucenik&gt; _</div><div class="controls"><button class="btn" onclick="cmd('ipconfig')">ipconfig</button><button class="btn" onclick="cmd('ping')">ping 8.8.8.8</button><button class="btn secondary" onclick="cmd('clear')">Obriši</button></div><div class="quiz-q" style="margin-top:12px"><h4>Prepiši adrese sa slike</h4><p class="sub">Iz prikaza komande <b>ipconfig</b> prepiši svoju IPv4 adresu i adresu rutera (Default Gateway).</p><div class="multi-grid"><input class="text-input" id="studentIp" placeholder="Moja IPv4 adresa"><input class="text-input" id="routerIp" placeholder="Adresa rutera"></div><div class="controls"><button class="btn good" onclick="checkCmdRead()">Provjeri unose</button></div><div class="feedback" id="cmdReadFeedback"></div></div></div>
       </div>
     </section>
     <section class="section" id="s4">
-      <div class="msg-stage">
+      <div class="msg-stage diff-hard">
         <div class="step-dots" id="stepDots"></div>
         <div class="msg-line" id="line0"></div><div class="msg-line" id="line1"></div><div class="msg-line" id="line2"></div><div class="msg-line" id="line3"></div><div class="msg-line" id="line4"></div><div class="msg-line" id="line5"></div>
         <div class="msg-node phone" style="left:24px;top:250px"><div class="msg-icon">📱</div><div>Pošiljalac</div></div>
@@ -92,7 +107,7 @@ input,textarea,.cmd-box{user-select:text;-webkit-user-select:text}
         <div class="msg-packet" id="msgPacket">✉️🔓</div>
         <div class="step-panel"><div><h3 id="msgTitle"></h3><p id="msgText"></p></div><div class="controls"><button class="btn secondary" onclick="prevMsg()">←</button><button class="btn good" onclick="playMsg()">▶ Prikaži</button><button class="btn" onclick="nextMsg()">→</button></div></div>
       </div>
-      <div class="card" style="margin-top:14px">
+      <div class="card diff-hard" style="margin-top:14px">
         <div class="chapter">🔐 Dodatno pojašnjenje</div>
         <h2>Kako poruka bude šifrirana i podijeljena</h2>
         <p class="sub">Ovo je teorijski primjer, sličan načinu razmišljanja u alatima kao što je Packet Tracer, ali pojednostavljen za učenike.</p>
@@ -103,7 +118,9 @@ input,textarea,.cmd-box{user-select:text;-webkit-user-select:text}
 </div>
 <script>
 
-const sections=['IP adresa','Topologije povezivanja','Ruter','Pronađi vlastitu IP adresu','Slanje poruka'];
+const sections=['IP adresa','Ruter','Pronađi vlastitu IP adresu','Topologije povezivanja','Slanje poruka'];
+const sectionOrder=['s0','s2','s3','s1','s4'];
+const sectionDifficulty=['medium','easy','easy','medium','hard'];
 let current=0;
 const privateRanges=[{a:[10,0,0,0],b:[10,255,255,255]},{a:[172,16,0,0],b:[172,31,255,255]},{a:[192,168,0,0],b:[192,168,255,255]}];
 function ipNums(ip){return String(ip).split('.').map(Number)}
@@ -114,9 +131,9 @@ function kind(ip){return isLocal(ip)?'local':'global'}
 function rand(a,b){return Math.floor(Math.random()*(b-a+1))+a}
 function shuffle(arr){return [...arr].sort(()=>Math.random()-.5)}
 function pick(arr,n){return shuffle(arr).slice(0,n)}
-function setupNav(){sectionSelect.innerHTML=sections.map((s,i)=>`<option value="${i}">${i+1}. ${s}</option>`).join('');nav.innerHTML=sections.map((s,i)=>`<button onclick="goSection(${i})">${i+1}. ${s}</button>`).join('');updateNav()}
-function updateNav(){document.querySelectorAll('.section').forEach((s,i)=>s.classList.toggle('active',i===current));document.querySelectorAll('.nav button').forEach((b,i)=>b.classList.toggle('active',i===current));indicator.textContent=`${current+1} / ${sections.length}`;sectionSelect.value=current}
-function goSection(i){const old=current;current=Math.max(0,Math.min(sections.length-1,i));updateNav();if(current===3&&old!==3)generateCmdIps();if(current===4&&old!==4){generateMessageExample();mi=0;setupMsg();}}
+function setupNav(){sectionSelect.innerHTML=sections.map((s,i)=>`<option value="${i}">${i+1}. ${s}</option>`).join('');updateNav()}
+function updateNav(){document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));const activeSection=document.getElementById(sectionOrder[current]);if(activeSection)activeSection.classList.add('active');sectionSelect.value=current}
+function goSection(i){const old=current;current=Math.max(0,Math.min(sections.length-1,i));updateNav();if(current===2&&old!==2)generateCmdIps();if(current===4&&old!==4){generateMessageExample();mi=0;setupMsg();}}
 function nextSection(){goSection(current+1)}
 function prevSection(){goSection(current-1)}
 function randomLocal(){let t=rand(0,2);if(t===0)return `10.${rand(0,255)}.${rand(0,255)}.${rand(2,254)}`;if(t===1)return `172.${rand(16,31)}.${rand(0,255)}.${rand(2,254)}`;return `192.168.${rand(0,255)}.${rand(2,254)}`}
@@ -129,7 +146,7 @@ function esc(s){return String(s).replace(/[&<>]/g,m=>({'&':'&amp;','<':'&lt;','>
 function laptop(x,y){return `<g transform="translate(${x},${y})"><rect width="56" height="36" rx="5" fill="#dbeafe" stroke="#0f172a" stroke-width="3"/><rect x="-6" y="36" width="68" height="8" rx="4" fill="#cbd5e1"/></g>`}
 function routerSvg(x,y){return `<g transform="translate(${x},${y})"><rect width="96" height="48" rx="14" fill="#dbeafe" stroke="#0f172a" stroke-width="4"/><circle cx="34" cy="24" r="4" fill="#2563eb"/><circle cx="50" cy="24" r="4" fill="#2563eb"/><circle cx="66" cy="24" r="4" fill="#2563eb"/><text x="48" y="69" text-anchor="middle" font-size="15" font-weight="900" fill="#334155">Ruter</text></g>`}
 function globe(x,y){return `<g transform="translate(${x},${y})"><circle cx="40" cy="40" r="36" fill="#eff6ff" stroke="#2563eb" stroke-width="5"/><path d="M4 40 H76 M40 4 V76 M16 18 C34 28 40 52 40 76 M64 18 C46 28 40 52 40 76 M16 62 C34 52 40 28 40 4 M64 62 C46 52 40 28 40 4" stroke="#2563eb" stroke-width="3" fill="none"/><text x="40" y="96" text-anchor="middle" font-size="15" font-weight="900" fill="#334155">Internet</text></g>`}
-function ipv4StructureSvg(small=false){let a=rand(11,223),b=rand(0,255),c=rand(0,255),d=rand(1,254); if(small) return `<svg viewBox="0 0 300 130" width="100%"><rect width="300" height="130" fill="#fff"/><text x="42" y="18" font-size="10" font-weight="900" text-anchor="middle">Domen</text><text x="116" y="12" font-size="10" font-weight="900" text-anchor="middle">Poddomena</text><text x="116" y="24" font-size="10" font-weight="900" text-anchor="middle">(grad)</text><text x="190" y="18" font-size="10" font-weight="900" text-anchor="middle">Kabinet</text><text x="260" y="18" font-size="10" font-weight="900" text-anchor="middle">Računar</text>${ln(50,28,108,76,'#111',1.8)}${ln(116,28,136,76,'#111',1.8)}${ln(190,28,166,76,'#111',1.8)}${ln(260,28,194,76,'#111',1.8)}<text x="150" y="96" font-size="20" font-weight="900" text-anchor="middle" fill="#22c55e">${a}.${b}.${c}.${d}</text><text x="150" y="117" font-size="8.5" font-weight="800" text-anchor="middle" fill="#475569">4 okteta: ${a} · ${b} · ${c} · ${d}</text></svg>`; return `<svg viewBox="0 0 720 250" width="100%"><rect width="720" height="250" fill="#fff"/><text x="92" y="45" font-size="25" font-weight="900" text-anchor="middle">Domen (telecom)</text><text x="290" y="25" font-size="25" font-weight="900" text-anchor="middle">Poddomena</text><text x="290" y="58" font-size="25" font-weight="900" text-anchor="middle">(grad)</text><text x="462" y="45" font-size="25" font-weight="900" text-anchor="middle">Kabinet</text><text x="620" y="45" font-size="25" font-weight="900" text-anchor="middle">Računar</text>${ln(126,72,258,160,'#111',3)}${ln(292,72,310,160,'#111',3)}${ln(462,72,365,160,'#111',3)}${ln(620,72,400,160,'#111',3)}<text x="360" y="198" font-size="38" font-weight="900" text-anchor="middle" fill="#22c55e">${a}.${b}.${c}.${d}</text><text x="360" y="232" font-size="15" font-weight="800" text-anchor="middle" fill="#475569">IPv4 adresa se sastoji od 4 okteta: ${a} · ${b} · ${c} · ${d}</text></svg>`}
+function ipv4StructureSvg(small=false){let a=rand(11,223),b=rand(0,255),c=rand(0,255),d=rand(1,254); if(small) return `<svg viewBox="0 0 300 130" width="100%"><rect width="300" height="130" fill="#fff"/><text x="42" y="18" font-size="10" font-weight="900" text-anchor="middle">Domen</text><text x="116" y="12" font-size="10" font-weight="900" text-anchor="middle">Poddomena</text><text x="116" y="24" font-size="10" font-weight="900" text-anchor="middle">(grad)</text><text x="190" y="18" font-size="10" font-weight="900" text-anchor="middle">Kabinet</text><text x="260" y="18" font-size="10" font-weight="900" text-anchor="middle">Kompjuter</text>${ln(50,28,108,76,'#111',1.8)}${ln(116,28,136,76,'#111',1.8)}${ln(190,28,166,76,'#111',1.8)}${ln(260,28,194,76,'#111',1.8)}<text x="150" y="96" font-size="20" font-weight="900" text-anchor="middle" fill="#22c55e">${a}.${b}.${c}.${d}</text><text x="150" y="117" font-size="8.5" font-weight="800" text-anchor="middle" fill="#475569">4 okteta: ${a} · ${b} · ${c} · ${d}</text></svg>`; return `<svg viewBox="0 0 720 250" width="100%"><rect width="720" height="250" fill="#fff"/><text x="92" y="45" font-size="25" font-weight="900" text-anchor="middle">Domen (telecom)</text><text x="290" y="25" font-size="25" font-weight="900" text-anchor="middle">Poddomena</text><text x="290" y="58" font-size="25" font-weight="900" text-anchor="middle">(grad)</text><text x="462" y="45" font-size="25" font-weight="900" text-anchor="middle">Kabinet</text><text x="620" y="45" font-size="25" font-weight="900" text-anchor="middle">Kompjuter</text>${ln(126,72,258,160,'#111',3)}${ln(292,72,310,160,'#111',3)}${ln(462,72,365,160,'#111',3)}${ln(620,72,400,160,'#111',3)}<text x="360" y="198" font-size="38" font-weight="900" text-anchor="middle" fill="#22c55e">${a}.${b}.${c}.${d}</text><text x="360" y="232" font-size="15" font-weight="800" text-anchor="middle" fill="#475569">IPv4 adresa se sastoji od 4 okteta: ${a} · ${b} · ${c} · ${d}</text></svg>`}
 function networkSvg(ips,assigned={}){const local=assigned.local||'—';const global=assigned.global||'—';return `<svg viewBox="0 0 700 280" width="100%">${ln(194,72,306,138,'#16a34a',6)}${ln(194,140,306,140,'#16a34a',6)}${ln(194,208,306,152,'#16a34a',6)}${ln(402,140,520,140,'#16a34a',6)}${laptop(120,48)}${laptop(120,116)}${laptop(120,184)}${routerSvg(306,116)}${globe(520,100)}${svgText(448,24,'Ruter ima IP adrese:',20)}${svgText(448,58,ips[0],24)}${svgText(448,88,ips[1],24)}<text x="354" y="218" text-anchor="middle" font-size="13" font-weight="900" fill="#334155">Odabrana lokalna:</text><text x="354" y="238" text-anchor="middle" font-size="15" font-weight="900" fill="#2563eb">${local}</text><text x="560" y="218" text-anchor="middle" font-size="13" font-weight="900" fill="#334155">Odabrana globalna:</text><text x="560" y="238" text-anchor="middle" font-size="15" font-weight="900" fill="#2563eb">${global}</text></svg>`}
 
 let quiz=[];
@@ -137,21 +154,21 @@ function makeNetworkTask(){
   const publicIp=randomGlobal();
   const layouts=[
     {positions:[{x:0,y:0},{x:0,y:0},{x:32,y:296},{x:265,y:296},{x:498,y:296}], devices:[['server','Server provajdera'],['router','Ruter škole'],['printer','Mrežni printer'],['pc','Laptop nastavnika'],['pc','Tablet učenika']]},
-    {positions:[{x:0,y:0},{x:0,y:0},{x:32,y:296},{x:265,y:296},{x:498,y:296}], devices:[['server','Server'],['router','Ruter škole'],['pc','Računar A'],['printer','Printer u kabinetu'],['pc','Računar C']]},
+    {positions:[{x:0,y:0},{x:0,y:0},{x:32,y:296},{x:265,y:296},{x:498,y:296}], devices:[['server','Server'],['router','Ruter škole'],['pc','Kompjuter A'],['printer','Printer u kabinetu'],['pc','Kompjuter C']]},
     {positions:[{x:0,y:0},{x:0,y:0},{x:32,y:296},{x:265,y:296},{x:498,y:296}], devices:[['server','Server provajdera'],['router','Ruter kabineta'],['pc','Uređaj 1'],['pc','Uređaj 2'],['pc','Uređaj 3']]}
   ];
   const chosen=layouts[rand(0,layouts.length-1)];
   const knownIndex=rand(0,chosen.devices.length-1);
   return {type:'globalShare',publicIp,devices:chosen.devices,positions:chosen.positions,knownIndex,inputs:{},layout:rand(0,1)};
 }
-function makeLanTask(){let prefix=randomPrefix(true); let positions=[{x:235,y:8},{x:40,y:118},{x:430,y:118},{x:40,y:236},{x:235,y:236},{x:430,y:236}]; let devices=[['router','Ruter'],['pc','Računar A'],['pc','Računar B'],['printer','Printer'],['pc','Računar D'],['pc','Računar E']]; let knownIndex=rand(1,5); let knownIp=randomFromPrefix(prefix,[`${prefix}.1`]); return {type:'lanGroup',prefix,devices,positions,knownIndex,knownIp,inputs:{}}}
+function makeLanTask(){let prefix=randomPrefix(true); let positions=[{x:235,y:8},{x:40,y:118},{x:430,y:118},{x:40,y:236},{x:235,y:236},{x:430,y:236}]; let devices=[['router','Ruter'],['pc','Kompjuter A'],['pc','Kompjuter B'],['printer','Printer'],['pc','Kompjuter D'],['pc','Kompjuter E']]; let knownIndex=rand(1,5); let knownIp=randomFromPrefix(prefix,[`${prefix}.1`]); return {type:'lanGroup',prefix,devices,positions,knownIndex,knownIp,inputs:{}}}
 function quizIntroHtml(){return `<div class="feedback show info" style="display:block;margin-bottom:12px"><b>Kako rješavati ovaj kviz?</b><br>U prvih 6 pitanja razvrstavaš IP adrese na lokalne i globalne. Sa strane imaš tabelu intervala lokalnih adresa, a sve što nije u tim intervalima tretira se kao globalna IP adresa.</div>`}
-function routerSwitchInfoHtml(){return `<div class="feedback show info" style="display:block;margin:12px 0"><b>Prije zadataka sa slikama: ruter i switch</b><br><b>Ruter</b> povezuje tvoju lokalnu mrežu sa drugim mrežama, najčešće sa internetom. On često ima lokalnu adresu koja završava na <b>.1</b> i preko njega uređaji izlaze na internet.<br><br><b>Switch</b> povezuje više uređaja unutar iste lokalne mreže, npr. računare u kabinetu. Switch obično ne dodjeljuje internet adresu prema vani, nego samo pomaže da uređaji u istoj mreži komuniciraju. Zato se u zadacima sa topologijama switch može pojaviti kao centralni uređaj, a u zadacima sa izlazom na internet glavni uređaj je ruter.</div>`}
+function routerSwitchInfoHtml(){return `<div class="feedback show info" style="display:block;margin:12px 0"><b>Prije zadataka sa slikama: ruter i switch</b><br><b>Ruter</b> povezuje tvoju lokalnu mrežu sa drugim mrežama, najčešće sa internetom. On često ima lokalnu adresu koja završava na <b>.1</b> i preko njega uređaji izlaze na internet.<br><br><b>Switch</b> povezuje više uređaja unutar iste lokalne mreže, npr. kompjutere u kabinetu. Switch obično ne dodjeljuje internet adresu prema vani, nego samo pomaže da uređaji u istoj mreži komuniciraju. Zato se u zadacima sa topologijama switch može pojaviti kao centralni uređaj, a u zadacima sa izlazom na internet glavni uređaj je ruter.</div>`}
 
 function generateQuiz(){quiz=[]; let globals=[randomGlobal(),randomGlobal(true),randomGlobal()]; let locals=[`${randomPrefix(true)}.1`,randomLocal(),randomLocal()]; let ips=shuffle([...locals,...globals]); ips.forEach(ip=>quiz.push({type:'classify',ip,answer:''})); for(let i=0;i<3;i++) quiz.push(makeNetworkTask()); quiz.push(makeLanTask()); renderQuiz(); ipv4SidebarBox.innerHTML=ipv4StructureSvg(true)}
 function renderQuiz(){
-  const classifyHtml = quiz.slice(0,6).map((q,i)=>`<div class="quiz-q" data-q="${i}"><h4>${i+1}. Da li je ${q.ip} lokalna ili globalna IPv4 adresa?</h4><div class="choice-row"><button class="choice ${q.answer==='local'?'selected':''}" onclick="quizChoose(${i},'local')">Lokalna</button><button class="choice ${q.answer==='global'?'selected':''}" onclick="quizChoose(${i},'global')">Globalna</button></div></div>`).join('');
-  const restHtml = quiz.slice(6).map((q,offset)=>{ const i=offset+6; if(q.type==='globalShare') return `<div class="quiz-q" data-q="${i}"><h4>${i+1}. Server je dodijelio ruteru jednu globalnu IP adresu. Upiši koju globalnu IP adresu prema internetu koriste ruter i uređaji u školi.</h4><div class="task-net">${renderGlobalShare(i,q)}</div><div class="feedback" id="hint${i}"></div></div>`; return `<div class="quiz-q" data-q="${i}"><h4>${i+1}. Dodijeli validne lokalne IP adrese uređajima u mreži.</h4><div class="task-net" style="height:390px">${renderLargeLan(i,q)}</div><div class="feedback" id="hint${i}"></div></div>`; }).join('');
+  const classifyHtml = quiz.slice(0,6).map((q,i)=>`<div class="quiz-q diff-easy" data-q="${i}"><h4>${i+1}. Da li je ${q.ip} lokalna ili globalna IPv4 adresa?</h4><div class="choice-row"><button class="choice ${q.answer==='local'?'selected':''}" onclick="quizChoose(${i},'local')">Lokalna</button><button class="choice ${q.answer==='global'?'selected':''}" onclick="quizChoose(${i},'global')">Globalna</button></div></div>`).join('');
+  const restHtml = quiz.slice(6).map((q,offset)=>{ const i=offset+6; if(q.type==='globalShare') return `<div class="quiz-q diff-medium" data-q="${i}"><h4>${i+1}. Server je dodijelio ruteru jednu globalnu IP adresu. Upiši koju globalnu IP adresu prema internetu koriste ruter i uređaji u školi.</h4><div class="task-net">${renderGlobalShare(i,q)}</div><div class="feedback" id="hint${i}"></div></div>`; return `<div class="quiz-q diff-medium" data-q="${i}"><h4>${i+1}. Dodijeli validne lokalne IP adrese uređajima u mreži.</h4><div class="task-net" style="height:390px">${renderLargeLan(i,q)}</div><div class="feedback" id="hint${i}"></div></div>`; }).join('');
   quizArea.innerHTML = quizIntroHtml() + `<div class="grid two">${classifyHtml}</div>` + routerSwitchInfoHtml() + restHtml;
   quizFeedback.className='feedback';
   quizFeedback.textContent='';
@@ -237,26 +254,80 @@ function tLink(x1,y1,x2,y2){return ln(x1,y1,x2,y2,'#0f172a',4)}
 function busNode(x,y){return `${tLink(x+11,58,x+11,y+8)}${tNode(x,y)}`}
 const topo=[
   ['ring','Prstenasta topologija','Uređaji su povezani u zatvoren krug; podatak ide od jednog uređaja do sljedećeg.','Primjer: stariji sistemi za upravljanje u fabrikama ili zatvoreni krug uređaja gdje svaki uređaj prosljeđuje podatak narednom.'],
-  ['star','Zvjezdasta topologija','Svi uređaji se spajaju na jedan centralni uređaj, najčešće ruter ili switch.','Primjer: kućna mreža u kojoj telefoni, laptopi i TV idu preko rutera, ili kabinet u kojem su računari spojeni na switch.'],
-  ['bus','Magistralna topologija','Više uređaja dijeli jednu zajedničku liniju — magistralu.','Primjer: mikrokontroler čita senzor temperature, senzor kvaliteta zraka i displej preko I2C magistrale; uređaji se razlikuju po svojoj adresi na toj magistrali.'],
+  ['star','Zvjezdasta topologija','Svi uređaji se spajaju na jedan centralni uređaj, najčešće ruter ili switch.','Primjer: kućna mreža u kojoj telefoni, laptopi i TV idu preko rutera, ili kabinet u kojem su kompjuteri spojeni na switch.'],
+  ['bus','Magistralna topologija','Više uređaja dijeli jednu zajedničku liniju — magistralu.','Primjer: mikrokontroler čita senzor temperature, senzor kvaliteta zraka i displej preko I2C veze; uređaji se razlikuju po svojoj adresi.'],
   ['mesh','Mrežasta topologija','Uređaji imaju više mogućih veza pa poruka može ići različitim putanjama.','Primjer: mrežasto povezivanje igrača u online sesiji, gdje se igrači mogu direktno povezivati jedni s drugima, ili bežični mesh sistemi.'],
   ['tree','Stablasta topologija','Mreža je granata u nivoe: glavni uređaj, pa grane i podgrane.','Primjer: škola u kojoj glavni ruter povezuje spratove, a switchevi na spratovima dalje povezuju učionice.']
 ];
 const topoUsage={
-  ring:['Zatvoreni krug uređaja u kojem svaki uređaj prosljeđuje podatak sljedećem.','Stariji industrijski sistem u kojem su uređaji vezani redom u prsten.','Sistem u kojem prekid jedne veze može prekinuti kružno slanje podataka.'],
-  star:['Računari u kabinetu povezani su na jedan switch.','Kućni uređaji se povezuju na jedan ruter.','Laptopi, telefoni i printer komuniciraju preko centralnog uređaja.'],
-  bus:['Senzor kvaliteta zraka, senzor temperature i displej rade na istoj I2C magistrali.','Više uređaja dijeli jednu zajedničku komunikacijsku liniju.','Mikrokontroler komunicira s više modula preko iste linije, a uređaji se razlikuju po adresi.'],
-  mesh:['Online igrači mogu imati više direktnih veza između učesnika.','Bežični mesh sistem ima više putanja do istog odredišta.','Ako jedna veza oslabi, poruka može ići drugim putem kroz mrežu.'],
-  tree:['Školska mreža ima glavni ruter, spratove i učionice kao grane.','Firma ima centralni uređaj, zatim odjele, pa računare u svakom odjelu.','Mreža je organizovana u nivoe: glavna grana, podgrane i krajnji uređaji.']
+  ring:['Uređaje bih povezao u zatvoren krug, tako da svaki uređaj prosljeđuje podatak sljedećem.','Za stariji industrijski sistem koristio bih prstenasto povezivanje uređaja.','Ako se traži kružno slanje podataka od jednog uređaja do sljedećeg, izabrao bih prstenastu topologiju.'],
+  star:['Kompjutere u kabinetu spojio bih na jedan centralni switch.','Za kabinet u školi koristio bih centralni switch ili ruter na koji se povezuju svi kompjuteri.','Za dijeljenje printera i interneta u kabinetu najpraktičnije je da kompjuteri idu preko centralnog uređaja.'],
+  bus:['Senzori i displej koriste istu I2C vezu, a razlikuju se po adresi.','Kod I2C veze više senzora može koristiti iste komunikacijske linije.','Mikrokontroler komunicira s više modula preko iste komunikacijske veze.'],
+  mesh:['Kompjuteri ili uređaji imaju više mogućih veza, pa poruka može izabrati drugu putanju.','Bežični mesh sistem ima više putanja do istog odredišta.','Ako jedna veza oslabi, poruka može ići drugim putem kroz mrežu.'],
+  tree:['Školsku mrežu bih organizovao po nivoima: glavni ruter, spratni switchevi, pa kompjuteri u učionicama.','Za veću školu ili firmu koristio bih granatu mrežu sa glavnim uređajem i manjim granama.','Ako mreža treba da se širi po spratovima i učionicama, praktična je stablasta topologija.']
 };
-const topoUseOptions=()=>shuffle(Object.values(topoUsage).flat()).slice(0,8);
-const topoScenarios={
-  ring:['Uređaji su vezani u zatvoren krug i svaki prosljeđuje podatak sljedećem. Koja upotreba najbolje odgovara ovoj topologiji?','Mreža nema jedan centralni uređaj, nego se podatak kreće kružno od uređaja do uređaja. Koji primjer odgovara?'],
-  star:['U kabinetu se više računara povezuje na jedan switch. Koji primjer najbolje opisuje ovu topologiju?','Svi kućni uređaji idu preko jednog rutera. Koji primjer odgovara?'],
-  bus:['Senzor temperature, senzor kvaliteta zraka i displej koriste istu I2C magistralu. Koji primjer odgovara?','Više modula dijeli jednu zajedničku liniju za komunikaciju. Koja upotreba najbolje odgovara?'],
-  mesh:['U online igri učesnici mogu imati više direktnih veza, a ne samo jedan centralni čvor. Koji primjer odgovara?','Bežični sistem ima više putanja, pa se poruka može preusmjeriti drugim putem. Koja upotreba najbolje odgovara?'],
-  tree:['U školi glavni ruter vodi prema spratovima, a spratovi dalje prema učionicama. Koji primjer odgovara?','Mreža firme je podijeljena na centralni uređaj, odjele i računare u odjelima. Koji primjer odgovara?']
+const topoScenarioBank={
+  star:{
+    label:'U informatičkom kabinetu ima više kompjutera, jedan printer i pristup internetu. Na koji način bi povezao kompjutere da optimalno dijele resurse?',
+    correct:'Kompjutere bih spojio na jedan centralni switch ili ruter, jer zvjezdasta topologija olakšava dijeljenje printera i interneta u kabinetu.',
+    options:[
+      'Kompjutere bih spojio na jedan centralni switch ili ruter, jer zvjezdasta topologija olakšava dijeljenje printera i interneta u kabinetu.',
+      'Kompjutere bih povezao u zatvoren krug, tako da svaki kompjuter zavisi od sljedećeg u krugu.',
+      'Svi kompjuteri bi dijelili jednu zajedničku komunikacijsku liniju bez centralnog uređaja.',
+      'Svaki kompjuter bih povezao sa više drugih kompjutera, iako je to nepotrebno složeno za običan kabinet.',
+      'Kompjutere bih rasporedio po spratovima i podgrupama, što je korisnije za veću školsku mrežu nego za jedan kabinet.'
+    ]
+  },
+  bus:{
+    label:'Senzor temperature, senzor kvaliteta zraka i displej mogu raditi preko I2C veze. Istraži na internetu šta je I2C, pa odaberi na kojem principu rade takvi senzori.',
+    note:'Napomena: ovaj primjer je malo neobičniji, zato je dobro istražiti pojam I2C i vidjeti kako više senzora može komunicirati preko iste veze.',
+    correct:'Senzori i displej koriste istu I2C vezu, a svaki uređaj se razlikuje po svojoj adresi.',
+    options:[
+      'Senzori i displej koriste istu I2C vezu, a svaki uređaj se razlikuje po svojoj adresi.',
+      'Svaki senzor mora biti povezan direktno sa svakim drugim senzorom da bi sistem radio.',
+      'Senzori se povezuju u zatvoren krug i podatak uvijek ide samo od jednog senzora do sljedećeg.',
+      'Svi senzori se spajaju na školski switch kao kompjuteri u kabinetu.',
+      'Senzori se povezuju u hijerarhiju spratova i učionica, kao veća školska mreža.'
+    ]
+  },
+  tree:{
+    label:'Škola ima glavni ruter, spratne switcheve i učionice sa kompjuterima. Kako bi povezao kompjutere da se mreža može uredno širiti po spratovima?',
+    correct:'Koristio bih stablo: glavni ruter povezuje spratne switcheve, a oni dalje povezuju kompjutere u učionicama.',
+    options:[
+      'Koristio bih stablo: glavni ruter povezuje spratne switcheve, a oni dalje povezuju kompjutere u učionicama.',
+      'Sve kompjutere u cijeloj školi spojio bih na jednu zajedničku liniju bez grananja.',
+      'Svaki kompjuter u školi povezao bih direktno sa svakim drugim kompjuterom, što bi bilo previše složeno.',
+      'Kompjutere bih povezao u jedan zatvoren krug, pa bi podatak išao od jednog kompjutera do sljedećeg.',
+      'Za svaki kabinet koristio bih samo jedan centralni switch, ali bez povezivanja kabineta u veću školsku strukturu.'
+    ]
+  },
+  mesh:{
+    label:'Bežična mreža treba imati više mogućih putanja, tako da poruka može proći drugim putem ako jedna veza oslabi. Kako bi povezao uređaje?',
+    correct:'Uređaje bih povezao mrežasto, jer više veza omogućava alternativne putanje kroz mrežu.',
+    options:[
+      'Uređaje bih povezao mrežasto, jer više veza omogućava alternativne putanje kroz mrežu.',
+      'Sve uređaje bih spojio na jednu zajedničku magistralu bez dodatnih putanja.',
+      'Uređaje bih povezao u jedan zatvoren krug sa samo jednom kružnom putanjom.',
+      'Svi uređaji bi zavisili od jednog centralnog uređaja bez alternativnih veza.',
+      'Uređaje bih organizovao po spratovima i učionicama, iako se ovdje traže alternativne bežične putanje.'
+    ]
+  },
+  ring:{
+    label:'Zatvoreni sistem uređaja treba slati podatak redom, od jednog uređaja do sljedećeg, u krug. Kako bi povezao uređaje?',
+    correct:'Uređaje bih povezao prstenasto, jer se podatak kreće kroz zatvoreni krug od uređaja do uređaja.',
+    options:[
+      'Uređaje bih povezao prstenasto, jer se podatak kreće kroz zatvoreni krug od uređaja do uređaja.',
+      'Sve uređaje bih spojio na jedan centralni switch kao u školskom kabinetu.',
+      'Uređaji bi koristili I2C način povezivanja, kao senzori i displej.',
+      'Svaki uređaj bih povezao sa više drugih uređaja da dobije mnogo alternativnih putanja.',
+      'Uređaje bih organizovao po spratovima i učionicama kao školsku mrežu.'
+    ]
+  }
 };
+function makeUsageQuestion(k){
+  const s=topoScenarioBank[k];
+  return {mode:'usage',type:k,options:shuffle([...s.options]),correct:[s.correct],answer:[],label:s.label,note:s.note||''};
+}
 const topoNames=topo.map(x=>x[1]);
 function topoSvg(t,v=0){
   if(t==='ring') return v===0?`<svg viewBox="0 0 220 110"><ellipse cx="110" cy="55" rx="75" ry="34" fill="none" stroke="#0f172a" stroke-width="5"/>${tNode(92,14)}${tNode(142,26)}${tNode(24,48)}${tNode(172,48)}${tNode(56,80)}${tNode(126,80)}</svg>`:`<svg viewBox="0 0 220 110"><ellipse cx="110" cy="55" rx="72" ry="32" fill="none" stroke="#0f172a" stroke-width="5"/>${tNode(42,48)}${tNode(72,18)}${tNode(122,14)}${tNode(158,42)}${tNode(138,78)}${tNode(76,82)}</svg>`;
@@ -273,7 +344,7 @@ function comboSvg(type){
   if(type==='mesh_tree') return `<svg viewBox="0 0 360 160">${tLink(34,32,94,24)}${tLink(94,24,130,74)}${tLink(34,32,60,112)}${tLink(60,112,130,74)}${tLink(34,32,130,74)}${tNode(16,18)}${tNode(76,10)}${tNode(42,98)}${tNode(112,60)}${tLink(174,22,174,52)}${tLink(174,52,144,86)}${tLink(174,52,204,86)}${tLink(144,86,126,124)}${tLink(144,86,162,124)}${tLink(204,86,186,124)}${tLink(204,86,222,124)}${tNode(162,8)}${tNode(132,72)}${tNode(192,72)}${tNode(108,110)}${tNode(144,110)}${tNode(168,110)}${tNode(204,110)}</svg>`;
   return `<svg viewBox="0 0 360 160"><ellipse cx="82" cy="80" rx="42" ry="30" fill="none" stroke="#0f172a" stroke-width="4"/>${tNode(70,54)}${tNode(100,70)}${tNode(40,70)}${tNode(70,98)}${tLink(124,80,184,80)}${tLink(204,80,278,38)}${tLink(204,80,300,80)}${tLink(204,80,278,122)}${tHub(189,70)}${tNode(266,26)}${tNode(288,68)}${tNode(266,110)}</svg>`;
 }
-function renderTopoLessons(){topologyLessons.innerHTML=topo.map(t=>`<div class="topology-card">${topoSvg(t[0],rand(0,1))}<b>${t[1]}</b><p>${t[2]}</p><p><b>Primjer upotrebe:</b> ${t[3]}</p></div>`).join('')}
+function renderTopoLessons(){topologyLessons.innerHTML=topo.map(t=>`<div class="topology-card diff-easy">${topoSvg(t[0],rand(0,1))}<b>${t[1]}</b><p>${t[2]}</p><p><b>Primjer upotrebe:</b> ${t[3]}</p></div>`).join('')}
 let tq=[],ti=0;
 function makeTopoQuiz(){
   const singles=shuffle(topo).map(t=>({mode:'single',type:t[0],variant:rand(0,1),correct:[t[1]],answer:[],label:'Odaberi naziv topologije sa slike.'}));
@@ -285,24 +356,22 @@ function makeTopoQuiz(){
     {mode:'multi',type:'mesh_tree',correct:['Mrežasta topologija','Stablasta topologija'],answer:[],label:'Označi sve topologije koje prepoznaješ u jednoj kombinovanoj mreži.'},
     {mode:'multi',type:'ring_star',correct:['Prstenasta topologija','Zvjezdasta topologija'],answer:[],label:'Označi sve topologije koje prepoznaješ u jednoj kombinovanoj mreži.'}
   ];
-  const usage=pick(['ring','star','mesh','tree','bus'],3).map(k=>{
-    const correct=topoUsage[k][rand(0,topoUsage[k].length-1)];
-    return {mode:'usage',type:k,options:shuffle([correct,...topoUseOptions().filter(x=>x!==correct).slice(0,5)]),correct:[correct],answer:[],label:topoScenarios[k][rand(0,topoScenarios[k].length-1)]};
-  });
+  const usage=pick(['ring','star','mesh','tree','bus'],3).map(k=>makeUsageQuestion(k));
   return singles.concat(pick(comboPool,2)).concat(usage);
 }
-function startTopoExercise(){startTopoBtn.classList.add('hidden');topologyIntro.classList.add('hidden');topologyExercise.classList.remove('hidden');tq=makeTopoQuiz();ti=0;renderTopoQ();topoReview.innerHTML='';topoFeedback.className='feedback';topoFeedback.textContent=''}
+function startTopoExercise(){startTopoBtn.classList.add('hidden');topologyIntro.classList.add('hidden');topologyExercise.classList.remove('hidden');if(typeof topoRestartBtn!=='undefined')topoRestartBtn.classList.add('hidden');tq=makeTopoQuiz();ti=0;renderTopoQ();topoReview.innerHTML='';topoFeedback.className='feedback';topoFeedback.textContent=''}
 function renderTopoQ(){
   let q=tq[ti];
+  const topoBox=document.querySelector('#topologyExercise .quiz-q'); if(topoBox) topoBox.className='quiz-q '+(q.mode==='single'?'diff-easy':'diff-medium');
   topoProgress.textContent=`Pitanje ${ti+1} / ${tq.length}`;
   topoFinishBtn.classList.toggle('hidden',ti!==tq.length-1); if(typeof topoNextBtn!=='undefined') topoNextBtn.classList.toggle('hidden',ti===tq.length-1);
   let body='';
   if(q.mode==='single'){
-    body=`<div class="svg-wrap topo-stage">${topoSvg(q.type,q.variant)}</div><div class="choice-row">${topoNames.map((n,idx)=>`<button class="choice ${q.answer[0]===n?'selected':''}" onclick="answerTopo(${idx})">${n}</button>`).join('')}</div>`;
+    body=`<div class="svg-wrap topo-stage">${topoSvg(q.type,q.variant)}</div><div class="choice-row topo-answer-row">${topoNames.map((n,idx)=>`<button class="choice ${q.answer[0]===n?'selected':''}" onclick="answerTopo(${idx})">${n}</button>`).join('')}</div>`;
   } else if(q.mode==='multi'){
     body=`<div class="svg-wrap topo-stage">${comboSvg(q.type)}</div><div class="multi-grid">${topoNames.map((n,idx)=>`<button class="multi-choice ${q.answer.includes(n)?'selected':''}" onclick="toggleTopo(${idx})">${n}</button>`).join('')}</div>`;
   } else {
-    body=`<div class="multi-grid">${q.options.map((n,idx)=>`<button class="choice ${q.answer[0]===n?'selected':''}" onclick="answerTopoUsage(${idx})">${n}</button>`).join('')}</div>`;
+    body=`${q.note?`<div class="topo-usage-note">${q.note}</div>`:''}<div class="multi-grid topo-answer-row">${q.options.map((n,idx)=>`<button class="choice ${q.answer[0]===n?'selected':''}" onclick="answerTopoUsage(${idx})">${n}</button>`).join('')}</div>`;
   }
   topoQuestionBox.innerHTML=`<h4>${q.label}</h4>${body}`;
 }
@@ -313,7 +382,7 @@ function nextTopo(){let q=tq[ti]; if((!q.answer||q.answer.length===0)&&!blankCon
 function prevTopo(){ti=Math.max(0,ti-1);renderTopoQ()}
 function sameSet(a,b){return a.length===b.length&&a.every(x=>b.includes(x))}
 function topoAnswerText(q){return (!q.answer||q.answer.length===0)?'nije odabran nijedan odgovor':q.answer.join(', ')}
-function checkTopo(){if(requireBlankQuestionsConfirm('topo',incompleteTopoQuestions(),topoFeedback))return;let score=0; tq.forEach(q=>{if(sameSet(q.answer,q.correct))score++}); topoFeedback.className=`feedback show ${score===tq.length?'ok':'no'}`; topoFeedback.textContent=`Tačno: ${score} / ${tq.length}.`; topoReview.innerHTML=tq.map((q,i)=>`<div class="result-item ${sameSet(q.answer,q.correct)?'ok':'no'}">Pitanje ${i+1}: tvoj odgovor — ${topoAnswerText(q)}; tačan odgovor — ${q.correct.join(', ')}</div>`).join(''); let q=tq[ti]; document.querySelectorAll('#topoQuestionBox button').forEach(b=>{let txt=b.textContent; b.classList.remove('selected'); if(q.correct.includes(txt)) b.classList.add('correct'); if(q.answer.includes(txt)&&!q.correct.includes(txt)) b.classList.add('wrong')})}
+function checkTopo(){if(requireBlankQuestionsConfirm('topo',incompleteTopoQuestions(),topoFeedback))return;let score=0; tq.forEach(q=>{if(sameSet(q.answer,q.correct))score++}); topoFeedback.className=`feedback show ${score===tq.length?'ok':'no'}`; topoFeedback.textContent=`Tačno: ${score} / ${tq.length}.`; topoReview.innerHTML=tq.map((q,i)=>`<div class="result-item ${sameSet(q.answer,q.correct)?'ok':'no'}">Pitanje ${i+1}: tvoj odgovor — ${topoAnswerText(q)}; tačan odgovor — ${q.correct.join(', ')}</div>`).join(''); if(typeof topoFinishBtn!=='undefined')topoFinishBtn.classList.add('hidden'); if(typeof topoNextBtn!=='undefined')topoNextBtn.classList.add('hidden'); if(typeof topoRestartBtn!=='undefined')topoRestartBtn.classList.remove('hidden'); let q=tq[ti]; document.querySelectorAll('#topoQuestionBox button').forEach(b=>{let txt=b.textContent; b.classList.remove('selected'); if(q.correct.includes(txt)) b.classList.add('correct'); if(q.answer.includes(txt)&&!q.correct.includes(txt)) b.classList.add('wrong')})}
 
 let pairOrder=[],pi=0,pairAns=[];
 function makePairExample(){let localPrefix=randomPrefix(true);return [`${localPrefix}.1`,randomGlobal(Math.random()<0.4)]}
@@ -331,9 +400,9 @@ function checkPairs(){pairSave();if(requireBlankConfirm('pairs',emptyPairCount()
 
 let cmdCurrent={student:'192.168.100.3',router:'192.168.100.1'};
 function generateCmdIps(){const prefix=randomPrefix(true);cmdCurrent.router=`${prefix}.1`;cmdCurrent.student=randomFromPrefix(prefix,[cmdCurrent.router]);studentIp.value='';routerIp.value='';cmdReadFeedback.className='feedback';cmdReadFeedback.textContent='';cmd('clear')}
-function checkCmdRead(){const a=(studentIp.value||'').trim(); const b=(routerIp.value||'').trim(); const empty=(a?0:1)+(b?0:1); if(requireBlankConfirm('cmd',empty,cmdReadFeedback))return; const ok1=a===cmdCurrent.student; const ok2=b===cmdCurrent.router; cmdReadFeedback.className=`feedback show ${(ok1&&ok2)?'ok':'no'}`; cmdReadFeedback.textContent=(ok1&&ok2)?`Tačno! IPv4 adresa računara je ${cmdCurrent.student}, a adresa rutera je ${cmdCurrent.router}.`:'Provjeri ponovo ipconfig prikaz. IPv4 adresa računara i Default Gateway nisu dobro prepisani.'}
+function checkCmdRead(){const a=(studentIp.value||'').trim(); const b=(routerIp.value||'').trim(); const empty=(a?0:1)+(b?0:1); if(requireBlankConfirm('cmd',empty,cmdReadFeedback))return; const ok1=a===cmdCurrent.student; const ok2=b===cmdCurrent.router; cmdReadFeedback.className=`feedback show ${(ok1&&ok2)?'ok':'no'}`; cmdReadFeedback.textContent=(ok1&&ok2)?`Tačno! IPv4 adresa kompjutera je ${cmdCurrent.student}, a adresa rutera je ${cmdCurrent.router}.`:'Provjeri ponovo ipconfig prikaz. IPv4 adresa kompjutera i Default Gateway nisu dobro prepisani.'}
 
-function cmd(t){if(t==='clear'){cmdBox.textContent='C:\\Users\\Ucenik> _';return}if(t==='ipconfig')cmdBox.textContent=`C:\\Users\\Ucenik> ipconfig\n\nWireless LAN adapter Wi-Fi:\n   IPv4 Address . . . . . . . . . . . : ${cmdCurrent.student}\n   Subnet Mask . . . . . . . . . . . : 255.255.255.0\n   Default Gateway . . . . . . . . . : ${cmdCurrent.router}\n\n${cmdCurrent.student} je lokalna IP adresa računara.\n${cmdCurrent.router} je lokalna IP adresa rutera.`;if(t==='ping')cmdBox.textContent=`C:\\Users\\Ucenik> ping 8.8.8.8\n\nReply from 8.8.8.8: bytes=32 time=16ms TTL=115\nReply from 8.8.8.8: bytes=32 time=18ms TTL=115\nReply from 8.8.8.8: bytes=32 time=16ms TTL=115\nReply from 8.8.8.8: bytes=32 time=16ms TTL=115\n\nServer odgovara, pa mrežna veza radi.`}
+function cmd(t){if(t==='clear'){cmdBox.textContent='C:\\Users\\Ucenik> _';return}if(t==='ipconfig')cmdBox.textContent=`C:\\Users\\Ucenik> ipconfig\n\nWireless LAN adapter Wi-Fi:\n   IPv4 Address . . . . . . . . . . . : ${cmdCurrent.student}\n   Subnet Mask . . . . . . . . . . . : 255.255.255.0\n   Default Gateway . . . . . . . . . : ${cmdCurrent.router}\n\n${cmdCurrent.student} je lokalna IP adresa kompjutera.\n${cmdCurrent.router} je lokalna IP adresa rutera.`;if(t==='ping')cmdBox.textContent=`C:\\Users\\Ucenik> ping 8.8.8.8\n\nReply from 8.8.8.8: bytes=32 time=16ms TTL=115\nReply from 8.8.8.8: bytes=32 time=18ms TTL=115\nReply from 8.8.8.8: bytes=32 time=16ms TTL=115\nReply from 8.8.8.8: bytes=32 time=16ms TTL=115\n\nServer odgovara, pa mrežna veza radi.`}
 
 const msgSteps=[['Skrivena poruka','Pošiljalac napiše poruku, ali se u prikazu vidi samo skriveni primjer sa zvjezdicama.'],['Javni ključ','Pošiljalac dobija javni ključ primaoca i može sigurno pripremiti poruku za slanje.'],['Šifriranje','Na uređaju pošiljaoca poruka se pretvara tako da se razmaci zamijene slovom X, zatim se tekst okrene od zadnjeg ka prvom slovu.'],['Paketi','Šifrirani tekst se dijeli na pakete, a svaki paket dobija svoj redni broj da bi se kasnije mogao složiti ispravnim redom.'],['Serveri','Paketi putuju preko različitih servera i oni vide samo šifrirane dijelove poruke.'],['Privatni ključ','Na uređaju primaoca privatni ključ otključava pakete, oni se slože po broju i dešifruju.'],['Prikaz poruke','Primalac na svom uređaju vidi konačnu poruku u čitljivom obliku.']];
 let mi=0; const pts=[[76,248],[308,138],[321,285],[663,136],[670,285],[897,138],[1000,248]];
