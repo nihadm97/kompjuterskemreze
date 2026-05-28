@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="bs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Računarske mreže — interaktivna lekcija</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,Helvetica,sans-serif}
+:root{--dark:#111827;--panel:#0f172a;--blue:#2563eb;--green:#22c55e;--red:#ef4444;--orange:#f97316;--muted:#64748b;--line:#cbd5e1;--soft:#f8fafc}
+body{height:100vh;background:var(--dark);color:#fff;overflow:hidden;user-select:none;-webkit-user-select:none;touch-action:pan-y}
+input,textarea,.cmd-box{user-select:text;-webkit-user-select:text}
+.topbar{height:66px;background:linear-gradient(90deg,#111827,#1f2937);border-bottom:2px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:space-between;padding:10px 18px;gap:12px}
+.logo{display:flex;align-items:center;gap:12px;font-size:22px;font-weight:900;flex-shrink:0}.logo-badge{width:38px;height:38px;border-radius:12px;background:#fff;padding:4px;display:flex;align-items:center;justify-content:center;overflow:hidden}.logo-badge img{width:100%;height:100%;object-fit:contain}.top-definition{flex:1;max-width:650px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:999px;padding:8px 14px;color:#e5e7eb;font-size:13px;font-weight:800;line-height:1.25;text-align:center}
+.top-info{display:flex;align-items:center;gap:10px;flex-shrink:0}.pill,select{background:rgba(255,255,255,.09);color:#fff;border:1px solid rgba(255,255,255,.12);padding:9px 13px;border-radius:999px;font-weight:800}.pill.dark{background:#eef2f7;color:#111827;border-color:#dbe2ea}select option{color:#111827;background:#fff}
+.main{height:calc(100vh - 66px);display:grid;grid-template-columns:350px 1fr;background:#0b1220}.sidebar{background:#eef2f7;color:#111827;overflow:auto;padding:14px;border-right:2px solid rgba(15,23,42,.12)}.stage{overflow:auto;background:radial-gradient(circle at top,#334155 0,#1f2937 48%,#111827 100%);padding:18px}
+.intro{padding:14px}.chapter{display:inline-flex;border-radius:999px;background:#dcfce7;border:1px solid #86efac;color:#166534;padding:6px 10px;font-size:12px;font-weight:900;margin-bottom:10px}.intro h1{font-size:24px;line-height:1.1;margin-bottom:8px}.intro p{font-size:14px;color:#475569;font-weight:700;line-height:1.35}
+.nav{display:grid;gap:8px;margin:10px 0}.nav button{border:1px solid #dbe2ea;background:#fff;color:#111827;border-radius:16px;padding:12px;text-align:left;font-weight:900;cursor:pointer;box-shadow:0 8px 18px rgba(15,23,42,.08)}.nav button.active{background:#dbeafe;border-color:#60a5fa;color:#1e3a8a}
+.note{background:#0f172a;color:#fff;border-radius:18px;padding:12px;margin-bottom:10px}.note b{display:block;color:#bfdbfe;margin-bottom:6px}.note p{font-size:12px;line-height:1.35;color:#e5e7eb;font-weight:700}.mini-figure{background:#fff;border-radius:14px;padding:8px;margin-top:8px}
+.section{display:none;max-width:1180px;margin:auto}.section.active{display:block}.card{background:#fff;color:#111827;border-radius:22px;border:1px solid #dbe2ea;box-shadow:0 18px 44px rgba(0,0,0,.22);padding:16px;margin-bottom:14px}.title-row{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px}.card h2{font-size:25px;line-height:1.1}.card h3{font-size:18px;margin-bottom:8px}.sub{color:#475569;font-size:14px;line-height:1.35;font-weight:700}
+.grid{display:grid;gap:14px}.two{grid-template-columns:1.03fr .97fr}.three{grid-template-columns:repeat(3,1fr)}
+.btn{border:0;background:linear-gradient(135deg,#3b82f6,#2563eb);color:#fff;border-radius:13px;padding:10px 13px;font-weight:900;cursor:pointer;box-shadow:0 8px 18px rgba(0,0,0,.14)}.btn.good{background:linear-gradient(135deg,#22c55e,#15803d)}.btn.warn{background:linear-gradient(135deg,#f97316,#c2410c)}.btn.secondary{background:linear-gradient(135deg,#64748b,#475569)}.btn:disabled{opacity:.5;cursor:not-allowed}.controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.hidden{display:none!important}
+.feedback{display:none;border-radius:16px;padding:12px 14px;margin-top:12px;font-weight:900;line-height:1.35}.feedback.show{display:block}.feedback.ok{background:#dcfce7;color:#166534}.feedback.no{background:#fee2e2;color:#991b1b}.feedback.info{background:#dbeafe;color:#1e3a8a}
+.quiz-q{border:1px solid #e2e8f0;background:#f8fafc;border-radius:18px;padding:12px;margin-bottom:10px}.quiz-q h4{font-size:15px;margin-bottom:8px}.choice-row{display:flex;gap:8px;flex-wrap:wrap}.choice,.multi-choice{border:2px solid #cbd5e1;background:#fff;color:#111827;border-radius:999px;padding:8px 12px;font-weight:900;cursor:pointer}.choice.selected,.multi-choice.selected{background:#dbeafe;border-color:#2563eb;color:#1e3a8a}.choice.correct,.multi-choice.correct{background:#dcfce7;border-color:#22c55e;color:#166534}.choice.wrong,.multi-choice.wrong{background:#fee2e2;border-color:#ef4444;color:#991b1b}
+.multi-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:10px}.text-input{width:100%;border:2px solid #cbd5e1;border-radius:12px;padding:10px;font-weight:900;outline:0}.text-input:focus{border-color:#2563eb;box-shadow:0 0 0 3px rgba(37,99,235,.15)}
+.svg-wrap{min-height:190px;background:#f8fafc;border:2px solid #e2e8f0;border-radius:20px;display:flex;align-items:center;justify-content:center;padding:8px}.svg-wrap svg{max-width:100%;height:auto}.topology-card{border:1px solid #dbe2ea;border-radius:18px;padding:10px;background:#f8fafc}.topology-card svg{width:100%;height:104px}.topology-card b{display:block;font-size:15px;margin:6px 0 4px}.topology-card p{font-size:13px;line-height:1.35;color:#475569;font-weight:700}.topo-stage{min-height:170px!important}.topo-stage svg{width:280px!important;max-width:100%;height:auto!important}
+.drop-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.dropzone{min-height:135px;border:3px dashed #cbd5e1;border-radius:18px;background:#f8fafc;padding:10px;display:flex;flex-direction:column;gap:8px}.dropzone h4{font-size:16px}.dropzone.over{background:#e0f2fe;border-color:#2563eb}.ip-bank{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.ip-chip{background:#111827;color:#fff;border:2px solid #334155;border-radius:999px;padding:10px 12px;font-weight:900;cursor:grab}.result-list{display:grid;gap:8px;margin-top:10px}.result-item{border-radius:14px;padding:9px 10px;font-weight:800;background:#f8fafc;border:1px solid #e2e8f0}.result-item.ok{border-color:#86efac;background:#dcfce7;color:#166534}.result-item.no{border-color:#fecaca;background:#fee2e2;color:#991b1b}
+.cmd-box{background:#020617;color:#d1fae5;border-radius:18px;padding:14px;font-family:Consolas,monospace;min-height:250px;white-space:pre-wrap;line-height:1.45}.range-table{width:100%;border-collapse:collapse;margin-top:10px}.range-table th,.range-table td{border:1px solid #cbd5e1;padding:9px;text-align:left;font-weight:800}.range-table th{background:#2563eb;color:#fff}.range-table td{background:#f8fafc}.explain-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:10px}.explain-card{background:#f8fafc;border:1px solid #e2e8f0;border-radius:16px;padding:10px}.explain-card b{display:block;margin-bottom:4px}.explain-card p{font-size:13px;color:#475569;font-weight:700;line-height:1.3}
+.task-net{position:relative;width:700px;max-width:100%;height:410px;background:#fff;border-radius:18px;border:1px solid #dbe2ea;overflow:hidden;margin:0 auto}.task-net svg{position:absolute;inset:0;width:100%;height:100%}.device{position:absolute;width:154px;text-align:center}.device.small{width:170px}.device.top .mini-ip,.device.top .known-ip{display:block;margin:0 auto 6px}.device.top .dev-label{margin-top:4px}.dev-icon{width:66px;height:46px;margin:0 auto 6px;border-radius:8px;background:#dbeafe;border:4px solid #0f172a;position:relative}.dev-icon.pc::after{content:'';position:absolute;left:-8px;right:-8px;bottom:-10px;height:7px;border-radius:8px;background:#cbd5e1}.dev-icon.router{height:40px;border-radius:14px;background:#dbeafe}.dev-icon.router::before{content:'';position:absolute;left:14px;right:14px;top:12px;height:8px;border-radius:999px;background:#2563eb}.dev-icon.switch{height:38px;border-radius:8px;background:#111827}.dev-icon.switch::before{content:'';position:absolute;left:10px;right:10px;top:12px;height:10px;border-radius:3px;background:#22c55e}.dev-icon.server{height:48px;border-radius:8px;background:#cbd5e1}.dev-icon.server::before{content:'';position:absolute;left:10px;right:10px;top:12px;height:20px;border-radius:4px;background:#94a3b8}.dev-icon.printer{height:42px;border-radius:8px;background:#e5e7eb}.dev-icon.printer::before{content:'';position:absolute;left:10px;right:10px;top:-10px;height:14px;border-radius:4px 4px 0 0;background:#fff;border:3px solid #0f172a;border-bottom:0}.dev-icon.printer::after{content:'';position:absolute;left:12px;right:12px;bottom:8px;height:10px;border-radius:3px;background:#94a3b8}.dev-label{font-size:12px;font-weight:900;color:#334155;margin-bottom:4px}.known-ip{display:block;margin:0 auto;background:#e0f2fe;border:2px solid #93c5fd;padding:6px 10px;border-radius:12px;font-weight:900;font-size:16px;line-height:1.15;min-width:170px;max-width:182px;text-align:center}.mini-ip{width:182px;padding:8px 10px;font-size:12px;text-align:center}
+.msg-stage{position:relative;height:calc(100vh - 130px);min-height:560px;border:7px solid #0f172a;border-radius:24px;overflow:hidden;background:radial-gradient(circle at top,#e0f2fe 0,#f8fafc 55%,#e2e8f0 100%);box-shadow:0 25px 60px rgba(0,0,0,.38)}.msg-line{position:absolute;height:8px;background:#64748b;border-radius:999px;transform-origin:left center}.msg-node{position:absolute;width:120px;text-align:center;color:#334155;font-weight:900}.msg-icon{width:82px;height:82px;margin:0 auto 8px;border-radius:24px;display:flex;align-items:center;justify-content:center;font-size:34px;background:#fff;border:4px solid #0f172a;box-shadow:0 12px 26px rgba(15,23,42,.15)}.phone .msg-icon{background:linear-gradient(135deg,#60a5fa,#2563eb);color:#fff}.routerN .msg-icon{background:linear-gradient(135deg,#dbeafe,#93c5fd)}.serverN .msg-icon{background:linear-gradient(135deg,#0f172a,#334155);color:#bfdbfe}.cloud .msg-icon{background:linear-gradient(135deg,#f8fafc,#cbd5e1)}.msg-packet{position:absolute;width:88px;height:48px;border-radius:16px;background:linear-gradient(135deg,#2563eb,#1d4ed8);display:flex;align-items:center;justify-content:center;color:#fff;font-size:22px;font-weight:900;box-shadow:0 12px 24px rgba(37,99,235,.35);transition:left .8s ease,top .8s ease,transform .25s ease;z-index:5}.step-panel{position:absolute;left:18px;right:18px;bottom:18px;background:rgba(15,23,42,.92);color:#fff;border-radius:20px;padding:14px;display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center}.step-panel h3{color:#bfdbfe}.step-dots{position:absolute;top:16px;left:16px;right:16px;display:flex;gap:8px;z-index:4}.step-dot{flex:1;height:8px;border-radius:999px;background:rgba(15,23,42,.18)}.step-dot.on{background:#2563eb}
+.encrypt-demo{margin-top:12px;border:1px solid #dbe2ea;background:#fff;border-radius:18px;padding:12px}.packet-row{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}.packet-chip{background:#dbeafe;border:2px solid #93c5fd;color:#1e3a8a;border-radius:12px;padding:8px 10px;font-weight:900}.flow-box{background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:10px;font-weight:800;color:#334155;line-height:1.35}.practice-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px}.route-demo{position:relative;height:340px;max-width:780px;margin:12px auto 0;border:1px solid #dbe2ea;border-radius:18px;background:#f8fafc;overflow:hidden}.route-node{position:absolute;width:98px;text-align:center;font-size:12px;font-weight:900;color:#334155}.route-icon{width:54px;height:54px;border-radius:16px;margin:0 auto 6px;display:flex;align-items:center;justify-content:center;border:3px solid #0f172a;background:#fff}.route-icon.keypub{background:#dbeafe}.route-icon.keypriv{background:#fee2e2}.route-packet{position:absolute;width:76px;height:36px;border-radius:12px;background:#2563eb;color:#fff;font-size:11px;font-weight:900;display:flex;align-items:center;justify-content:center;text-align:center;line-height:1.05;padding:2px;transition:left .9s ease, top .9s ease, opacity .4s ease, background .4s ease;box-shadow:0 8px 18px rgba(37,99,235,.25)}.route-line{position:absolute;height:4px;background:#94a3b8;border-radius:999px;transform-origin:left center}.route-bubble{position:absolute;max-width:190px;min-width:150px;padding:10px 12px;border-radius:14px;background:#fff;border:2px solid #cbd5e1;color:#1e293b;font-size:13px;font-weight:900;line-height:1.25;box-shadow:0 8px 18px rgba(15,23,42,.08);opacity:0;transition:opacity .35s ease}.route-bubble.show{opacity:1}.route-bubble.sender{left:8px;top:10px}.route-bubble.receiver{left:540px;right:auto;top:10px;max-width:220px;min-width:185px}
+@media(max-width:1050px){body{overflow:auto}.topbar{height:auto;flex-wrap:wrap}.top-definition{order:3;flex-basis:100%;max-width:none}.main{height:auto;grid-template-columns:1fr}.stage{min-height:700px}.two,.three,.multi-grid,.explain-grid{grid-template-columns:1fr}.msg-stage{height:980px}.step-panel{grid-template-columns:1fr}.task-net{height:390px}}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="logo"><span class="logo-badge"><img src="https://nihadm97.github.io/Portfolio/static/media/logo.7156bdbd7cb0672472b8.png" alt="Logo"></span> Računarske mreže</div>
+  <div class="top-definition">Računarska mreža je grupa povezanih uređaja koji razmjenjuju podatke i dijele resurse, npr. internet, printer ili datoteke.</div>
+  <div class="top-info"><div class="pill" id="indicator">1 / 5</div><select id="sectionSelect" onchange="goSection(Number(this.value))"></select></div>
+</div>
+<div class="main">
+  <aside class="sidebar">
+    <div class="intro"><div class="chapter">🌐 Interaktivna lekcija</div><h1>Mreže, IP adrese i topologije</h1><p>Kviz, IP adrese rutera, topologije, CMD komande i animacija slanja poruke.</p></div>
+    <div class="nav" id="nav"></div>
+    <div class="note"><b>IPv4 intervali lokalnih adresa</b><p>10.0.0.0 - 10.255.255.255<br>172.16.0.0 - 172.31.255.255<br>192.168.0.0 - 192.168.255.255<br><br>Za ruter se u lokalnoj mreži najčešće rezerviše IP adresa iz istog intervala kao i ostali uređaji, a obično <span style="white-space:nowrap">završava sa .1</span>, npr. 192.168.1.1.</p></div>
+    <div class="note"><b>Struktura IPv4 adrese</b><p>IPv4 adresa ima 4 okteta od 0 do 255. Ovo je manji podsjetnik uz primjer adrese.</p><div class="mini-figure" id="ipv4SidebarBox"></div></div>
+    <div class="controls"><button class="btn secondary" onclick="prevSection()">← Nazad</button><button class="btn good" onclick="nextSection()">Naprijed →</button></div>
+  </aside>
+  <main class="stage">
+    <section class="section active" id="s0">
+      <div class="card">
+        <div class="title-row"><div><div class="chapter">✅ Kviz</div><h2>IP adrese: razvrstaj i dopuni</h2><p class="sub">Prvo ide 6 IP adresa za razvrstavanje. Zatim slijede 3 mrežna crteža u kojima na osnovu jedne poznate adrese upisuješ validne IP adrese za ostale uređaje. Na kraju dobijaš još 1 veći zadatak za cijelu lokalnu mrežu.</p></div></div>
+        <div id="quizArea"></div>
+        <div class="controls"><button class="btn good" onclick="checkQuiz()">Provjeri kviz</button></div>
+        <div class="feedback" id="quizFeedback"></div>
+      </div>
+    </section>
+    <section class="section" id="s1">
+      <div class="card">
+        <div class="title-row"><div><div class="chapter">🕸️ Topologije</div><h2>Topologije povezivanja</h2><p class="sub">Prvo pročitaj pojašnjenja. Klikom na dugme pojašnjenja nestaju i kreće vježba jedno po jedno pitanje. Svaki put se nasumično miješa redoslijed, a kombinovane mreže se biraju iz više mogućnosti.</p></div><button class="btn good" id="startTopoBtn" onclick="startTopoExercise()">Započni vježbu</button></div>
+        <div id="topologyIntro"><div class="grid three" id="topologyLessons"></div></div>
+        <div class="hidden" id="topologyExercise">
+          <div class="quiz-q"><div class="sub" id="topoProgress">Pitanje 1 / 7</div><div id="topoQuestionBox"></div></div>
+          <div class="controls"><button class="btn" id="topoNextBtn" onclick="nextTopo()">Dalje →</button><button class="btn good hidden" id="topoFinishBtn" onclick="checkTopo()">Završi kviz</button></div>
+          <div class="feedback" id="topoFeedback"></div>
+          <div id="topoReview" class="result-list"></div>
+        </div>
+      </div>
+    </section>
+    <section class="section" id="s2">
+      <div class="grid two">
+        <div class="card"><div class="title-row"><div><div class="chapter">📡 Ruter i IP adrese</div><h2>Razvrstaj IP adrese rutera</h2><p class="sub">Tri primjera idu jedan po jedan. U primjerima su ubačene i neke globalne IP adrese koje završavaju na <b>.1</b>, da učenici pažljivo razmišljaju prije odgovora.</p></div><div class="pill dark" id="pairRound">Primjer 1 / 3</div></div><div class="svg-wrap" id="pairDiagram"></div><div class="sub" style="text-align:center;margin-top:8px">Pristup internetu ide preko rutera.</div></div>
+        <div class="card"><h3>Odredi vrstu adrese</h3><p class="sub">Povuci IP adresu u odgovarajuće polje. Lokalna adresa rutera u našim primjerima najčešće završava na <b>.1</b>.</p><div class="ip-bank" id="pairBank"></div><div class="drop-grid"><div class="dropzone" data-kind="local"><h4>🟢 Lokalna IP adresa</h4></div><div class="dropzone" data-kind="global"><h4>🔵 Globalna IP adresa</h4></div></div><div class="controls"><button class="btn" id="pairNextBtn" onclick="nextPair()">Dalje →</button><button class="btn good hidden" id="pairCheckBtn" onclick="checkPairs()">Provjeri sve</button></div><div class="feedback" id="pairFeedback"></div><div class="result-list" id="pairResults"></div></div>
+      </div>
+    </section>
+    <section class="section" id="s3">
+      <div class="grid two">
+        <div class="card"><div class="chapter">💻 CMD i pojmovi</div><h2>Kako pronaći vlastitu IP adresu</h2><p class="sub">Na računaru otvori Command Prompt, upiši <b>ipconfig</b>, a zatim pronađi IPv4 Address i Default Gateway.</p><table class="range-table"><tr><th>Korak</th><th>Šta radiš</th></tr><tr><td>1</td><td>Pretraži <b>cmd</b>.</td></tr><tr><td>2</td><td>Otvori <b>Command Prompt</b>.</td></tr><tr><td>3</td><td>Upiši <b>ipconfig</b>.</td></tr><tr><td>4</td><td>Pronađi <b>IPv4 Address</b> i <b>Default Gateway</b>.</td></tr><tr><td>5</td><td>Komandom <b>ping 8.8.8.8</b> provjeri konekciju.</td></tr></table><div class="explain-grid"><div class="explain-card"><b>IPv4 Address</b><p>Adresa tvog uređaja u lokalnoj mreži.</p></div><div class="explain-card"><b>Default Gateway</b><p>Najčešće adresa rutera. U ovoj lekciji to je obično lokalna adresa koja završava na .1.</p></div><div class="explain-card"><b>Globalna IP</b><p>Adresa kojom se mreža predstavlja prema internetu.</p></div><div class="explain-card"><b>IPv6</b><p>Novija verzija IP adrese sa dužim zapisom; ovdje vježbamo IPv4.</p></div></div></div>
+        <div class="card"><h2>CMD simulator</h2><p class="sub">Klikni komandu i pogledaj šta učenik treba prepoznati.</p><div class="cmd-box" id="cmdBox">C:\Users\Ucenik&gt; _</div><div class="controls"><button class="btn" onclick="cmd('ipconfig')">ipconfig</button><button class="btn" onclick="cmd('ping')">ping 8.8.8.8</button><button class="btn secondary" onclick="cmd('clear')">Obriši</button></div><div class="quiz-q" style="margin-top:12px"><h4>Prepiši adrese sa slike</h4><p class="sub">Iz prikaza komande <b>ipconfig</b> prepiši svoju IPv4 adresu i adresu rutera (Default Gateway).</p><div class="multi-grid"><input class="text-input" id="studentIp" placeholder="Moja IPv4 adresa"><input class="text-input" id="routerIp" placeholder="Adresa rutera"></div><div class="controls"><button class="btn good" onclick="checkCmdRead()">Provjeri unose</button></div><div class="feedback" id="cmdReadFeedback"></div></div></div>
+      </div>
+    </section>
+    <section class="section" id="s4">
+      <div class="msg-stage">
+        <div class="step-dots" id="stepDots"></div>
+        <div class="msg-line" id="line0"></div><div class="msg-line" id="line1"></div><div class="msg-line" id="line2"></div><div class="msg-line" id="line3"></div><div class="msg-line" id="line4"></div><div class="msg-line" id="line5"></div>
+        <div class="msg-node phone" style="left:24px;top:250px"><div class="msg-icon">📱</div><div>Pošiljalac</div></div>
+        <div class="msg-node routerN" style="left:265px;top:120px"><div class="msg-icon">📶</div><div style="position:relative;left:44px">Wi‑Fi / mobilna mreža</div></div>
+        <div class="msg-node routerN" style="left:280px;top:280px"><div class="msg-icon">📡</div><div>Ruter / ISP</div></div>
+        <div class="msg-node cloud" style="left:625px;top:90px"><div class="msg-icon">☁️</div><div>Internet</div></div>
+        <div class="msg-node serverN" style="left:630px;top:280px"><div class="msg-icon">🖥️</div><div>Server usluge</div></div>
+        <div class="msg-node routerN" style="left:860px;top:120px"><div class="msg-icon">📡</div><div>Mreža primaoca</div></div>
+        <div class="msg-node phone" style="left:1010px;top:250px"><div class="msg-icon">📱</div><div>Primalac</div></div>
+        <div class="msg-packet" id="msgPacket">✉️🔓</div>
+        <div class="step-panel"><div><h3 id="msgTitle"></h3><p id="msgText"></p></div><div class="controls"><button class="btn secondary" onclick="prevMsg()">←</button><button class="btn good" onclick="playMsg()">▶ Prikaži</button><button class="btn" onclick="nextMsg()">→</button></div></div>
+      </div>
+      <div class="card" style="margin-top:14px">
+        <div class="chapter">🔐 Dodatno pojašnjenje</div>
+        <h2>Kako poruka bude šifrirana i podijeljena</h2>
+        <p class="sub">Ovo je teorijski primjer, sličan načinu razmišljanja u alatima kao što je Packet Tracer, ali pojednostavljen za učenike.</p>
+        <div class="encrypt-demo" id="encryptionDemo"></div>
+      </div>
+    </section>
+  </main>
+</div>
+<script>
+
+const sections=['IP adresa','Topologije povezivanja','Ruter','Pronađi vlastitu IP adresu','Slanje poruka'];
+let current=0;
+const privateRanges=[{a:[10,0,0,0],b:[10,255,255,255]},{a:[172,16,0,0],b:[172,31,255,255]},{a:[192,168,0,0],b:[192,168,255,255]}];
+function ipNums(ip){return String(ip).split('.').map(Number)}
+function validIPv4(ip){const n=ipNums(ip);return n.length===4&&n.every(x=>Number.isInteger(x)&&x>=0&&x<=255)}
+function cmp(a,b){for(let i=0;i<4;i++){if(a[i]!==b[i])return a[i]-b[i]}return 0}
+function isLocal(ip){if(!validIPv4(ip))return false;const n=ipNums(ip);return privateRanges.some(r=>cmp(n,r.a)>=0&&cmp(n,r.b)<=0)}
+function kind(ip){return isLocal(ip)?'local':'global'}
+function rand(a,b){return Math.floor(Math.random()*(b-a+1))+a}
+function shuffle(arr){return [...arr].sort(()=>Math.random()-.5)}
+function pick(arr,n){return shuffle(arr).slice(0,n)}
+function setupNav(){sectionSelect.innerHTML=sections.map((s,i)=>`<option value="${i}">${i+1}. ${s}</option>`).join('');nav.innerHTML=sections.map((s,i)=>`<button onclick="goSection(${i})">${i+1}. ${s}</button>`).join('');updateNav()}
+function updateNav(){document.querySelectorAll('.section').forEach((s,i)=>s.classList.toggle('active',i===current));document.querySelectorAll('.nav button').forEach((b,i)=>b.classList.toggle('active',i===current));indicator.textContent=`${current+1} / ${sections.length}`;sectionSelect.value=current}
+function goSection(i){const old=current;current=Math.max(0,Math.min(sections.length-1,i));updateNav();if(current===3&&old!==3)generateCmdIps();if(current===4&&old!==4){generateMessageExample();mi=0;setupMsg();}}
+function nextSection(){goSection(current+1)}
+function prevSection(){goSection(current-1)}
+function randomLocal(){let t=rand(0,2);if(t===0)return `10.${rand(0,255)}.${rand(0,255)}.${rand(2,254)}`;if(t===1)return `172.${rand(16,31)}.${rand(0,255)}.${rand(2,254)}`;return `192.168.${rand(0,255)}.${rand(2,254)}`}
+function randomGlobal(forceOne=false){let ip;do{ip=`${rand(11,223)}.${rand(0,255)}.${rand(0,255)}.${forceOne?1:rand(1,254)}`}while(isLocal(ip));return ip}
+function randomPrefix(local){let ip=local?randomLocal():randomGlobal();let p=ip.split('.');return `${p[0]}.${p[1]}.${p[2]}`}
+function randomFromPrefix(prefix,exclude=[]){let ip;do{ip=`${prefix}.${rand(2,254)}`}while(exclude.includes(ip));return ip}
+function ln(x1,y1,x2,y2,c='#111',w=4){return `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${c}" stroke-width="${w}" stroke-linecap="round"/>`}
+function svgText(x,y,t,size=18,fill='#111'){return `<text x="${x}" y="${y}" text-anchor="middle" font-size="${size}" font-weight="900" fill="${fill}">${t}</text>`}
+function esc(s){return String(s).replace(/[&<>]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[m]))}
+function laptop(x,y){return `<g transform="translate(${x},${y})"><rect width="56" height="36" rx="5" fill="#dbeafe" stroke="#0f172a" stroke-width="3"/><rect x="-6" y="36" width="68" height="8" rx="4" fill="#cbd5e1"/></g>`}
+function routerSvg(x,y){return `<g transform="translate(${x},${y})"><rect width="96" height="48" rx="14" fill="#dbeafe" stroke="#0f172a" stroke-width="4"/><circle cx="34" cy="24" r="4" fill="#2563eb"/><circle cx="50" cy="24" r="4" fill="#2563eb"/><circle cx="66" cy="24" r="4" fill="#2563eb"/><text x="48" y="69" text-anchor="middle" font-size="15" font-weight="900" fill="#334155">Ruter</text></g>`}
+function globe(x,y){return `<g transform="translate(${x},${y})"><circle cx="40" cy="40" r="36" fill="#eff6ff" stroke="#2563eb" stroke-width="5"/><path d="M4 40 H76 M40 4 V76 M16 18 C34 28 40 52 40 76 M64 18 C46 28 40 52 40 76 M16 62 C34 52 40 28 40 4 M64 62 C46 52 40 28 40 4" stroke="#2563eb" stroke-width="3" fill="none"/><text x="40" y="96" text-anchor="middle" font-size="15" font-weight="900" fill="#334155">Internet</text></g>`}
+function ipv4StructureSvg(small=false){let a=rand(11,223),b=rand(0,255),c=rand(0,255),d=rand(1,254); if(small) return `<svg viewBox="0 0 300 130" width="100%"><rect width="300" height="130" fill="#fff"/><text x="42" y="18" font-size="10" font-weight="900" text-anchor="middle">Domen</text><text x="116" y="12" font-size="10" font-weight="900" text-anchor="middle">Poddomena</text><text x="116" y="24" font-size="10" font-weight="900" text-anchor="middle">(grad)</text><text x="190" y="18" font-size="10" font-weight="900" text-anchor="middle">Kabinet</text><text x="260" y="18" font-size="10" font-weight="900" text-anchor="middle">Računar</text>${ln(50,28,108,76,'#111',1.8)}${ln(116,28,136,76,'#111',1.8)}${ln(190,28,166,76,'#111',1.8)}${ln(260,28,194,76,'#111',1.8)}<text x="150" y="96" font-size="20" font-weight="900" text-anchor="middle" fill="#22c55e">${a}.${b}.${c}.${d}</text><text x="150" y="117" font-size="8.5" font-weight="800" text-anchor="middle" fill="#475569">4 okteta: ${a} · ${b} · ${c} · ${d}</text></svg>`; return `<svg viewBox="0 0 720 250" width="100%"><rect width="720" height="250" fill="#fff"/><text x="92" y="45" font-size="25" font-weight="900" text-anchor="middle">Domen (telecom)</text><text x="290" y="25" font-size="25" font-weight="900" text-anchor="middle">Poddomena</text><text x="290" y="58" font-size="25" font-weight="900" text-anchor="middle">(grad)</text><text x="462" y="45" font-size="25" font-weight="900" text-anchor="middle">Kabinet</text><text x="620" y="45" font-size="25" font-weight="900" text-anchor="middle">Računar</text>${ln(126,72,258,160,'#111',3)}${ln(292,72,310,160,'#111',3)}${ln(462,72,365,160,'#111',3)}${ln(620,72,400,160,'#111',3)}<text x="360" y="198" font-size="38" font-weight="900" text-anchor="middle" fill="#22c55e">${a}.${b}.${c}.${d}</text><text x="360" y="232" font-size="15" font-weight="800" text-anchor="middle" fill="#475569">IPv4 adresa se sastoji od 4 okteta: ${a} · ${b} · ${c} · ${d}</text></svg>`}
+function networkSvg(ips,assigned={}){const local=assigned.local||'—';const global=assigned.global||'—';return `<svg viewBox="0 0 700 280" width="100%">${ln(194,72,306,138,'#16a34a',6)}${ln(194,140,306,140,'#16a34a',6)}${ln(194,208,306,152,'#16a34a',6)}${ln(402,140,520,140,'#16a34a',6)}${laptop(120,48)}${laptop(120,116)}${laptop(120,184)}${routerSvg(306,116)}${globe(520,100)}${svgText(448,24,'Ruter ima IP adrese:',20)}${svgText(448,58,ips[0],24)}${svgText(448,88,ips[1],24)}<text x="354" y="218" text-anchor="middle" font-size="13" font-weight="900" fill="#334155">Odabrana lokalna:</text><text x="354" y="238" text-anchor="middle" font-size="15" font-weight="900" fill="#2563eb">${local}</text><text x="560" y="218" text-anchor="middle" font-size="13" font-weight="900" fill="#334155">Odabrana globalna:</text><text x="560" y="238" text-anchor="middle" font-size="15" font-weight="900" fill="#2563eb">${global}</text></svg>`}
+
+let quiz=[];
+function makeNetworkTask(){
+  const publicIp=randomGlobal();
+  const layouts=[
+    {positions:[{x:0,y:0},{x:0,y:0},{x:32,y:296},{x:265,y:296},{x:498,y:296}], devices:[['server','Server provajdera'],['router','Ruter škole'],['printer','Mrežni printer'],['pc','Laptop nastavnika'],['pc','Tablet učenika']]},
+    {positions:[{x:0,y:0},{x:0,y:0},{x:32,y:296},{x:265,y:296},{x:498,y:296}], devices:[['server','Server'],['router','Ruter škole'],['pc','Računar A'],['printer','Printer u kabinetu'],['pc','Računar C']]},
+    {positions:[{x:0,y:0},{x:0,y:0},{x:32,y:296},{x:265,y:296},{x:498,y:296}], devices:[['server','Server provajdera'],['router','Ruter kabineta'],['pc','Uređaj 1'],['pc','Uređaj 2'],['pc','Uređaj 3']]}
+  ];
+  const chosen=layouts[rand(0,layouts.length-1)];
+  const knownIndex=rand(0,chosen.devices.length-1);
+  return {type:'globalShare',publicIp,devices:chosen.devices,positions:chosen.positions,knownIndex,inputs:{},layout:rand(0,1)};
+}
+function makeLanTask(){let prefix=randomPrefix(true); let positions=[{x:235,y:8},{x:40,y:118},{x:430,y:118},{x:40,y:236},{x:235,y:236},{x:430,y:236}]; let devices=[['router','Ruter'],['pc','Računar A'],['pc','Računar B'],['printer','Printer'],['pc','Računar D'],['pc','Računar E']]; let knownIndex=rand(1,5); let knownIp=randomFromPrefix(prefix,[`${prefix}.1`]); return {type:'lanGroup',prefix,devices,positions,knownIndex,knownIp,inputs:{}}}
+function quizIntroHtml(){return `<div class="feedback show info" style="display:block;margin-bottom:12px"><b>Kako rješavati ovaj kviz?</b><br>U prvih 6 pitanja razvrstavaš IP adrese na lokalne i globalne. Sa strane imaš tabelu intervala lokalnih adresa, a sve što nije u tim intervalima tretira se kao globalna IP adresa.</div>`}
+function routerSwitchInfoHtml(){return `<div class="feedback show info" style="display:block;margin:12px 0"><b>Prije zadataka sa slikama: ruter i switch</b><br><b>Ruter</b> povezuje tvoju lokalnu mrežu sa drugim mrežama, najčešće sa internetom. On često ima lokalnu adresu koja završava na <b>.1</b> i preko njega uređaji izlaze na internet.<br><br><b>Switch</b> povezuje više uređaja unutar iste lokalne mreže, npr. računare u kabinetu. Switch obično ne dodjeljuje internet adresu prema vani, nego samo pomaže da uređaji u istoj mreži komuniciraju. Zato se u zadacima sa topologijama switch može pojaviti kao centralni uređaj, a u zadacima sa izlazom na internet glavni uređaj je ruter.</div>`}
+
+function generateQuiz(){quiz=[]; let globals=[randomGlobal(),randomGlobal(true),randomGlobal()]; let locals=[`${randomPrefix(true)}.1`,randomLocal(),randomLocal()]; let ips=shuffle([...locals,...globals]); ips.forEach(ip=>quiz.push({type:'classify',ip,answer:''})); for(let i=0;i<3;i++) quiz.push(makeNetworkTask()); quiz.push(makeLanTask()); renderQuiz(); ipv4SidebarBox.innerHTML=ipv4StructureSvg(true)}
+function renderQuiz(){
+  const classifyHtml = quiz.slice(0,6).map((q,i)=>`<div class="quiz-q" data-q="${i}"><h4>${i+1}. Da li je ${q.ip} lokalna ili globalna IPv4 adresa?</h4><div class="choice-row"><button class="choice ${q.answer==='local'?'selected':''}" onclick="quizChoose(${i},'local')">Lokalna</button><button class="choice ${q.answer==='global'?'selected':''}" onclick="quizChoose(${i},'global')">Globalna</button></div></div>`).join('');
+  const restHtml = quiz.slice(6).map((q,offset)=>{ const i=offset+6; if(q.type==='globalShare') return `<div class="quiz-q" data-q="${i}"><h4>${i+1}. Server je dodijelio ruteru jednu globalnu IP adresu. Upiši koju globalnu IP adresu prema internetu koriste ruter i uređaji u školi.</h4><div class="task-net">${renderGlobalShare(i,q)}</div><div class="feedback" id="hint${i}"></div></div>`; return `<div class="quiz-q" data-q="${i}"><h4>${i+1}. Dodijeli validne lokalne IP adrese uređajima u mreži.</h4><div class="task-net" style="height:390px">${renderLargeLan(i,q)}</div><div class="feedback" id="hint${i}"></div></div>`; }).join('');
+  quizArea.innerHTML = quizIntroHtml() + `<div class="grid two">${classifyHtml}</div>` + routerSwitchInfoHtml() + restHtml;
+  quizFeedback.className='feedback';
+  quizFeedback.textContent='';
+}
+function quizChoose(i,v){quiz[i].answer=v; renderQuiz()}
+function deviceHTML(type,label,known,ip,qIndex,idx,top=false){const control=known?`<div class="known-ip">${ip}</div>`:`<input class="text-input mini-ip" data-idx="${idx}" placeholder="IP" value="${esc(quiz[qIndex].inputs[idx]||'')}" oninput="quiz[${qIndex}].inputs[${idx}]=this.value.trim()">`; return top ? `${control}<div class="dev-icon ${type}"></div><div class="dev-label">${label}</div>` : `<div class="dev-icon ${type}"></div><div class="dev-label">${label}</div>${control}`;}
+function renderGlobalShare(i,q){
+  const lineColor='#0f172a';
+  let svg=`<svg viewBox="0 0 700 410">
+    ${ln(350,112,350,146,lineColor,5)}
+    ${ln(350,248,110,306,lineColor,5)}${ln(350,248,350,306,lineColor,5)}${ln(350,248,590,306,lineColor,5)}
+    <text x="552" y="48" text-anchor="middle" font-size="13" font-weight="900" fill="#475569">Dodijeljena globalna IP</text>
+    <text x="552" y="78" text-anchor="middle" font-size="21" font-weight="900" fill="#2563eb">${q.publicIp}</text>
+  </svg>`;
+  return svg + q.devices.map((d,idx)=>{
+    const known=idx===q.knownIndex;
+    const controlAbs=(left,top,w=226)=> known
+      ? `<div class="known-ip" style="position:absolute;left:${left+Math.max(0,(w-182)/2)}px;top:${top}px;width:182px;min-width:182px;padding:6px 10px;font-size:17px;text-align:center">${q.publicIp}</div>`
+      : `<input class="text-input mini-ip" data-idx="${idx}" placeholder="Globalna IP" style="position:absolute;left:${left}px;top:${top}px;width:${w}px" value="${esc(q.inputs[idx]||'')}" oninput="quiz[${i}].inputs[${idx}]=this.value.trim()">`;
+    if(d[0]==='server'){
+      return `${controlAbs(237,10,226)}<div class="dev-label" style="position:absolute;left:178px;top:78px;width:112px;text-align:right">${d[1]}</div><div class="dev-icon server" style="position:absolute;left:317px;top:58px;margin:0"></div>`;
+    }
+    if(d[0]==='router'){
+      return `${controlAbs(237,154,226)}<div class="dev-icon router" style="position:absolute;left:317px;top:206px;margin:0"></div><div class="dev-label" style="position:absolute;left:398px;top:218px;width:140px;text-align:left">${d[1]}</div>`;
+    }
+    return `<div class="device small" style="left:${q.positions[idx].x}px;top:${q.positions[idx].y}px"><div class="dev-icon ${d[0]}"></div><div class="dev-label">${d[1]}</div>${known?`<div class="known-ip">${q.publicIp}</div>`:`<input class="text-input mini-ip" data-idx="${idx}" placeholder="Globalna IP" value="${esc(q.inputs[idx]||'')}" oninput="quiz[${i}].inputs[${idx}]=this.value.trim()">`}</div>`;
+  }).join('')
+}
+function renderSmallNet(i,q){
+  let svg='';
+  if(q.layout===0){svg=`<svg viewBox="0 0 580 320">${ln(289,74,289,150,'#0f172a',5)}${ln(289,168,95,220,'#0f172a',5)}${ln(289,168,289,220,'#0f172a',5)}${ln(289,168,483,220,'#0f172a',5)}<rect x="245" y="150" width="88" height="36" rx="8" fill="#111827"/><rect x="257" y="163" width="64" height="10" rx="4" fill="#22c55e"/></svg>`}
+  if(q.layout===1){svg=`<svg viewBox="0 0 580 320">${ln(289,74,289,150,'#0f172a',5)}${ln(289,168,118,220,'#0f172a',5)}${ln(289,168,289,220,'#0f172a',5)}${ln(289,168,460,220,'#0f172a',5)}<rect x="245" y="150" width="88" height="36" rx="8" fill="#111827"/><rect x="257" y="163" width="64" height="10" rx="4" fill="#22c55e"/></svg>`}
+  if(q.layout===2){svg=`<svg viewBox="0 0 580 320">${ln(180,88,290,150,'#0f172a',5)}${ln(368,88,290,150,'#0f172a',5)}${ln(290,168,145,220,'#0f172a',5)}${ln(290,168,435,220,'#0f172a',5)}<rect x="246" y="150" width="88" height="36" rx="8" fill="#111827"/><rect x="258" y="163" width="64" height="10" rx="4" fill="#22c55e"/></svg>`}
+  return svg + q.devices.map((d,idx)=>`<div class="device small ${q.positions[idx].y<70?'top':''}" style="left:${q.positions[idx].x}px;top:${q.positions[idx].y}px">${deviceHTML(d[0],d[1],idx===q.knownIndex,q.knownIp,i,idx,q.positions[idx].y<70)}</div>`).join('')
+}
+function renderLargeLan(i,q){
+  // Pitanje 10: lokalna mreža sa ruterom u sredini i laptopima oko njega.
+  const laptopPositions=[
+    {left:34,top:42,cx:111,cy:93,box:'below',labelPos:'above'},
+    {left:496,top:42,cx:573,cy:93,box:'below',labelPos:'above'},
+    {left:34,top:238,cx:111,cy:289,box:'above',labelPos:'below'},
+    {left:265,top:262,cx:342,cy:313,box:'above',labelPos:'below'},
+    {left:496,top:238,cx:573,cy:289,box:'above',labelPos:'below'}
+  ];
+  let svg=`<svg viewBox="0 0 700 390">
+    ${ln(350,168,111,93,'#0f172a',5)}${ln(350,168,573,93,'#0f172a',5)}
+    ${ln(350,168,111,289,'#0f172a',5)}${ln(350,168,342,313,'#0f172a',5)}${ln(350,168,573,289,'#0f172a',5)}
+  </svg>`;
+  const routerControl=`<input class="text-input mini-ip" data-idx="0" placeholder="IP rutera" style="position:absolute;left:259px;top:50px;width:182px" value="${esc(q.inputs[0]||'')}" oninput="quiz[${i}].inputs[0]=this.value.trim()">`;
+  const router=`${routerControl}<div class="dev-icon router" style="position:absolute;left:302px;top:114px;width:96px;height:48px;margin:0"></div><div class="dev-label" style="position:absolute;left:285px;top:169px;width:130px;text-align:center;background:#fff;border-radius:8px;padding:2px 6px">Ruter</div>`;
+  const laptops=q.devices.slice(1).map((d,k)=>{
+    const idx=k+1;
+    const pos=laptopPositions[k];
+    const known=idx===q.knownIndex;
+    const field=known
+      ? `<div class="known-ip" style="width:182px;min-width:182px;font-size:15px">${q.knownIp}</div>`
+      : `<input class="text-input mini-ip" data-idx="${idx}" placeholder="IP uređaja" value="${esc(q.inputs[idx]||'')}" oninput="quiz[${i}].inputs[${idx}]=this.value.trim()">`;
+    return `<div class="device small" style="left:${pos.left}px;top:${pos.top}px;width:182px">
+      ${pos.box==='above'?field:''}
+      ${pos.labelPos==='above'?`<div class="dev-label" style="margin-bottom:6px;background:#fff;border-radius:8px;padding:1px 6px;display:inline-block">${d[1]}</div>`:''}
+      <div class="dev-icon pc" style="margin:${pos.box==='above'?'8px':'0'} auto 6px"></div>
+      ${pos.labelPos==='below'?`<div class="dev-label" style="margin-top:${pos.box==='above'?'2px':'0'}">${d[1]}</div>`:''}
+      ${pos.box==='below'?field:''}
+    </div>`;
+  }).join('');
+  return svg + router + laptops;
+}
+
+function validateSameNetworkTask(q){let bad=[]; if(q.type==='globalShare'){for(let idx=0; idx<q.devices.length; idx++){if(idx===q.knownIndex)continue; let val=(q.inputs[idx]||'').trim(); if(val!==q.publicIp)bad.push(idx);} return {ok:bad.length===0,bad};} let used=[q.knownIp]; for(let idx=0; idx<q.devices.length; idx++){ if(idx===q.knownIndex) continue; let val=(q.inputs[idx]||'').trim(); if(!validIPv4(val)){bad.push(idx); continue;} let p=val.split('.'); if(`${p[0]}.${p[1]}.${p[2]}`!==q.prefix || used.includes(val)){bad.push(idx); continue;} if(q.type==='lanGroup' && idx===0 && !val.endsWith('.1')){bad.push(idx); continue;} if(q.type==='lanGroup' && idx!==0 && val.endsWith('.1')){bad.push(idx); continue;} used.push(val);} return {ok:bad.length===0,bad}}
+function markInput(input,ok){input.style.borderColor=ok?'#22c55e':'#ef4444';input.style.background=ok?'#dcfce7':'#fee2e2'}
+const blankConfirm={main:false,topo:false,pairs:false,cmd:false,topoNext:false};
+function incompleteMainQuizQuestions(){let qnums=[];quiz.forEach((q,i)=>{let incomplete=false;if(q.type==='classify'){incomplete=!q.answer;}else if(q.type==='globalShare'){q.devices.forEach((d,idx)=>{if(idx!==q.knownIndex&&!String(q.inputs[idx]||'').trim())incomplete=true;});}else if(q.type==='lanGroup'){q.devices.forEach((d,idx)=>{if(idx!==q.knownIndex&&!String(q.inputs[idx]||'').trim())incomplete=true;});} if(incomplete)qnums.push(i+1);});return qnums}
+function incompleteTopoQuestions(){let qnums=[];tq.forEach((q,i)=>{if(!q.answer||q.answer.length===0)qnums.push(i+1)});return qnums}
+function emptyPairCount(){const saved=[...pairAns]; saved[pi]=pairRead(); let n=0; pairOrder.forEach((ips,i)=>{let ans=saved[i]||[]; ips.forEach(ip=>{if(!ans.find(x=>x.ip===ip))n++;});}); return n}
+function questionListText(nums){return nums.length===1?`Na pitanje ${nums[0]} nije dat potpun odgovor.`:`Na pitanja ${nums.join(', ')} nije dat potpun odgovor.`}
+function requireBlankQuestionsConfirm(type,nums,feedbackEl){if(nums.length===0){blankConfirm[type]=false;return false;} if(!blankConfirm[type]){blankConfirm[type]=true; feedbackEl.className='feedback show info'; feedbackEl.textContent=`${questionListText(nums)} Klikni još jednom ako ipak želiš ostaviti odgovor prazan.`; return true;} blankConfirm[type]=false; return false}
+function requireBlankConfirm(type,count,feedbackEl,msgPrefix=''){if(count<=0){blankConfirm[type]=false;return false;} if(!blankConfirm[type]){blankConfirm[type]=true; feedbackEl.className='feedback show info'; feedbackEl.textContent=`${msgPrefix}${count===1?'Ima 1 prazan odgovor.':'Ima '+count+' praznih odgovora.'} Klikni još jednom ako ipak želiš ostaviti odgovor prazan.`; return true;} blankConfirm[type]=false; return false}
+function checkQuiz(){if(requireBlankQuestionsConfirm('main',incompleteMainQuizQuestions(),quizFeedback))return;let score=0; quiz.forEach((q,i)=>{let el=document.querySelector(`[data-q="${i}"]`); if(q.type==='classify'){ let ans=kind(q.ip); if(q.answer===ans) score++; el.querySelectorAll('.choice').forEach(b=>{b.classList.remove('selected'); let v=b.textContent.startsWith('L')?'local':'global'; if(v===ans) b.classList.add('correct'); if(v===q.answer&&v!==ans) b.classList.add('wrong')}) } else { let res=validateSameNetworkTask(q); if(res.ok) score++; let hint=document.getElementById(`hint${i}`); hint.className=`feedback show ${res.ok?'ok':'no'}`; hint.textContent=res.ok?'Tačno!':'Provjeri unose. U zadacima sa globalnom IP adresom ruter i uređaji škole trebaju imati istu globalnu IP adresu koju je dodijelio server/provajder. U zadnjem zadatku lokalne adrese moraju biti različite, a ruter završava na .1.'; el.querySelectorAll('input[data-idx]').forEach(inp=>{let idx=Number(inp.dataset.idx); markInput(inp,!res.bad.includes(idx))}); } }); quizFeedback.className=`feedback show ${score===10?'ok':'no'}`; quizFeedback.textContent=`Rezultat kviza: ${score} / 10 tačnih odgovora.`}
+
+function tNode(x,y){return `<g transform="translate(${x},${y})"><rect width="22" height="16" rx="3" fill="#e0f2fe" stroke="#0f172a" stroke-width="3"/><rect x="-3" y="16" width="28" height="4" rx="2" fill="#cbd5e1"/></g>`}
+function tHub(x,y){return `<g transform="translate(${x},${y})"><rect width="30" height="20" rx="5" fill="#2563eb" stroke="#0f172a" stroke-width="3"/></g>`}
+function tLink(x1,y1,x2,y2){return ln(x1,y1,x2,y2,'#0f172a',4)}
+function busNode(x,y){return `${tLink(x+11,58,x+11,y+8)}${tNode(x,y)}`}
+const topo=[
+  ['ring','Prstenasta topologija','Uređaji su povezani u zatvoren krug; podatak ide od jednog uređaja do sljedećeg.','Primjer: stariji sistemi za upravljanje u fabrikama ili zatvoreni krug uređaja gdje svaki uređaj prosljeđuje podatak narednom.'],
+  ['star','Zvjezdasta topologija','Svi uređaji se spajaju na jedan centralni uređaj, najčešće ruter ili switch.','Primjer: kućna mreža u kojoj telefoni, laptopi i TV idu preko rutera, ili kabinet u kojem su računari spojeni na switch.'],
+  ['bus','Magistralna topologija','Više uređaja dijeli jednu zajedničku liniju — magistralu.','Primjer: mikrokontroler čita senzor temperature, senzor kvaliteta zraka i displej preko I2C magistrale; uređaji se razlikuju po svojoj adresi na toj magistrali.'],
+  ['mesh','Mrežasta topologija','Uređaji imaju više mogućih veza pa poruka može ići različitim putanjama.','Primjer: mrežasto povezivanje igrača u online sesiji, gdje se igrači mogu direktno povezivati jedni s drugima, ili bežični mesh sistemi.'],
+  ['tree','Stablasta topologija','Mreža je granata u nivoe: glavni uređaj, pa grane i podgrane.','Primjer: škola u kojoj glavni ruter povezuje spratove, a switchevi na spratovima dalje povezuju učionice.']
+];
+const topoUsage={
+  ring:['Zatvoreni krug uređaja u kojem svaki uređaj prosljeđuje podatak sljedećem.','Stariji industrijski sistem u kojem su uređaji vezani redom u prsten.','Sistem u kojem prekid jedne veze može prekinuti kružno slanje podataka.'],
+  star:['Računari u kabinetu povezani su na jedan switch.','Kućni uređaji se povezuju na jedan ruter.','Laptopi, telefoni i printer komuniciraju preko centralnog uređaja.'],
+  bus:['Senzor kvaliteta zraka, senzor temperature i displej rade na istoj I2C magistrali.','Više uređaja dijeli jednu zajedničku komunikacijsku liniju.','Mikrokontroler komunicira s više modula preko iste linije, a uređaji se razlikuju po adresi.'],
+  mesh:['Online igrači mogu imati više direktnih veza između učesnika.','Bežični mesh sistem ima više putanja do istog odredišta.','Ako jedna veza oslabi, poruka može ići drugim putem kroz mrežu.'],
+  tree:['Školska mreža ima glavni ruter, spratove i učionice kao grane.','Firma ima centralni uređaj, zatim odjele, pa računare u svakom odjelu.','Mreža je organizovana u nivoe: glavna grana, podgrane i krajnji uređaji.']
+};
+const topoUseOptions=()=>shuffle(Object.values(topoUsage).flat()).slice(0,8);
+const topoScenarios={
+  ring:['Uređaji su vezani u zatvoren krug i svaki prosljeđuje podatak sljedećem. Koja upotreba najbolje odgovara ovoj topologiji?','Mreža nema jedan centralni uređaj, nego se podatak kreće kružno od uređaja do uređaja. Koji primjer odgovara?'],
+  star:['U kabinetu se više računara povezuje na jedan switch. Koji primjer najbolje opisuje ovu topologiju?','Svi kućni uređaji idu preko jednog rutera. Koji primjer odgovara?'],
+  bus:['Senzor temperature, senzor kvaliteta zraka i displej koriste istu I2C magistralu. Koji primjer odgovara?','Više modula dijeli jednu zajedničku liniju za komunikaciju. Koja upotreba najbolje odgovara?'],
+  mesh:['U online igri učesnici mogu imati više direktnih veza, a ne samo jedan centralni čvor. Koji primjer odgovara?','Bežični sistem ima više putanja, pa se poruka može preusmjeriti drugim putem. Koja upotreba najbolje odgovara?'],
+  tree:['U školi glavni ruter vodi prema spratovima, a spratovi dalje prema učionicama. Koji primjer odgovara?','Mreža firme je podijeljena na centralni uređaj, odjele i računare u odjelima. Koji primjer odgovara?']
+};
+const topoNames=topo.map(x=>x[1]);
+function topoSvg(t,v=0){
+  if(t==='ring') return v===0?`<svg viewBox="0 0 220 110"><ellipse cx="110" cy="55" rx="75" ry="34" fill="none" stroke="#0f172a" stroke-width="5"/>${tNode(92,14)}${tNode(142,26)}${tNode(24,48)}${tNode(172,48)}${tNode(56,80)}${tNode(126,80)}</svg>`:`<svg viewBox="0 0 220 110"><ellipse cx="110" cy="55" rx="72" ry="32" fill="none" stroke="#0f172a" stroke-width="5"/>${tNode(42,48)}${tNode(72,18)}${tNode(122,14)}${tNode(158,42)}${tNode(138,78)}${tNode(76,82)}</svg>`;
+  if(t==='star') return v===0?`<svg viewBox="0 0 220 110">${tLink(110,53,48,24)}${tLink(110,53,110,14)}${tLink(110,53,172,24)}${tLink(110,53,30,80)}${tLink(110,53,110,88)}${tLink(110,53,190,80)}${tHub(95,43)}${tNode(28,10)}${tNode(96,0)}${tNode(164,10)}${tNode(10,66)}${tNode(96,76)}${tNode(178,66)}</svg>`:`<svg viewBox="0 0 220 110">${tLink(108,52,52,18)}${tLink(108,52,164,18)}${tLink(108,52,30,54)}${tLink(108,52,186,54)}${tLink(108,52,60,90)}${tLink(108,52,156,90)}${tHub(93,42)}${tNode(32,4)}${tNode(144,4)}${tNode(10,40)}${tNode(166,40)}${tNode(40,76)}${tNode(136,76)}</svg>`;
+  if(t==='bus') return v===0?`<svg viewBox="0 0 220 110"><line x1="14" y1="58" x2="206" y2="58" stroke="#0f172a" stroke-width="6" stroke-linecap="round"/>${busNode(24,14)}${busNode(62,76)}${busNode(98,14)}${busNode(136,76)}${busNode(172,14)}</svg>`:`<svg viewBox="0 0 220 110"><line x1="18" y1="56" x2="202" y2="56" stroke="#0f172a" stroke-width="6" stroke-linecap="round"/>${busNode(28,14)}${busNode(72,76)}${busNode(108,14)}${busNode(142,76)}${busNode(174,14)}</svg>`;
+  if(t==='mesh') return v===0?`<svg viewBox="0 0 220 110">${tLink(36,20,110,10)}${tLink(110,10,184,20)}${tLink(36,20,36,86)}${tLink(184,20,184,86)}${tLink(36,86,110,100)}${tLink(110,100,184,86)}${tLink(36,20,110,100)}${tLink(110,10,36,86)}${tLink(184,20,110,100)}${tNode(14,6)}${tNode(88,0)}${tNode(162,6)}${tNode(14,72)}${tNode(88,86)}${tNode(162,72)}</svg>`:`<svg viewBox="0 0 220 110">${tLink(46,20,174,20)}${tLink(46,20,110,56)}${tLink(174,20,110,56)}${tLink(46,88,174,88)}${tLink(46,88,110,56)}${tLink(174,88,110,56)}${tLink(46,20,46,88)}${tLink(174,20,174,88)}${tNode(24,6)}${tNode(152,6)}${tNode(88,42)}${tNode(24,74)}${tNode(152,74)}</svg>`;
+  return v===0?`<svg viewBox="0 0 220 110">${tLink(110,10,110,32)}${tLink(110,32,68,52)}${tLink(110,32,152,52)}${tLink(68,52,48,86)}${tLink(68,52,86,86)}${tLink(152,52,134,86)}${tLink(152,52,172,86)}${tNode(98,0)}${tNode(50,40)}${tNode(134,40)}${tNode(30,74)}${tNode(68,74)}${tNode(116,74)}${tNode(154,74)}</svg>`:`<svg viewBox="0 0 220 110">${tLink(110,8,110,28)}${tLink(110,28,56,48)}${tLink(110,28,164,48)}${tLink(56,48,38,88)}${tLink(56,48,76,88)}${tLink(164,48,144,88)}${tLink(164,48,182,88)}${tNode(98,0)}${tNode(38,36)}${tNode(148,36)}${tNode(20,76)}${tNode(58,76)}${tNode(134,76)}${tNode(172,76)}</svg>`;
+}
+function comboSvg(type){
+  if(type==='ring_tree') return `<svg viewBox="0 0 360 160">${tLink(112,80,150,80)}<ellipse cx="70" cy="80" rx="40" ry="28" fill="none" stroke="#0f172a" stroke-width="4"/>${tNode(58,54)}${tNode(88,70)}${tNode(28,70)}${tNode(58,96)}${tLink(170,26,170,54)}${tLink(170,54,142,82)}${tLink(170,54,198,82)}${tLink(142,82,124,118)}${tLink(142,82,160,118)}${tLink(198,82,180,118)}${tLink(198,82,216,118)}${tNode(158,12)}${tNode(130,68)}${tNode(186,68)}${tNode(112,104)}${tNode(148,104)}${tNode(168,104)}${tNode(204,104)}</svg>`;
+  if(type==='star_tree') return `<svg viewBox="0 0 360 160">${tLink(84,80,144,80)}${tLink(144,80,196,80)}${tLink(196,80,238,80)}${tLink(196,80,196,44)}${tLink(196,80,196,116)}${tNode(62,68)}${tNode(142,68)}${tHub(182,70)}${tLink(260,80,296,46)}${tLink(260,80,320,80)}${tLink(260,80,296,114)}${tHub(245,70)}${tNode(284,34)}${tNode(308,68)}${tNode(284,102)}${tNode(184,32)}${tNode(184,104)}</svg>`;
+  if(type==='mesh_star') return `<svg viewBox="0 0 360 160">${tLink(36,42,94,28)}${tLink(94,28,142,62)}${tLink(36,42,72,102)}${tLink(72,102,142,62)}${tLink(36,42,142,62)}${tNode(18,28)}${tNode(76,14)}${tNode(54,88)}${tNode(124,48)}${tLink(180,80,236,40)}${tLink(180,80,236,80)}${tLink(180,80,236,120)}${tHub(165,70)}${tNode(224,28)}${tNode(224,68)}${tNode(224,108)}</svg>`;
+  if(type==='bus_star') return `<svg viewBox="0 0 360 160"><line x1="18" y1="64" x2="160" y2="64" stroke="#0f172a" stroke-width="6" stroke-linecap="round"/>${busNode(34,20)}${busNode(78,92)}${busNode(120,20)}${tLink(160,64,210,80)}${tLink(230,80,294,40)}${tLink(230,80,312,80)}${tLink(230,80,294,120)}${tHub(215,70)}${tNode(282,28)}${tNode(300,68)}${tNode(282,108)}</svg>`;
+  if(type==='mesh_tree') return `<svg viewBox="0 0 360 160">${tLink(34,32,94,24)}${tLink(94,24,130,74)}${tLink(34,32,60,112)}${tLink(60,112,130,74)}${tLink(34,32,130,74)}${tNode(16,18)}${tNode(76,10)}${tNode(42,98)}${tNode(112,60)}${tLink(174,22,174,52)}${tLink(174,52,144,86)}${tLink(174,52,204,86)}${tLink(144,86,126,124)}${tLink(144,86,162,124)}${tLink(204,86,186,124)}${tLink(204,86,222,124)}${tNode(162,8)}${tNode(132,72)}${tNode(192,72)}${tNode(108,110)}${tNode(144,110)}${tNode(168,110)}${tNode(204,110)}</svg>`;
+  return `<svg viewBox="0 0 360 160"><ellipse cx="82" cy="80" rx="42" ry="30" fill="none" stroke="#0f172a" stroke-width="4"/>${tNode(70,54)}${tNode(100,70)}${tNode(40,70)}${tNode(70,98)}${tLink(124,80,184,80)}${tLink(204,80,278,38)}${tLink(204,80,300,80)}${tLink(204,80,278,122)}${tHub(189,70)}${tNode(266,26)}${tNode(288,68)}${tNode(266,110)}</svg>`;
+}
+function renderTopoLessons(){topologyLessons.innerHTML=topo.map(t=>`<div class="topology-card">${topoSvg(t[0],rand(0,1))}<b>${t[1]}</b><p>${t[2]}</p><p><b>Primjer upotrebe:</b> ${t[3]}</p></div>`).join('')}
+let tq=[],ti=0;
+function makeTopoQuiz(){
+  const singles=shuffle(topo).map(t=>({mode:'single',type:t[0],variant:rand(0,1),correct:[t[1]],answer:[],label:'Odaberi naziv topologije sa slike.'}));
+  const comboPool=[
+    {mode:'multi',type:'ring_tree',correct:['Prstenasta topologija','Stablasta topologija'],answer:[],label:'Označi sve topologije koje prepoznaješ u jednoj kombinovanoj mreži.'},
+    {mode:'multi',type:'star_tree',correct:['Zvjezdasta topologija','Stablasta topologija'],answer:[],label:'Označi sve topologije koje prepoznaješ u jednoj kombinovanoj mreži.'},
+    {mode:'multi',type:'mesh_star',correct:['Mrežasta topologija','Zvjezdasta topologija'],answer:[],label:'Označi sve topologije koje prepoznaješ u jednoj kombinovanoj mreži.'},
+    {mode:'multi',type:'bus_star',correct:['Magistralna topologija','Zvjezdasta topologija'],answer:[],label:'Označi sve topologije koje prepoznaješ u jednoj kombinovanoj mreži.'},
+    {mode:'multi',type:'mesh_tree',correct:['Mrežasta topologija','Stablasta topologija'],answer:[],label:'Označi sve topologije koje prepoznaješ u jednoj kombinovanoj mreži.'},
+    {mode:'multi',type:'ring_star',correct:['Prstenasta topologija','Zvjezdasta topologija'],answer:[],label:'Označi sve topologije koje prepoznaješ u jednoj kombinovanoj mreži.'}
+  ];
+  const usage=pick(['ring','star','mesh','tree','bus'],3).map(k=>{
+    const correct=topoUsage[k][rand(0,topoUsage[k].length-1)];
+    return {mode:'usage',type:k,options:shuffle([correct,...topoUseOptions().filter(x=>x!==correct).slice(0,5)]),correct:[correct],answer:[],label:topoScenarios[k][rand(0,topoScenarios[k].length-1)]};
+  });
+  return singles.concat(pick(comboPool,2)).concat(usage);
+}
+function startTopoExercise(){startTopoBtn.classList.add('hidden');topologyIntro.classList.add('hidden');topologyExercise.classList.remove('hidden');tq=makeTopoQuiz();ti=0;renderTopoQ();topoReview.innerHTML='';topoFeedback.className='feedback';topoFeedback.textContent=''}
+function renderTopoQ(){
+  let q=tq[ti];
+  topoProgress.textContent=`Pitanje ${ti+1} / ${tq.length}`;
+  topoFinishBtn.classList.toggle('hidden',ti!==tq.length-1); if(typeof topoNextBtn!=='undefined') topoNextBtn.classList.toggle('hidden',ti===tq.length-1);
+  let body='';
+  if(q.mode==='single'){
+    body=`<div class="svg-wrap topo-stage">${topoSvg(q.type,q.variant)}</div><div class="choice-row">${topoNames.map((n,idx)=>`<button class="choice ${q.answer[0]===n?'selected':''}" onclick="answerTopo(${idx})">${n}</button>`).join('')}</div>`;
+  } else if(q.mode==='multi'){
+    body=`<div class="svg-wrap topo-stage">${comboSvg(q.type)}</div><div class="multi-grid">${topoNames.map((n,idx)=>`<button class="multi-choice ${q.answer.includes(n)?'selected':''}" onclick="toggleTopo(${idx})">${n}</button>`).join('')}</div>`;
+  } else {
+    body=`<div class="multi-grid">${q.options.map((n,idx)=>`<button class="choice ${q.answer[0]===n?'selected':''}" onclick="answerTopoUsage(${idx})">${n}</button>`).join('')}</div>`;
+  }
+  topoQuestionBox.innerHTML=`<h4>${q.label}</h4>${body}`;
+}
+function answerTopo(idx){blankConfirm.topoNext=false; tq[ti].answer=[topoNames[idx]];renderTopoQ()}
+function answerTopoUsage(idx){blankConfirm.topoNext=false; tq[ti].answer=[tq[ti].options[idx]];renderTopoQ()}
+function toggleTopo(idx){blankConfirm.topoNext=false; let n=topoNames[idx],a=tq[ti].answer,p=a.indexOf(n); if(p<0)a.push(n); else a.splice(p,1); renderTopoQ()}
+function nextTopo(){let q=tq[ti]; if((!q.answer||q.answer.length===0)&&!blankConfirm.topoNext){blankConfirm.topoNext=true; topoFeedback.className='feedback show info'; topoFeedback.textContent=`Na pitanje ${ti+1} nije dat odgovor. Klikni još jednom na Dalje ako ipak želiš ostaviti odgovor prazan.`; return;} blankConfirm.topoNext=false; topoFeedback.className='feedback'; topoFeedback.textContent=''; ti=Math.min(tq.length-1,ti+1);renderTopoQ()}
+function prevTopo(){ti=Math.max(0,ti-1);renderTopoQ()}
+function sameSet(a,b){return a.length===b.length&&a.every(x=>b.includes(x))}
+function topoAnswerText(q){return (!q.answer||q.answer.length===0)?'nije odabran nijedan odgovor':q.answer.join(', ')}
+function checkTopo(){if(requireBlankQuestionsConfirm('topo',incompleteTopoQuestions(),topoFeedback))return;let score=0; tq.forEach(q=>{if(sameSet(q.answer,q.correct))score++}); topoFeedback.className=`feedback show ${score===tq.length?'ok':'no'}`; topoFeedback.textContent=`Tačno: ${score} / ${tq.length}.`; topoReview.innerHTML=tq.map((q,i)=>`<div class="result-item ${sameSet(q.answer,q.correct)?'ok':'no'}">Pitanje ${i+1}: tvoj odgovor — ${topoAnswerText(q)}; tačan odgovor — ${q.correct.join(', ')}</div>`).join(''); let q=tq[ti]; document.querySelectorAll('#topoQuestionBox button').forEach(b=>{let txt=b.textContent; b.classList.remove('selected'); if(q.correct.includes(txt)) b.classList.add('correct'); if(q.answer.includes(txt)&&!q.correct.includes(txt)) b.classList.add('wrong')})}
+
+let pairOrder=[],pi=0,pairAns=[];
+function makePairExample(){let localPrefix=randomPrefix(true);return [`${localPrefix}.1`,randomGlobal(Math.random()<0.4)]}
+function initPair(){pairOrder=[makePairExample(),makePairExample(),makePairExample()];pi=0;pairAns=[];renderPair()}
+function pairAssignments(){let local='—', global='—'; document.querySelectorAll('#s2 .dropzone .ip-chip').forEach(ch=>{let zone=ch.closest('.dropzone').dataset.kind; if(zone==='local') local=ch.dataset.ip; else global=ch.dataset.ip;}); return {local,global}}
+function updatePairDiagram(){let ips=pairOrder[pi]; pairDiagram.innerHTML=networkSvg(ips,pairAssignments())}
+function renderPair(){let ips=pairOrder[pi];pairRound.textContent=`Primjer ${pi+1} / 3`;pairDiagram.innerHTML=networkSvg(ips,{local:'—',global:'—'});pairBank.innerHTML=shuffle(ips).map(ip=>`<div class="ip-chip" draggable="true" data-ip="${ip}">${ip}</div>`).join('');document.querySelectorAll('#s2 .dropzone').forEach(z=>z.innerHTML=`<h4>${z.dataset.kind==='local'?'🟢 Lokalna IP adresa':'🔵 Globalna IP adresa'}</h4>`);pairNextBtn.classList.toggle('hidden',pi===2);pairCheckBtn.classList.toggle('hidden',pi!==2);pairFeedback.className='feedback';pairFeedback.textContent='';if(pi===0)pairResults.innerHTML='';attachDrag(); updatePairDiagram()}
+function attachDrag(){document.querySelectorAll('.ip-chip').forEach(ch=>{ch.addEventListener('dragstart',e=>e.dataTransfer.setData('text/plain',ch.dataset.ip)); ch.addEventListener('click',()=>{document.getElementById('pairBank').appendChild(ch); updatePairDiagram();});});document.getElementById('pairBank').addEventListener('dragover',e=>e.preventDefault());document.getElementById('pairBank').addEventListener('drop',e=>{e.preventDefault();let ip=e.dataTransfer.getData('text/plain'),ch=[...document.querySelectorAll('.ip-chip')].find(x=>x.dataset.ip===ip);if(ch){document.getElementById('pairBank').appendChild(ch); updatePairDiagram();}});document.querySelectorAll('#s2 .dropzone').forEach(z=>{z.addEventListener('dragover',e=>{e.preventDefault();z.classList.add('over')});z.addEventListener('dragleave',()=>z.classList.remove('over'));z.addEventListener('drop',e=>{e.preventDefault();z.classList.remove('over');if(z.querySelector('.ip-chip')) return; let ip=e.dataTransfer.getData('text/plain'),ch=[...document.querySelectorAll('.ip-chip')].find(x=>x.dataset.ip===ip);if(ch){z.appendChild(ch); updatePairDiagram();}})})}
+function pairRead(){let a=[];document.querySelectorAll('#s2 .dropzone .ip-chip').forEach(ch=>a.push({ip:ch.dataset.ip,chosen:ch.closest('.dropzone').dataset.kind}));return a}
+function pairFilled(){return pairRead().length===2}
+function pairSave(){pairAns[pi]=pairRead()}
+function resetPair(){renderPair()}
+function nextPair(){if(!pairFilled()){pairFeedback.className='feedback show info';pairFeedback.textContent='Prvo razvrstaj obje IP adrese.';return}pairSave();pi=Math.min(2,pi+1);renderPair()}
+function checkPairs(){pairSave();if(requireBlankConfirm('pairs',emptyPairCount(),pairFeedback))return;let all=true,out=[];pairOrder.forEach((ips,i)=>{let ok=true,ans=pairAns[i]||[];ips.forEach(ip=>{let a=ans.find(x=>x.ip===ip);if(!a||a.chosen!==kind(ip))ok=false});all=all&&ok;out.push(`<div class="result-item ${ok?'ok':'no'}">Primjer ${i+1}: ${ok?'tačno':'nije tačno'}</div>`)});pairFeedback.className=`feedback show ${all?'ok':'no'}`;pairFeedback.textContent=all?'Bravo! Sve je tačno.':'Nisu svi primjeri tačni.';pairResults.innerHTML=out.join('')}
+
+let cmdCurrent={student:'192.168.100.3',router:'192.168.100.1'};
+function generateCmdIps(){const prefix=randomPrefix(true);cmdCurrent.router=`${prefix}.1`;cmdCurrent.student=randomFromPrefix(prefix,[cmdCurrent.router]);studentIp.value='';routerIp.value='';cmdReadFeedback.className='feedback';cmdReadFeedback.textContent='';cmd('clear')}
+function checkCmdRead(){const a=(studentIp.value||'').trim(); const b=(routerIp.value||'').trim(); const empty=(a?0:1)+(b?0:1); if(requireBlankConfirm('cmd',empty,cmdReadFeedback))return; const ok1=a===cmdCurrent.student; const ok2=b===cmdCurrent.router; cmdReadFeedback.className=`feedback show ${(ok1&&ok2)?'ok':'no'}`; cmdReadFeedback.textContent=(ok1&&ok2)?`Tačno! IPv4 adresa računara je ${cmdCurrent.student}, a adresa rutera je ${cmdCurrent.router}.`:'Provjeri ponovo ipconfig prikaz. IPv4 adresa računara i Default Gateway nisu dobro prepisani.'}
+
+function cmd(t){if(t==='clear'){cmdBox.textContent='C:\\Users\\Ucenik> _';return}if(t==='ipconfig')cmdBox.textContent=`C:\\Users\\Ucenik> ipconfig\n\nWireless LAN adapter Wi-Fi:\n   IPv4 Address . . . . . . . . . . . : ${cmdCurrent.student}\n   Subnet Mask . . . . . . . . . . . : 255.255.255.0\n   Default Gateway . . . . . . . . . : ${cmdCurrent.router}\n\n${cmdCurrent.student} je lokalna IP adresa računara.\n${cmdCurrent.router} je lokalna IP adresa rutera.`;if(t==='ping')cmdBox.textContent=`C:\\Users\\Ucenik> ping 8.8.8.8\n\nReply from 8.8.8.8: bytes=32 time=16ms TTL=115\nReply from 8.8.8.8: bytes=32 time=18ms TTL=115\nReply from 8.8.8.8: bytes=32 time=16ms TTL=115\nReply from 8.8.8.8: bytes=32 time=16ms TTL=115\n\nServer odgovara, pa mrežna veza radi.`}
+
+const msgSteps=[['Skrivena poruka','Pošiljalac napiše poruku, ali se u prikazu vidi samo skriveni primjer sa zvjezdicama.'],['Javni ključ','Pošiljalac dobija javni ključ primaoca i može sigurno pripremiti poruku za slanje.'],['Šifriranje','Na uređaju pošiljaoca poruka se pretvara tako da se razmaci zamijene slovom X, zatim se tekst okrene od zadnjeg ka prvom slovu.'],['Paketi','Šifrirani tekst se dijeli na pakete, a svaki paket dobija svoj redni broj da bi se kasnije mogao složiti ispravnim redom.'],['Serveri','Paketi putuju preko različitih servera i oni vide samo šifrirane dijelove poruke.'],['Privatni ključ','Na uređaju primaoca privatni ključ otključava pakete, oni se slože po broju i dešifruju.'],['Prikaz poruke','Primalac na svom uređaju vidi konačnu poruku u čitljivom obliku.']];
+let mi=0; const pts=[[76,248],[308,138],[321,285],[663,136],[670,285],[897,138],[1000,248]];
+function packetIconForStep(i){return (i===0||i===6)?'✉️🔓':'✉️🔒'}
+function setLine(id,x1,y1,x2,y2){let el=document.getElementById(id),dx=x2-x1,dy=y2-y1;el.style.left=x1+'px';el.style.top=y1+'px';el.style.width=Math.hypot(dx,dy)+'px';el.style.transform=`rotate(${Math.atan2(dy,dx)*180/Math.PI}deg)`}
+function setupMsg(){setLine('line0',118,270,343,162);setLine('line1',325,206,325,280);setLine('line2',402,302,675,162);setLine('line3',685,206,685,280);setLine('line4',742,302,916,162);setLine('line5',958,162,1084,270);updateMsg(true);renderEncryptionDemo(false)}
+function movePacket(i){let p=pts[i];msgPacket.textContent=packetIconForStep(i);msgPacket.style.left=p[0]+'px';msgPacket.style.top=p[1]+'px'}
+function updateMsg(force=false){msgTitle.textContent=`Korak ${mi+1}: ${msgSteps[mi][0]}`;msgText.textContent=msgSteps[mi][1];msgPacket.textContent=packetIconForStep(mi);stepDots.innerHTML=msgSteps.map((_,i)=>`<div class="step-dot ${i<=mi?'on':''}"></div>`).join('');if(force)movePacket(mi)}
+function playMsg(){msgPacket.style.transform='scale(1.18)';setTimeout(()=>msgPacket.style.transform='scale(1)',250);movePacket(mi)}
+function nextMsg(){mi=(mi+1)%msgSteps.length;updateMsg();movePacket(mi)}
+function prevMsg(){mi=(mi+msgSteps.length-1)%msgSteps.length;updateMsg();movePacket(mi)}
+let packetExample=null;
+let decryptStatus=null;
+let revealMessageExample=false;
+function normalizeMsg(s){return s.toUpperCase().replaceAll('Š','S').replaceAll('Đ','D').replaceAll('Č','C').replaceAll('Ć','C').replaceAll('Ž','Z')}
+function chunkPackets(text,size=4){let parts=[]; for(let i=0;i<text.length;i+=size)parts.push(text.slice(i,i+size)); return parts}
+function generateMessageExample(){
+  const msgs=['BRZO DOLAZIM','VIDIMO SE SUTRA','SALJEM DOMACI','IMAMO TEST DANAS','PONESI USB KABAL','CEKAM ISPRED SKOLE','POSALJI SLIKU','JAVI KAD STIGNES','VIDIMO SE U KABINETU','MREZA RADI DOBRO','PING JE USPJESAN','SACUVAJ DATOTEKU','PRINTER JE SPREMAN','RUTER IMA ADRESU','SERVER SALJE ODGOVOR','PAKET JE STIGAO','PROVJERI KONEKCIJU','OTVORI WEB STRANICU'];
+  const original=msgs[rand(0,msgs.length-1)];
+  const plain=normalizeMsg(original);
+  const plainParts=chunkPackets(plain,4);
+  const replaced=plain.replaceAll(' ','X');
+  const reversed=[...replaced].reverse().join('');
+  const parts=chunkPackets(reversed,4);
+  const numbered=parts.map((p,i)=>({order:i+1,text:p,label:`${p}-${i+1}`,server:`Server ${(i%3)+1}`,plain:plainParts[i]||''}));
+  const shuffledPackets=shuffle(numbered);
+  let maskLen=plain.replaceAll(' ','').length+rand(2,5);
+  if(maskLen===plain.length)maskLen+=3;
+  packetExample={original,plain,plainParts,replaced,reversed,parts,numbered,shuffledPackets,servers:['Server 1','Server 2','Server 3'],masked:'★'.repeat(maskLen)};
+  decryptStatus=null;
+  revealMessageExample=false;
+}
+function renderEncryptionDemo(reveal=false){
+  if(!packetExample)generateMessageExample();
+  revealMessageExample=reveal;
+  const ex=packetExample;
+  if(!reveal){
+    encryptionDemo.innerHTML=`
+      <div class="flow-box"><b>Skriveni primjer poruke:</b> ${ex.masked}</div>
+      <div class="flow-box" style="margin-top:10px"><b>Pravila u ovoj vježbi:</b> poruka se na uređaju pošiljaoca prvo napiše velikim slovima. Prazno mjesto se pretvara u slovo <b>X</b>. Zatim se tekst okreće od zadnjeg prema prvom slovu. Tako dobijeni šifrirani tekst dijeli se na pakete po 4 znaka, a na kraj svakog paketa dodaje se redni broj paketa kako bi primalac znao kojim redom ih treba složiti.</div>
+      <div class="flow-box" style="margin-top:10px"><b>Ključevi:</b> <b>javni ključ</b> putuje od primaoca do pošiljaoca i pošiljalac ga koristi da zaključa poruku. <b>Privatni ključ</b> ostaje samo na uređaju primaoca i njime se poruka otključava i dešifruje.</div>
+      <div class="flow-box" style="margin-top:10px"><b>Paketi koje trebaš posmatrati:</b><div class="packet-row">${ex.shuffledPackets.map(p=>`<div class="packet-chip">${esc(p.text)} | ${p.order}</div>`).join('')}</div></div>
+      <div class="practice-row"><input class="text-input" id="decryptGuess" placeholder="Upiši poruku za koju misliš da je skrivena" style="max-width:340px"><button class="btn good" onclick="checkDecryptGuess()">Provjeri i prikaži primjer</button></div>
+      <div class="feedback" id="decryptFeedback"></div>`;
+    return;
+  }
+  const plainPartHtml=ex.numbered.map(p=>`<div class="packet-chip">${esc(p.plain)} | ${p.order}</div>`).join('');
+  const encPartHtml=ex.shuffledPackets.map(p=>`<div class="packet-chip">${esc(p.text)} | ${p.order} → ${p.server}</div>`).join('');
+  encryptionDemo.innerHTML=`
+    <div class="flow-box"><b>Poruka pošiljaoca:</b> ${esc(ex.plain)}</div>
+    <div class="flow-box" style="margin-top:10px"><b>Javni ključ:</b> pošiljalac koristi javni ključ primaoca da zaključa pripremljene pakete za slanje. <b>Privatni ključ:</b> nalazi se samo na uređaju primaoca i služi da otključa pristigle pakete prije dešifriranja.</div>
+    <div class="flow-box" style="margin-top:10px"><b>Paketi prije šifriranja:</b><div class="packet-row">${plainPartHtml}</div></div>
+    <div class="flow-box" style="margin-top:10px"><b>Priprema poruke na uređaju pošiljaoca:</b> razmak postaje slovo X, pa ${esc(ex.plain)} postaje <b>${esc(ex.replaced)}</b>.</div>
+    <div class="flow-box" style="margin-top:10px"><b>Šifriranje:</b> tekst se okreće od zadnjeg prema prvom slovu, pa nastaje <b>${esc(ex.reversed)}</b>.</div>
+    <div class="flow-box" style="margin-top:10px"><b>Paketi poslije šifriranja:</b><div class="packet-row">${encPartHtml}</div></div>
+    <div class="flow-box"><b>Putovanje paketa:</b> pokreni animaciju i na samoj slici prati poruku, pakete, slaganje i konačno dešifrovanje.</div>
+    <div class="route-demo" id="routeDemo">
+      <div class="route-line" id="rline1"></div><div class="route-line" id="rline2"></div><div class="route-line" id="rline3"></div><div class="route-line" id="rline4"></div><div class="route-line" id="rline5"></div><div class="route-line" id="rline6"></div><div class="route-line" id="rline7"></div>
+      <div class="route-bubble sender" id="senderBubble"></div>
+      <div class="route-bubble receiver" id="receiverBubble"></div>
+      <div class="route-node" style="left:14px;top:116px"><div class="route-icon keypub">🔓</div>Pošiljalac<br>javni ključ</div>
+      <div class="route-node" style="left:170px;top:116px"><div class="route-icon">📶</div>Ruter</div>
+      <div class="route-node" style="left:314px;top:24px"><div class="route-icon">🖥️</div>Server 1</div>
+      <div class="route-node" style="left:314px;top:128px"><div class="route-icon">🖥️</div>Server 2</div>
+      <div class="route-node" style="left:314px;top:232px"><div class="route-icon">🖥️</div>Server 3</div>
+      <div class="route-node" style="left:640px;top:116px"><div class="route-icon keypriv">🔐</div>Primalac<br>privatni ključ</div>
+      ${ex.shuffledPackets.map((p,i)=>`<div class="route-packet" id="p${p.order}">${esc(p.plain)}<br>${p.order}</div>`).join('')}
+    </div>
+    <div class="practice-row"><button class="btn good" onclick="runPacketExample()">Pokreni primjer</button><button class="btn secondary" onclick="resetMessageExample()">Sakrij i novi pokušaj</button></div>
+    <div class="feedback show ${decryptStatus==='ok'?'ok':'no'}" id="decryptFeedback">${decryptStatus==='ok'?'Tačno! Pogodio/la si skrivenu poruku.':'Poruka nije tačno pogođena, ali u animaciji vidiš kako je sistem šifrira, dijeli na pakete, šalje, slaže i dešifruje.'}</div>`;
+  setupRouteDemo();
+}
+function resetMessageExample(){revealMessageExample=false; decryptStatus=null; renderEncryptionDemo(false)}
+function setRouteLine(id,x1,y1,x2,y2){let el=document.getElementById(id); if(!el)return; let dx=x2-x1,dy=y2-y1;el.style.left=x1+'px';el.style.top=y1+'px';el.style.width=Math.hypot(dx,dy)+'px';el.style.transform=`rotate(${Math.atan2(dy,dx)*180/Math.PI}deg)`}
+function setupRouteDemo(){setRouteLine('rline1',90,150,202,150);setRouteLine('rline2',250,150,334,64);setRouteLine('rline3',250,150,334,168);setRouteLine('rline4',250,150,334,272);setRouteLine('rline5',388,64,670,150);setRouteLine('rline6',388,168,670,150);setRouteLine('rline7',388,272,670,150); if(!packetExample)return; const scatter=[[56,108],[98,202],[32,154],[114,248],[20,252]]; packetExample.shuffledPackets.forEach((pkt,i)=>{const el=document.getElementById('p'+pkt.order); if(el){el.innerHTML=`${esc(pkt.plain)}<br>${pkt.order}`; el.style.left=scatter[i%scatter.length][0]+'px'; el.style.top=scatter[i%scatter.length][1]+'px'; el.style.opacity='0.92'; el.style.background='#f97316';}}); const sb=document.getElementById('senderBubble'); const rb=document.getElementById('receiverBubble'); if(sb){sb.innerHTML=`Početna poruka:<br><b>${esc(packetExample.plain)}</b>`; sb.classList.add('show');} if(rb){rb.innerHTML=''; rb.classList.remove('show');} }
+function runPacketExample(){
+  if(!revealMessageExample) return;
+  setupRouteDemo();
+  const sb=document.getElementById('senderBubble');
+  const rb=document.getElementById('receiverBubble');
+  const serverPos=[[332,54],[332,158],[332,262]];
+  const endScatter=[[628,236],[586,104],[642,152],[596,198],[628,276]];
+  const finalOrder=[[594,100],[594,142],[594,184],[594,226],[594,268]];
+  if(sb){sb.innerHTML=`Početna poruka:<br><b>${esc(packetExample.plain)}</b>`; sb.classList.add('show');}
+  if(rb){rb.classList.remove('show'); rb.innerHTML='';}
+  setTimeout(()=>{ if(sb) sb.innerHTML=`Podjela na pakete:<br><b>${packetExample.numbered.map(p=>esc(p.plain)+'|'+p.order).join(' · ')}</b>`; }, 800);
+  setTimeout(()=>{
+    packetExample.shuffledPackets.forEach((pkt)=>{const el=document.getElementById('p'+pkt.order); if(el){el.innerHTML=`${esc(pkt.text)}<br>${pkt.order}`; el.style.background='#2563eb';}});
+    if(sb) sb.innerHTML=`Šifrirana poruka:<br><b>${esc(packetExample.reversed)}</b>`;
+  }, 1700);
+  packetExample.shuffledPackets.forEach((pkt,i)=>{
+    const el=document.getElementById('p'+pkt.order);
+    if(!el)return;
+    const router=[188,136], srv=serverPos[(pkt.order-1)%3], end=endScatter[i%endScatter.length];
+    setTimeout(()=>{el.style.left=router[0]+'px'; el.style.top=router[1]+'px';},2300+i*130);
+    setTimeout(()=>{el.style.left=srv[0]+'px'; el.style.top=srv[1]+'px';},3300+i*170);
+    setTimeout(()=>{el.style.left=end[0]+'px'; el.style.top=end[1]+'px';},4500+i*170);
+  });
+  setTimeout(()=>{
+    packetExample.numbered.forEach((pkt,i)=>{const el=document.getElementById('p'+pkt.order); if(el){el.style.left=(finalOrder[i]||[594,100+i*42])[0]+'px'; el.style.top=(finalOrder[i]||[594,100+i*42])[1]+'px';}});
+    if(rb){rb.innerHTML=`Poredani paketi:<br><b>${packetExample.numbered.map(p=>esc(p.text)+'|'+p.order).join(' · ')}</b>`; rb.classList.add('show');}
+  }, 5700 + packetExample.numbered.length*150);
+  setTimeout(()=>{
+    packetExample.numbered.forEach((pkt)=>{const el=document.getElementById('p'+pkt.order); if(el){el.style.opacity='0';}});
+    if(rb){rb.innerHTML=`Spojena poruka:<br><b>${esc(packetExample.reversed)}</b>`; rb.classList.add('show');}
+  }, 7000 + packetExample.numbered.length*150);
+  setTimeout(()=>{
+    if(rb){rb.innerHTML=`Dešifrovana poruka:<br><b>${esc(packetExample.plain)}</b>`; rb.classList.add('show');}
+  }, 8200 + packetExample.numbered.length*150);
+}
+function checkDecryptGuess(){
+  const guess=normalizeMsg((decryptGuess.value||'').trim());
+  decryptStatus=guess===packetExample.plain?'ok':'no';
+  renderEncryptionDemo(true);
+}
+
+setupNav(); renderTopoLessons(); generateQuiz(); initPair(); generateCmdIps(); generateMessageExample(); setupMsg();
+</script>
+</body>
+</html>
