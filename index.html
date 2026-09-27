@@ -28,10 +28,7 @@ input,textarea,.cmd-box{user-select:text;-webkit-user-select:text}
 
 .note{background:#0f172a;color:#fff;border-radius:18px;padding:12px;margin-bottom:10px}.note b{display:block;color:#bfdbfe;margin-bottom:6px}.note p{font-size:12px;line-height:1.35;color:#e5e7eb;font-weight:700}.mini-figure{background:#fff;border-radius:14px;padding:8px;margin-top:8px}
 .section{display:none;max-width:1180px;margin:auto}.section.active{display:block}
-/* Dodatno proširen glavni kviz da složeni crtež u 9. pitanju stane bez gužvanja */
 #s0{max-width:1240px;}
-#s0>.card{overflow-x:auto;}
-#s0 .quiz-q[data-q="8"]{min-width:1160px;}
 .card{background:#fff;color:#111827;border-radius:22px;border:1px solid #dbe2ea;box-shadow:0 18px 44px rgba(0,0,0,.22);padding:16px;margin-bottom:14px}.title-row{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px}.card h2{font-size:25px;line-height:1.1}.card h3{font-size:18px;margin-bottom:8px}.sub{color:#475569;font-size:14px;line-height:1.35;font-weight:700}
 .grid{display:grid;gap:14px}.two{grid-template-columns:1.03fr .97fr}.three{grid-template-columns:repeat(3,1fr)}
 .btn{border:0;background:linear-gradient(135deg,#3b82f6,#2563eb);color:#fff;border-radius:13px;padding:10px 13px;font-weight:900;cursor:pointer;box-shadow:0 8px 18px rgba(0,0,0,.14)}.btn.good{background:linear-gradient(135deg,#22c55e,#15803d)}.btn.warn{background:linear-gradient(135deg,#f97316,#c2410c)}.btn.secondary{background:linear-gradient(135deg,#64748b,#475569)}.btn:disabled{opacity:.5;cursor:not-allowed}.controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.hidden{display:none!important}
@@ -55,6 +52,59 @@ input,textarea,.cmd-box{user-select:text;-webkit-user-select:text}
 .route-bubble.sender{max-width:270px;min-width:230px;}
 .route-bubble.receiver{max-width:250px;min-width:210px;}
 .q9-second-line{display:block;margin-top:6px}
+
+/* Diagrams and their controls share the same responsive layout. */
+.main{grid-template-columns:350px minmax(0,1fr)}
+.stage,.section,.card,.grid>*{min-width:0}
+svg{display:block;max-width:100%;height:auto}
+.topology-card svg{height:auto;max-height:190px;margin:auto}
+.topo-stage svg{width:520px!important}
+.task-net{width:100%;max-width:100%;height:auto;margin:12px auto;padding:16px;overflow:visible}
+.net-row{display:flex;justify-content:center;gap:24px;position:relative;margin-bottom:34px;flex-wrap:wrap}
+.net-row:last-child{margin-bottom:0}
+.net-device{position:relative;z-index:1;width:182px;max-width:100%;padding:10px 6px;background:#fff;border:1px solid #dbe2ea;border-radius:12px;text-align:center}
+.net-device .dev-label{margin:10px 0 8px}
+.net-device .mini-ip,.net-device .known-ip{width:100%;min-width:0;max-width:100%;font-size:16px}
+.net-branches{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.net-branch{min-width:0;padding:12px 4px;border-radius:14px;background:#eff6ff80}
+.task-net>svg{pointer-events:none}
+.msg-stage{height:auto;min-height:0;padding:44px 16px 16px}
+.message-map{position:relative;display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:20px;padding:30px 0 60px}
+.message-map .msg-node{position:relative;left:auto!important;top:auto!important;width:auto;font-size:13px;z-index:1}
+.message-map .msg-node>div:last-child{left:auto!important}
+.msg-icon{width:64px;height:64px;border-radius:18px;font-size:28px}
+.msg-line{height:4px;transform:translateY(-2px)}
+.msg-packet{width:58px;height:32px;font-size:16px}
+.step-panel{position:relative;inset:auto;line-height:1.5}
+.route-scroll{overflow:auto;max-width:100%;touch-action:pan-x pan-y}
+.route-scroll .route-demo{width:780px;max-width:none}
+.route-scroll .route-bubble.receiver{max-width:230px}
+.diagram-hint{font-size:12px;color:#475569;margin-top:8px}
+.ip-chip.selected{outline:3px solid #2563eb;outline-offset:3px}
+.cmd-box,.flow-box{overflow-wrap:anywhere}
+@media(max-width:1200px){.main{grid-template-columns:280px minmax(0,1fr)}.three{grid-template-columns:repeat(2,minmax(0,1fr))}.two{grid-template-columns:1fr}.topbar{height:auto;flex-wrap:wrap}.top-definition{order:3;flex-basis:100%;max-width:none}.main{height:calc(100dvh - 112px)}.message-map{grid-template-columns:repeat(2,minmax(0,1fr));gap:32px}.message-map .msg-node:last-of-type{grid-column:1/-1}.step-panel{grid-template-columns:1fr}}
+@media(max-width:1050px){body{height:auto;overflow:auto}.main{height:auto;grid-template-columns:1fr}.sidebar{display:grid;grid-template-columns:1fr 1fr;gap:12px}.sidebar .intro,.sidebar .controls{grid-column:1/-1}.sidebar .note{margin:0}.stage{min-height:0}.three{grid-template-columns:repeat(2,minmax(0,1fr))}.top-info,select{max-width:100%}}
+@media(max-width:600px){.topbar{padding:12px}.logo{font-size:20px;gap:8px;min-width:0}.top-info,.top-info select{width:100%}.top-definition{border-radius:14px}.sidebar{display:block;padding:12px}.sidebar .note{margin-bottom:10px}.stage{padding:10px}.card{padding:12px;border-radius:16px}.card h2{font-size:22px}.title-row{flex-direction:column}.three,.drop-grid{grid-template-columns:1fr}.quiz-q{padding:10px}.task-net{padding:10px}.net-row{gap:16px}.net-branches{grid-template-columns:1fr;gap:28px}.net-branch{padding-top:20px}.net-device{width:100%;max-width:240px}.btn,.choice,.multi-choice{min-height:44px}.text-input{font-size:16px}.svg-wrap{min-height:0;padding:6px}.topo-stage{min-height:150px!important}.msg-stage{padding:40px 10px 10px;border-width:4px}.step-panel{padding:12px}.message-map{gap:32px 12px}.range-table th,.range-table td{padding:6px;font-size:12px}}
+
+</style>
+<style>
+.school-connections{z-index:1}
+.task-net:has(.school-fields)>.net-row{margin-bottom:44px}
+.school-fields .net-device{z-index:2}
+.school-fields{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.school-floor{padding:14px 8px;border:2px solid #93c5fd;border-radius:16px;background:#eff6ff}
+.school-floor:nth-child(2){border-color:#86efac;background:#f0fdf4}
+.school-floor h4{text-align:center;margin-bottom:12px}.school-floor .net-row{margin-bottom:12px}
+.mobile-animation-button{display:none}
+.packet-dialog{position:fixed;inset:0;width:100%;max-width:none;height:100dvh;max-height:none;margin:0;padding:12px;padding-top:max(12px,env(safe-area-inset-top));padding-bottom:max(12px,env(safe-area-inset-bottom));border:0;background:#f8fafc;color:#0f172a}
+.packet-dialog[open]{display:grid;grid-template-rows:auto minmax(140px,1fr) auto auto;gap:10px}
+.packet-dialog::backdrop{background:#0f172a}.packet-dialog:fullscreen{height:100vh}
+.packet-dialog header{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.packet-dialog h3{font-size:17px}.packet-dialog .portrait-map{width:100%;height:100%;min-height:0}
+.packet-dialog .portrait-status{padding:12px;background:#dbeafe;border-radius:14px;font-size:14px;line-height:1.4;overflow:auto;max-height:27dvh;overflow-wrap:anywhere}
+.packet-dialog .controls{margin:0;justify-content:center}.packet-dialog .btn{min-height:44px}
+.portrait-packet{transition:transform .8s ease;pointer-events:none}
+@media(max-width:600px){.task-net:has(.school-fields)>.net-row{margin-left:22px}.school-fields{grid-template-columns:1fr;margin-left:22px;gap:44px}.school-floor .net-device{max-width:100%}.school-floor .net-row{gap:10px}.mobile-animation-button{display:inline-block}.desktop-packet-view,.desktop-packet-start{display:none!important}}
 </style>
 </head>
 <body>
@@ -94,7 +144,7 @@ input,textarea,.cmd-box{user-select:text;-webkit-user-select:text}
     <section class="section" id="s2">
       <div class="grid two">
         <div class="card diff-easy"><div class="title-row"><div><div class="chapter">📡 Ruter i IP adrese</div><h2>Razvrstaj IP adrese rutera</h2><p class="sub">Zadatak je potrebno uraditi tačno tri puta. U svakom primjeru razvrstaj lokalnu i globalnu adresu rutera. Napomena: lokalna adresa rutera najčešće završava sa <b>.1</b> i mora biti unutar opsega lokalnih IP adresa.</p></div><div class="pill dark" id="pairRound">Primjer 1 / 3</div></div><div class="svg-wrap" id="pairDiagram"></div><div class="sub" style="text-align:center;margin-top:8px">Pristup internetu ide preko rutera.</div></div>
-        <div class="card diff-easy"><h3>Odredi vrstu adrese</h3><p class="sub">Povuci IP adresu u odgovarajuće polje. Pazi da globalna adresa može završavati na <b>.1</b>, ali nije lokalna ako nije u lokalnom opsegu.</p><div class="ip-bank" id="pairBank"></div><div class="drop-grid"><div class="dropzone" data-kind="local"><h4>🟢 Lokalna IP adresa</h4></div><div class="dropzone" data-kind="global"><h4>🔵 Globalna IP adresa</h4></div></div><div class="controls"><button class="btn" id="pairNextBtn" onclick="nextPair()">Dalje →</button><button class="btn good hidden" id="pairCheckBtn" onclick="checkPairs()">Provjeri sve</button></div><div class="feedback" id="pairFeedback"></div><div class="result-list" id="pairResults"></div></div>
+        <div class="card diff-easy"><h3>Odredi vrstu adrese</h3><p class="sub">Povuci IP adresu u odgovarajuće polje ili dodirni adresu, pa polje. Pazi da globalna adresa može završavati na <b>.1</b>, ali nije lokalna ako nije u lokalnom opsegu.</p><div class="ip-bank" id="pairBank"></div><div class="drop-grid"><div class="dropzone" data-kind="local"><h4>🟢 Lokalna IP adresa</h4></div><div class="dropzone" data-kind="global"><h4>🔵 Globalna IP adresa</h4></div></div><div class="controls"><button class="btn" id="pairNextBtn" onclick="nextPair()">Dalje →</button><button class="btn good hidden" id="pairCheckBtn" onclick="checkPairs()">Provjeri sve</button></div><div class="feedback" id="pairFeedback"></div><div class="result-list" id="pairResults"></div></div>
       </div>
     </section>
     <section class="section" id="s3">
@@ -106,6 +156,7 @@ input,textarea,.cmd-box{user-select:text;-webkit-user-select:text}
     <section class="section" id="s4">
       <div class="msg-stage diff-hard">
         <div class="step-dots" id="stepDots"></div>
+        <div class="message-map">
         <div class="msg-line" id="line0"></div><div class="msg-line" id="line1"></div><div class="msg-line" id="line2"></div><div class="msg-line" id="line3"></div><div class="msg-line" id="line4"></div><div class="msg-line" id="line5"></div>
         <div class="msg-node phone" style="left:24px;top:250px"><div class="msg-icon">📱</div><div>Pošiljalac</div></div>
         <div class="msg-node routerN" style="left:265px;top:120px"><div class="msg-icon">📶</div><div style="position:relative;left:44px">Wi‑Fi / mobilna mreža</div></div>
@@ -115,7 +166,7 @@ input,textarea,.cmd-box{user-select:text;-webkit-user-select:text}
         <div class="msg-node routerN" style="left:860px;top:120px"><div class="msg-icon">📡</div><div>Mreža primaoca</div></div>
         <div class="msg-node phone" style="left:1010px;top:250px"><div class="msg-icon">📱</div><div>Primalac</div></div>
         <div class="msg-packet" id="msgPacket">✉️🔓</div>
-        <div class="step-panel"><div><h3 id="msgTitle"></h3><p id="msgText"></p></div><div class="controls"><button class="btn secondary" onclick="prevMsg()">←</button><button class="btn good" onclick="playMsg()">▶ Prikaži</button><button class="btn" onclick="nextMsg()">→</button></div></div>
+        </div><div class="step-panel"><div><h3 id="msgTitle"></h3><p id="msgText"></p></div><div class="controls"><button class="btn secondary" onclick="prevMsg()">←</button><button class="btn good" onclick="playMsg()">▶ Prikaži</button><button class="btn" onclick="nextMsg()">→</button></div></div>
       </div>
       <div class="card diff-hard" style="margin-top:14px">
         <div class="chapter">🔐 Dodatno pojašnjenje</div>
@@ -142,7 +193,7 @@ function rand(a,b){return Math.floor(Math.random()*(b-a+1))+a}
 function shuffle(arr){return [...arr].sort(()=>Math.random()-.5)}
 function pick(arr,n){return shuffle(arr).slice(0,n)}
 function setupNav(){sectionSelect.innerHTML=sections.map((s,i)=>`<option value="${i}">${i+1}. ${s}</option>`).join('');updateNav()}
-function updateNav(){document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));const activeSection=document.getElementById(sectionOrder[current]);if(activeSection)activeSection.classList.add('active');sectionSelect.value=current}
+function updateNav(){document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));const activeSection=document.getElementById(sectionOrder[current]);if(activeSection)activeSection.classList.add('active');sectionSelect.value=current;requestAnimationFrame(()=>{layoutNetworks();layoutMessage()})}
 function goSection(i){const old=current;current=Math.max(0,Math.min(sections.length-1,i));updateNav();if(current===2&&old!==2)generateCmdIps();if(current===4&&old!==4){generateMessageExample();mi=0;setupMsg();}}
 function nextSection(){goSection(current+1)}
 function prevSection(){goSection(current-1)}
@@ -157,7 +208,7 @@ function laptop(x,y){return `<g transform="translate(${x},${y})"><rect width="56
 function routerSvg(x,y){return `<g transform="translate(${x},${y})"><rect width="96" height="48" rx="14" fill="#dbeafe" stroke="#0f172a" stroke-width="4"/><circle cx="34" cy="24" r="4" fill="#2563eb"/><circle cx="50" cy="24" r="4" fill="#2563eb"/><circle cx="66" cy="24" r="4" fill="#2563eb"/><text x="48" y="69" text-anchor="middle" font-size="15" font-weight="900" fill="#334155">Ruter</text></g>`}
 function globe(x,y){return `<g transform="translate(${x},${y})"><circle cx="40" cy="40" r="36" fill="#eff6ff" stroke="#2563eb" stroke-width="5"/><path d="M4 40 H76 M40 4 V76 M16 18 C34 28 40 52 40 76 M64 18 C46 28 40 52 40 76 M16 62 C34 52 40 28 40 4 M64 62 C46 52 40 28 40 4" stroke="#2563eb" stroke-width="3" fill="none"/><text x="40" y="96" text-anchor="middle" font-size="15" font-weight="900" fill="#334155">Internet</text></g>`}
 function ipv4StructureSvg(small=false){let a=rand(11,223),b=rand(0,255),c=rand(0,255),d=rand(1,254); if(small) return `<svg viewBox="0 0 300 130" width="100%"><rect width="300" height="130" fill="#fff"/><text x="42" y="18" font-size="10" font-weight="900" text-anchor="middle">Domena</text><text x="116" y="12" font-size="10" font-weight="900" text-anchor="middle">Poddomena</text><text x="116" y="24" font-size="10" font-weight="900" text-anchor="middle">(grad)</text><text x="190" y="18" font-size="10" font-weight="900" text-anchor="middle">Kabinet</text><text x="260" y="18" font-size="10" font-weight="900" text-anchor="middle">Kompjuter</text>${ln(50,28,82,76,'#111',1.8)}${ln(116,28,128,76,'#111',1.8)}${ln(190,28,174,76,'#111',1.8)}${ln(260,28,222,76,'#111',1.8)}<text x="82" y="96" font-size="20" font-weight="900" text-anchor="middle" fill="#22c55e">${a}</text><text x="105" y="96" font-size="20" font-weight="900" text-anchor="middle" fill="#22c55e">.</text><text x="128" y="96" font-size="20" font-weight="900" text-anchor="middle" fill="#22c55e">${b}</text><text x="151" y="96" font-size="20" font-weight="900" text-anchor="middle" fill="#22c55e">.</text><text x="174" y="96" font-size="20" font-weight="900" text-anchor="middle" fill="#22c55e">${c}</text><text x="197" y="96" font-size="20" font-weight="900" text-anchor="middle" fill="#22c55e">.</text><text x="222" y="96" font-size="20" font-weight="900" text-anchor="middle" fill="#22c55e">${d}</text></svg>`; return `<svg viewBox="0 0 720 250" width="100%"><rect width="720" height="250" fill="#fff"/><text x="92" y="45" font-size="25" font-weight="900" text-anchor="middle">Domen (telecom)</text><text x="290" y="25" font-size="25" font-weight="900" text-anchor="middle">Poddomena</text><text x="290" y="58" font-size="25" font-weight="900" text-anchor="middle">(grad)</text><text x="462" y="45" font-size="25" font-weight="900" text-anchor="middle">Kabinet</text><text x="620" y="45" font-size="25" font-weight="900" text-anchor="middle">Kompjuter</text>${ln(126,72,258,160,'#111',3)}${ln(292,72,310,160,'#111',3)}${ln(462,72,365,160,'#111',3)}${ln(620,72,400,160,'#111',3)}<text x="360" y="198" font-size="38" font-weight="900" text-anchor="middle" fill="#22c55e">${a}.${b}.${c}.${d}</text></svg>`}
-function networkSvg(ips,assigned={}){const local=assigned.local||'—';const global=assigned.global||'—';return `<svg viewBox="0 0 700 280" width="100%">${ln(194,72,306,138,'#16a34a',6)}${ln(194,140,306,140,'#16a34a',6)}${ln(194,208,306,152,'#16a34a',6)}${ln(402,140,520,140,'#16a34a',6)}${laptop(120,48)}${laptop(120,116)}${laptop(120,184)}${routerSvg(306,116)}${globe(520,100)}${svgText(448,24,'Ruter ima IP adrese:',20)}${svgText(448,58,ips[0],24)}${svgText(448,88,ips[1],24)}<text x="354" y="218" text-anchor="middle" font-size="13" font-weight="900" fill="#334155">Odabrana lokalna:</text><text x="354" y="238" text-anchor="middle" font-size="15" font-weight="900" fill="#2563eb">${local}</text><text x="560" y="218" text-anchor="middle" font-size="13" font-weight="900" fill="#334155">Odabrana globalna:</text><text x="560" y="238" text-anchor="middle" font-size="15" font-weight="900" fill="#2563eb">${global}</text></svg>`}
+function networkSvg(ips,assigned={}){const local=assigned.local||'—';const global=assigned.global||'—';if(matchMedia('(max-width:600px)').matches)return `<svg viewBox="0 0 320 360" width="100%" role="img" aria-label="Računari povezani preko rutera na internet">${svgText(160,24,'Ruter ima IP adrese:',17)}${svgText(160,50,ips[0],20)}${svgText(160,76,ips[1],20)}${ln(62,125,160,195,'#16a34a',4)}${ln(160,125,160,195,'#16a34a',4)}${ln(258,125,160,195,'#16a34a',4)}${ln(208,195,254,195,'#16a34a',4)}${laptop(34,100)}${laptop(132,100)}${laptop(230,100)}${routerSvg(112,171)}<g transform="translate(250,175) scale(.55)">${globe(0,0)}</g>${svgText(160,272,'Odabrana lokalna:',15)}${svgText(160,295,local,19,'#2563eb')}${svgText(160,322,'Odabrana globalna:',15)}${svgText(160,346,global,19,'#2563eb')}</svg>`;return `<svg viewBox="0 0 700 280" width="100%">${ln(176,72,306,138,'#16a34a',6)}${ln(176,140,306,140,'#16a34a',6)}${ln(176,208,306,152,'#16a34a',6)}${ln(402,140,520,140,'#16a34a',6)}${laptop(120,48)}${laptop(120,116)}${laptop(120,184)}${routerSvg(306,116)}${globe(520,100)}${svgText(448,24,'Ruter ima IP adrese:',20)}${svgText(448,58,ips[0],24)}${svgText(448,88,ips[1],24)}<text x="354" y="218" text-anchor="middle" font-size="13" font-weight="900" fill="#334155">Odabrana lokalna:</text><text x="354" y="238" text-anchor="middle" font-size="15" font-weight="900" fill="#2563eb">${local}</text><text x="560" y="218" text-anchor="middle" font-size="13" font-weight="900" fill="#334155">Odabrana globalna:</text><text x="560" y="238" text-anchor="middle" font-size="15" font-weight="900" fill="#2563eb">${global}</text></svg>`}
 
 let quiz=[];
 let quizLocked=false;
@@ -169,7 +220,7 @@ function makeNetworkTask(rule){
   if(rule==='schoolTwoRouters'){
     return {
       type:'globalShare',rule:'schoolTwoRouters',providerIp:provider,knownIndices:[0],inputs:{},
-      prompt:'Provajder ima globalnu IP adresu. Dva rutera škole direktno su povezana sa provajderom i svaki ruter dobija svoju globalnu IP adresu.<br><span class="q9-second-line">Uređaji spojeni na isti ruter prema internetu koriste istu globalnu IP adresu kao taj ruter.</span>',
+      prompt:'Provajder ima globalnu IP adresu. Dva rutera škole direktno su povezana sa provajderom i svaki ruter dobija svoju globalnu IP adresu. Globalne IP adrese ova dva rutera moraju biti različite.<br><span class="q9-second-line">Uređaji spojeni na isti ruter prema internetu koriste istu globalnu IP adresu kao taj ruter.</span>',
       hint:'Oba rutera moraju imati globalnu IP adresu sa iste prve dvije cifre kao provajder. Uređaji ispod rutera 1 moraju imati istu globalnu IP kao ruter 1, a uređaji ispod rutera 2 istu kao ruter 2.',
       devices:[['server','Server provajdera'],['router','Ruter 1. sprata'],['router','Ruter 2. sprata'],['pc','Kompjuter kabinet 1'],['printer','Printer zbornica'],['pc','Kompjuter kabinet 2'],['printer','Printer kabinet 2']],
       groups:[{router:1,members:[3,4]},{router:2,members:[5,6]}]
@@ -200,8 +251,9 @@ function routerSwitchInfoHtml(){return `<div class="feedback show info" style="d
 function generateQuiz(){quiz=[]; let globals=[randomGlobal(),randomGlobal(true),randomGlobal()]; let locals=[`${randomPrefix(true)}.1`,randomLocal(),randomLocal()]; let ips=shuffle([...locals,...globals]); ips.forEach(ip=>quiz.push({type:'classify',ip,answer:''})); quiz.push(makeNetworkTask('cabinetShare')); quiz.push(makeNetworkTask('homeShare')); quiz.push(makeNetworkTask('schoolTwoRouters')); quiz.push(makeLanTask()); renderQuiz(); ipv4SidebarBox.innerHTML=ipv4StructureSvg(true)}
 function renderQuiz(){
   const classifyHtml = quiz.slice(0,6).map((q,i)=>`<div class="quiz-q diff-easy" data-q="${i}"><h4>${i+1}. Da li je ${q.ip} lokalna ili globalna IPv4 adresa?</h4><div class="choice-row"><button class="choice ${q.answer==='local'?'selected':''}" onclick="quizChoose(${i},'local')">Lokalna</button><button class="choice ${q.answer==='global'?'selected':''}" onclick="quizChoose(${i},'global')">Globalna</button></div></div>`).join('');
-  const restHtml = quiz.slice(6).map((q,offset)=>{ const i=offset+6; if(q.type==='globalShare'){const h=q.rule==='schoolTwoRouters'?'height:540px;width:960px;max-width:none;margin-left:18px;margin-right:auto':'height:410px'; return `<div class="quiz-q diff-medium" data-q="${i}"><h4>${i+1}. ${q.prompt}</h4><div class="task-net" style="${h}">${renderGlobalShare(i,q)}</div><div class="feedback" id="hint${i}"></div></div>`;} return `<div class="quiz-q diff-medium" data-q="${i}"><h4>${i+1}. Dodijeli validne lokalne IP adrese uređajima u mreži.</h4><div class="task-net" style="height:390px">${renderLargeLan(i,q)}</div><div class="feedback" id="hint${i}"></div></div>`; }).join('');
+  const restHtml = quiz.slice(6).map((q,offset)=>{ const i=offset+6; if(q.type==='globalShare'){return `<div class="quiz-q diff-medium" data-q="${i}"><h4>${i+1}. ${q.prompt}</h4><div class="task-net">${renderGlobalShare(i,q)}</div><div class="feedback" id="hint${i}"></div></div>`;} return `<div class="quiz-q diff-medium" data-q="${i}"><h4>${i+1}. Dodijeli validne lokalne IP adrese uređajima u mreži.</h4><div class="task-net">${renderLargeLan(i,q)}</div><div class="feedback" id="hint${i}"></div></div>`; }).join('');
   quizArea.innerHTML = quizIntroHtml() + `<div class="grid two">${classifyHtml}</div>` + routerSwitchInfoHtml() + restHtml;
+  requestAnimationFrame(layoutNetworks);
   quizFeedback.className='feedback';
   quizFeedback.textContent='';
   quizLocked=false;
@@ -210,82 +262,51 @@ function renderQuiz(){
 }
 function quizChoose(i,v){if(quizLocked)return; quiz[i].answer=v; renderQuiz()}
 function deviceHTML(type,label,known,ip,qIndex,idx,top=false){const control=known?`<div class="known-ip">${ip}</div>`:`<input class="text-input mini-ip" data-idx="${idx}" placeholder="IP" value="${esc(quiz[qIndex].inputs[idx]||'')}" oninput="quiz[${qIndex}].inputs[${idx}]=this.value.trim()">`; return top ? `${control}<div class="dev-icon ${type}"></div><div class="dev-label">${label}</div>` : `<div class="dev-icon ${type}"></div><div class="dev-label">${label}</div>${control}`;}
-function renderGlobalShare(i,q){
-  const lineColor='#0f172a';
-  const knownIndices=q.knownIndices||[];
-  const valueFor=(idx)=> idx===0?q.providerIp:(idx===1?q.routerIp:(q.inputs[idx]||''));
-  const inputAbs=(idx,left,top,w=190,placeholder='Globalna IP')=> knownIndices.includes(idx)
-    ? `<div class="known-ip" style="position:absolute;left:${left+Math.max(0,(w-182)/2)}px;top:${top}px;width:182px;min-width:182px;padding:6px 10px;font-size:16px;text-align:center">${esc(valueFor(idx))}</div>`
-    : `<input class="text-input mini-ip" data-idx="${idx}" placeholder="${placeholder}" style="position:absolute;left:${left}px;top:${top}px;width:${w}px" value="${esc(q.inputs[idx]||'')}" oninput="quiz[${i}].inputs[${idx}]=this.value.trim()">`;
-  const inputInline=(idx,placeholder='Globalna IP')=> knownIndices.includes(idx)
-    ? `<div class="known-ip" style="width:182px;min-width:182px;font-size:15px">${esc(valueFor(idx))}</div>`
-    : `<input class="text-input mini-ip" data-idx="${idx}" placeholder="${placeholder}" style="width:182px" value="${esc(q.inputs[idx]||'')}" oninput="quiz[${i}].inputs[${idx}]=this.value.trim()">`;
-
-  if(q.rule==='schoolTwoRouters'){
-    let svg=`<svg viewBox="0 0 960 540">
-      ${ln(480,92,245,205,lineColor,5)}${ln(480,92,675,205,lineColor,5)}
-      ${ln(245,278,110,378,lineColor,5)}${ln(245,278,355,378,lineColor,5)}
-      ${ln(675,278,600,378,lineColor,5)}${ln(675,278,825,378,lineColor,5)}
-      <text x="480" y="24" text-anchor="middle" font-size="13" font-weight="900" fill="#475569">Poznata IP adresa provajdera</text>
-    </svg>`;
-    return svg+
-      `${inputAbs(0,389,34,182)}<div class="dev-icon server" style="position:absolute;left:447px;top:88px;margin:0"></div><div class="dev-label" style="position:absolute;left:405px;top:140px;width:150px;text-align:center">Server provajdera</div>`+
-      `${inputAbs(1,155,175,200,'IP rutera 1')}<div class="dev-icon router" style="position:absolute;left:197px;top:238px;margin:0"></div><div class="dev-label" style="position:absolute;left:20px;top:251px;width:165px;text-align:right;background:#fff;border-radius:8px;padding:2px 6px">Ruter 1. sprata</div>`+
-      `${inputAbs(2,585,175,200,'IP rutera 2')}<div class="dev-icon router" style="position:absolute;left:627px;top:238px;margin:0"></div><div class="dev-label" style="position:absolute;left:730px;top:251px;width:165px;text-align:left;background:#fff;border-radius:8px;padding:2px 6px">Ruter 2. sprata</div>`+
-      `<div class="device small" style="left:20px;top:392px;width:170px"><div class="dev-icon pc"></div><div class="dev-label">Kompjuter kabinet 1</div>${inputInline(3,'Globalna IP')}</div>`+
-      `<div class="device small" style="left:275px;top:392px;width:170px"><div class="dev-icon printer"></div><div class="dev-label">Printer zbornica</div>${inputInline(4,'Globalna IP')}</div>`+
-      `<div class="device small" style="left:530px;top:392px;width:170px"><div class="dev-icon pc"></div><div class="dev-label">Kompjuter kabinet 2</div>${inputInline(5,'Globalna IP')}</div>`+
-      `<div class="device small" style="left:760px;top:392px;width:170px"><div class="dev-icon printer"></div><div class="dev-label">Printer kabinet 2</div>${inputInline(6,'Globalna IP')}</div>`;
+function responsiveNet(i,q){
+  const school=q.rule==='schoolTwoRouters', lan=q.type==='lanGroup';
+  const node=idx=>{
+    const d=q.devices[idx],known=lan?idx===q.knownIndex:q.knownIndices.includes(idx);
+    const value=known?(lan?q.knownIp:(idx===0?q.providerIp:q.routerIp)):(q.inputs[idx]||'');
+    const control=known?`<div class="known-ip">${esc(value)}</div>`:`<input class="text-input mini-ip" aria-label="IP adresa: ${d[1]}" data-idx="${idx}" placeholder="${lan?'Lokalna':'Globalna'} IP" value="${esc(value)}" oninput="quiz[${i}].inputs[${idx}]=this.value.trim()">`;
+    return `<div class="net-device" data-node="${idx}"><div class="dev-icon ${d[0]}"></div><div class="dev-label">${d[1]}</div>${control}</div>`;
+  };
+  const row=ids=>`<div class="net-row">${ids.map(node).join('')}</div>`;
+  if(school){
+    return '<svg class="school-connections" aria-hidden="true" data-school-links></svg>'+row([0])+'<div class="school-fields">'+q.groups.map((g,k)=>'<div class="school-floor" aria-label="'+(k+1)+'. sprat">'+row([g.router])+row(g.members)+'</div>').join('')+'</div>';
   }
-
-  let svg=`<svg viewBox="0 0 700 410">
-    ${ln(350,112,350,146,lineColor,5)}
-    ${ln(350,248,110,306,lineColor,5)}${ln(350,248,350,306,lineColor,5)}${ln(350,248,590,306,lineColor,5)}
-  </svg>`;
-  return svg+
-    `${inputAbs(0,237,10,226,'IP provajdera')}<div class="dev-label" style="position:absolute;left:178px;top:78px;width:112px;text-align:right">${q.devices[0][1]}</div><div class="dev-icon server" style="position:absolute;left:317px;top:58px;margin:0"></div>`+
-    `${inputAbs(1,237,154,226,'IP rutera')}<div class="dev-icon router" style="position:absolute;left:317px;top:206px;margin:0"></div><div class="dev-label" style="position:absolute;left:398px;top:218px;width:140px;text-align:left">${q.devices[1][1]}</div>`+
-    q.devices.slice(2).map((d,k)=>{const idx=k+2;return `<div class="device small" style="left:${q.positions[idx].x}px;top:${q.positions[idx].y}px;width:182px"><div class="dev-icon ${d[0]}"></div><div class="dev-label">${d[1]}</div>${inputInline(idx,'Globalna IP')}</div>`}).join('');
+  const edges=school?[[0,1],[0,2],[1,3],[1,4],[2,5],[2,6]]:lan?q.devices.slice(1).map((_,k)=>[0,k+1]):[[0,1],...q.devices.slice(2).map((_,k)=>[1,k+2])];
+  const body=school?row([0])+`<div class="net-branches">${q.groups.map(g=>`<div class="net-branch">${row([g.router])}${row(g.members)}</div>`).join('')}</div>`:lan?row([0])+row(q.devices.slice(1).map((_,k)=>k+1)):row([0])+row([1])+row([2,3,4]);
+  return `<svg aria-hidden="true" data-edges='${JSON.stringify(edges)}'></svg>${body}`;
 }
-
-function renderSmallNet(i,q){
-  let svg='';
-  if(q.layout===0){svg=`<svg viewBox="0 0 580 320">${ln(289,74,289,150,'#0f172a',5)}${ln(289,168,95,220,'#0f172a',5)}${ln(289,168,289,220,'#0f172a',5)}${ln(289,168,483,220,'#0f172a',5)}<rect x="245" y="150" width="88" height="36" rx="8" fill="#111827"/><rect x="257" y="163" width="64" height="10" rx="4" fill="#22c55e"/></svg>`}
-  if(q.layout===1){svg=`<svg viewBox="0 0 580 320">${ln(289,74,289,150,'#0f172a',5)}${ln(289,168,118,220,'#0f172a',5)}${ln(289,168,289,220,'#0f172a',5)}${ln(289,168,460,220,'#0f172a',5)}<rect x="245" y="150" width="88" height="36" rx="8" fill="#111827"/><rect x="257" y="163" width="64" height="10" rx="4" fill="#22c55e"/></svg>`}
-  if(q.layout===2){svg=`<svg viewBox="0 0 580 320">${ln(180,88,290,150,'#0f172a',5)}${ln(368,88,290,150,'#0f172a',5)}${ln(290,168,145,220,'#0f172a',5)}${ln(290,168,435,220,'#0f172a',5)}<rect x="246" y="150" width="88" height="36" rx="8" fill="#111827"/><rect x="258" y="163" width="64" height="10" rx="4" fill="#22c55e"/></svg>`}
-  return svg + q.devices.map((d,idx)=>`<div class="device small ${q.positions[idx].y<70?'top':''}" style="left:${q.positions[idx].x}px;top:${q.positions[idx].y}px">${deviceHTML(d[0],d[1],idx===q.knownIndex,q.knownIp,i,idx,q.positions[idx].y<70)}</div>`).join('')
-}
-function renderLargeLan(i,q){
-  // Pitanje 10: lokalna mreža sa ruterom u sredini i uređajima oko njega.
-  const laptopPositions=[
-    {left:34,top:42,cx:111,cy:93,box:'below',labelPos:'above'},
-    {left:496,top:42,cx:573,cy:93,box:'below',labelPos:'above'},
-    {left:34,top:238,cx:111,cy:289,box:'above',labelPos:'below'},
-    {left:265,top:262,cx:342,cy:313,box:'above',labelPos:'below'},
-    {left:496,top:238,cx:573,cy:289,box:'above',labelPos:'below'}
-  ];
-  let svg=`<svg viewBox="0 0 700 390">
-    ${ln(350,168,111,93,'#0f172a',5)}${ln(350,168,573,93,'#0f172a',5)}
-    ${ln(350,168,111,289,'#0f172a',5)}${ln(350,168,342,313,'#0f172a',5)}${ln(350,168,573,289,'#0f172a',5)}
-  </svg>`;
-  const routerControl=`<input class="text-input mini-ip" data-idx="0" placeholder="IP rutera" style="position:absolute;left:259px;top:50px;width:182px" value="${esc(q.inputs[0]||'')}" oninput="quiz[${i}].inputs[0]=this.value.trim()">`;
-  const router=`${routerControl}<div class="dev-icon router" style="position:absolute;left:302px;top:114px;width:96px;height:48px;margin:0"></div><div class="dev-label" style="position:absolute;left:285px;top:169px;width:130px;text-align:center;background:#fff;border-radius:8px;padding:2px 6px">Ruter</div>`;
-  const laptops=q.devices.slice(1).map((d,k)=>{
-    const idx=k+1;
-    const pos=laptopPositions[k];
-    const known=idx===q.knownIndex;
-    const field=known
-      ? `<div class="known-ip" style="width:182px;min-width:182px;font-size:15px">${q.knownIp}</div>`
-      : `<input class="text-input mini-ip" data-idx="${idx}" placeholder="IP uređaja" value="${esc(q.inputs[idx]||'')}" oninput="quiz[${i}].inputs[${idx}]=this.value.trim()">`;
-    return `<div class="device small" style="left:${pos.left}px;top:${pos.top}px;width:182px">
-      ${pos.box==='above'?field:''}
-      ${pos.labelPos==='above'?`<div class="dev-label" style="margin-bottom:6px;background:#fff;border-radius:8px;padding:1px 6px;display:inline-block">${d[1]}</div>`:''}
-      <div class="dev-icon ${d[0]}" style="margin:${pos.box==='above'?'8px':'0'} auto 6px"></div>
-      ${pos.labelPos==='below'?`<div class="dev-label" style="margin-top:${pos.box==='above'?'2px':'0'}">${d[1]}</div>`:''}
-      ${pos.box==='below'?field:''}
-    </div>`;
-  }).join('');
-  return svg + router + laptops;
+function renderGlobalShare(i,q){return responsiveNet(i,q)}
+function renderLargeLan(i,q){return responsiveNet(i,q)}
+function layoutNetworks(){
+  document.querySelectorAll('.task-net').forEach(net=>{
+    if(!net.clientWidth)return;
+    const svg=net.querySelector('svg[data-edges],svg[data-school-links]');if(!svg)return;
+    const bounds=net.getBoundingClientRect();
+    svg.setAttribute('viewBox',`0 0 ${net.clientWidth} ${net.clientHeight}`);
+    if(svg.hasAttribute('data-school-links')){
+      const provider=net.querySelector('[data-node="0"]').getBoundingClientRect();
+      const floors=[...net.querySelectorAll('.school-floor')];
+      const stacked=Math.abs(floors[0].getBoundingClientRect().top-floors[1].getBoundingClientRect().top)>10;
+      const x=provider.left+provider.width/2-bounds.left-1,y=provider.bottom-bounds.top-1;
+      svg.innerHTML=floors.map((floor,i)=>{
+        const router=floor.querySelector('[data-node]').getBoundingClientRect();
+        const tx=router.left+router.width/2-bounds.left-1,ty=router.top-bounds.top-1;
+        // The second floor gets its own lane outside the first floor on narrow screens.
+        const d=stacked&&i===1?`M${x} ${y} V${y+16} H8 V${floor.getBoundingClientRect().top-bounds.top-17} H${tx} V${ty}`:`M${x} ${y} V${y+30} H${tx} V${ty}`;
+        return `<path d="${d}" fill="none" stroke="${i===0?'#2563eb':'#15803d'}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>`;
+      }).join('');
+      return;
+    }
+    svg.innerHTML=JSON.parse(svg.dataset.edges).map(([a,b])=>{
+      const from=net.querySelector(`[data-node="${a}"]`).getBoundingClientRect(),to=net.querySelector(`[data-node="${b}"]`).getBoundingClientRect();
+      const x1=from.left+from.width/2-bounds.left-1,y1=from.bottom-bounds.top-1,x2=to.left+to.width/2-bounds.left-1,y2=to.top-bounds.top-1;
+      const gutter=to.top-from.bottom>100?6+a*8:x2;
+      return `<path d="M${x1} ${y1} V${y1+16} H${gutter} V${y2-10} H${x2} V${y2}" fill="none" stroke="#64748b" stroke-width="3" stroke-linejoin="round"/>`;
+    }).join('');
+  });
 }
 
 function validateSameNetworkTask(q){let bad=[]; if(q.type==='globalShare'){
@@ -411,20 +432,26 @@ function makeUsageQuestion(k){
   return {mode:'usage',type:k,options:shuffle([...correct,...wrong]),correct,answer:[],label:'Označi sve tačne odgovore. '+s.label,note:s.note||''};
 }
 const topoNames=topo.map(x=>x[1]);
-function topoSvg(t,v=0){
-  if(t==='ring') return v===0?`<svg viewBox="0 0 220 110"><ellipse cx="110" cy="55" rx="75" ry="34" fill="none" stroke="#0f172a" stroke-width="5"/>${tNode(92,14)}${tNode(142,26)}${tNode(24,48)}${tNode(172,48)}${tNode(56,80)}${tNode(126,80)}</svg>`:`<svg viewBox="0 0 220 110"><ellipse cx="110" cy="55" rx="72" ry="32" fill="none" stroke="#0f172a" stroke-width="5"/>${tNode(42,48)}${tNode(72,18)}${tNode(122,14)}${tNode(158,42)}${tNode(138,78)}${tNode(76,82)}</svg>`;
-  if(t==='star') return v===0?`<svg viewBox="0 0 220 110">${tLink(110,53,48,24)}${tLink(110,53,110,14)}${tLink(110,53,172,24)}${tLink(110,53,30,80)}${tLink(110,53,110,88)}${tLink(110,53,190,80)}${tHub(95,43)}${tNode(28,10)}${tNode(96,0)}${tNode(164,10)}${tNode(10,66)}${tNode(96,76)}${tNode(178,66)}</svg>`:`<svg viewBox="0 0 220 110">${tLink(108,52,52,18)}${tLink(108,52,164,18)}${tLink(108,52,30,54)}${tLink(108,52,186,54)}${tLink(108,52,60,90)}${tLink(108,52,156,90)}${tHub(93,42)}${tNode(32,4)}${tNode(144,4)}${tNode(10,40)}${tNode(166,40)}${tNode(40,76)}${tNode(136,76)}</svg>`;
-  if(t==='bus') return v===0?`<svg viewBox="0 0 220 110"><line x1="14" y1="58" x2="206" y2="58" stroke="#0f172a" stroke-width="6" stroke-linecap="round"/>${busNode(24,14)}${busNode(62,76)}${busNode(98,14)}${busNode(136,76)}${busNode(172,14)}</svg>`:`<svg viewBox="0 0 220 110"><line x1="18" y1="56" x2="202" y2="56" stroke="#0f172a" stroke-width="6" stroke-linecap="round"/>${busNode(28,14)}${busNode(72,76)}${busNode(108,14)}${busNode(142,76)}${busNode(174,14)}</svg>`;
-  if(t==='mesh') return v===0?`<svg viewBox="0 0 220 110">${tLink(36,20,110,10)}${tLink(110,10,184,20)}${tLink(36,20,36,86)}${tLink(184,20,184,86)}${tLink(36,86,110,100)}${tLink(110,100,184,86)}${tLink(36,20,110,100)}${tLink(110,10,36,86)}${tLink(184,20,110,100)}${tNode(14,6)}${tNode(88,0)}${tNode(162,6)}${tNode(14,72)}${tNode(88,86)}${tNode(162,72)}</svg>`:`<svg viewBox="0 0 220 110">${tLink(46,20,174,20)}${tLink(46,20,110,56)}${tLink(174,20,110,56)}${tLink(46,88,174,88)}${tLink(46,88,110,56)}${tLink(174,88,110,56)}${tLink(46,20,46,88)}${tLink(174,20,174,88)}${tNode(24,6)}${tNode(152,6)}${tNode(88,42)}${tNode(24,74)}${tNode(152,74)}</svg>`;
-  return v===0?`<svg viewBox="0 0 220 110">${tLink(110,10,110,32)}${tLink(110,32,68,52)}${tLink(110,32,152,52)}${tLink(68,52,48,86)}${tLink(68,52,86,86)}${tLink(152,52,134,86)}${tLink(152,52,172,86)}${tNode(98,0)}${tNode(50,40)}${tNode(134,40)}${tNode(30,74)}${tNode(68,74)}${tNode(116,74)}${tNode(154,74)}</svg>`:`<svg viewBox="0 0 220 110">${tLink(110,8,110,28)}${tLink(110,28,56,48)}${tLink(110,28,164,48)}${tLink(56,48,38,88)}${tLink(56,48,76,88)}${tLink(164,48,144,88)}${tLink(164,48,182,88)}${tNode(98,0)}${tNode(38,36)}${tNode(148,36)}${tNode(20,76)}${tNode(58,76)}${tNode(134,76)}${tNode(172,76)}</svg>`;
+function topologyGraph(t,v=0){
+  if(t==='ring'){const nodes=Array.from({length:6},(_,i)=>{const a=(i*60-90+v*30)*Math.PI/180;return [120+86*Math.cos(a),80+54*Math.sin(a)]});return {nodes,edges:nodes.map((_,i)=>[i,(i+1)%6])};}
+  if(t==='star'){const g=topologyGraph('ring',v);return {nodes:[[120,80],...g.nodes],edges:g.nodes.map((_,i)=>[0,i+1]),hubs:[0]};}
+  if(t==='bus')return {nodes:[[35,30],[75,125],[120,30],[165,125],[205,30]],edges:[],bus:80};
+  if(t==='mesh')return {nodes:[[40,30],[195,30],[40,130],[195,130],...(v?[[120,80]]:[])],edges:v?[[0,1],[0,2],[1,3],[2,3],[0,4],[1,4],[2,4],[3,4]]:[[0,1],[0,2],[0,3],[1,2],[1,3],[2,3]]};
+  return {nodes:[[120,24],[65,76],[175,76],[32,132],[95,132],[145,132],[208,132]],edges:[[0,1],[0,2],[1,3],[1,4],[2,5],[2,6]]};
 }
+function drawTopology(g){
+  let lines=g.edges.map(([a,b])=>tLink(...g.nodes[a],...g.nodes[b])).join('');
+  if(g.bus){lines+=tLink(18,g.bus,222,g.bus)+tLink(18,g.bus-6,18,g.bus+6)+tLink(222,g.bus-6,222,g.bus+6);lines+=g.nodes.map(([x,y])=>tLink(x,g.bus,x,y)).join('');}
+  return lines+g.nodes.map(([x,y],i)=>(g.hubs||[]).includes(i)?tHub(x-15,y-10):tNode(x-11,y-8)).join('');
+}
+function topoSvg(t,v=0){return `<svg viewBox="0 0 240 160" role="img" aria-label="Dijagram mrežne topologije">${drawTopology(topologyGraph(t,v))}</svg>`}
 function comboSvg(type){
-  if(type==='ring_tree') return `<svg viewBox="0 0 360 160">${tLink(112,80,150,80)}<ellipse cx="70" cy="80" rx="40" ry="28" fill="none" stroke="#0f172a" stroke-width="4"/>${tNode(58,54)}${tNode(88,70)}${tNode(28,70)}${tNode(58,96)}${tLink(170,26,170,54)}${tLink(170,54,142,82)}${tLink(170,54,198,82)}${tLink(142,82,124,118)}${tLink(142,82,160,118)}${tLink(198,82,180,118)}${tLink(198,82,216,118)}${tNode(158,12)}${tNode(130,68)}${tNode(186,68)}${tNode(112,104)}${tNode(148,104)}${tNode(168,104)}${tNode(204,104)}</svg>`;
-  if(type==='star_tree') return `<svg viewBox="0 0 360 160">${tLink(84,80,144,80)}${tLink(144,80,196,80)}${tLink(196,80,238,80)}${tLink(196,80,196,44)}${tLink(196,80,196,116)}${tNode(62,68)}${tNode(142,68)}${tHub(182,70)}${tLink(260,80,296,46)}${tLink(260,80,320,80)}${tLink(260,80,296,114)}${tHub(245,70)}${tNode(284,34)}${tNode(308,68)}${tNode(284,102)}${tNode(184,32)}${tNode(184,104)}</svg>`;
-  if(type==='mesh_star') return `<svg viewBox="0 0 360 160">${tLink(36,42,94,28)}${tLink(94,28,142,62)}${tLink(36,42,72,102)}${tLink(72,102,142,62)}${tLink(36,42,142,62)}${tNode(18,28)}${tNode(76,14)}${tNode(54,88)}${tNode(124,48)}${tLink(180,80,236,40)}${tLink(180,80,236,80)}${tLink(180,80,236,120)}${tHub(165,70)}${tNode(224,28)}${tNode(224,68)}${tNode(224,108)}</svg>`;
-  if(type==='bus_star') return `<svg viewBox="0 0 360 160"><line x1="18" y1="64" x2="160" y2="64" stroke="#0f172a" stroke-width="6" stroke-linecap="round"/>${busNode(34,20)}${busNode(78,92)}${busNode(120,20)}${tLink(160,64,210,80)}${tLink(230,80,294,40)}${tLink(230,80,312,80)}${tLink(230,80,294,120)}${tHub(215,70)}${tNode(282,28)}${tNode(300,68)}${tNode(282,108)}</svg>`;
-  if(type==='mesh_tree') return `<svg viewBox="0 0 360 160">${tLink(34,32,94,24)}${tLink(94,24,130,74)}${tLink(34,32,60,112)}${tLink(60,112,130,74)}${tLink(34,32,130,74)}${tNode(16,18)}${tNode(76,10)}${tNode(42,98)}${tNode(112,60)}${tLink(174,22,174,52)}${tLink(174,52,144,86)}${tLink(174,52,204,86)}${tLink(144,86,126,124)}${tLink(144,86,162,124)}${tLink(204,86,186,124)}${tLink(204,86,222,124)}${tNode(162,8)}${tNode(132,72)}${tNode(192,72)}${tNode(108,110)}${tNode(144,110)}${tNode(168,110)}${tNode(204,110)}</svg>`;
-  return `<svg viewBox="0 0 360 160"><ellipse cx="82" cy="80" rx="42" ry="30" fill="none" stroke="#0f172a" stroke-width="4"/>${tNode(70,54)}${tNode(100,70)}${tNode(40,70)}${tNode(70,98)}${tLink(124,80,184,80)}${tLink(204,80,278,38)}${tLink(204,80,300,80)}${tLink(204,80,278,122)}${tHub(189,70)}${tNode(266,26)}${tNode(288,68)}${tNode(266,110)}</svg>`;
+  const [a,b]=type.split('_'),left=topologyGraph(a),right=topologyGraph(b);
+  const ai=a==='star'?0:left.nodes.reduce((best,p,i)=>p[0]>left.nodes[best][0]?i:best,0);
+  const bi=b==='star'||b==='tree'?0:right.nodes.reduce((best,p,i)=>p[0]<right.nodes[best][0]?i:best,0);
+  const [x1,y1]=left.nodes[ai],[rx,y2]=right.nodes[bi],x2=rx+290;
+  const bridge=`<path d="M${x1} ${y1} H250 V8 H${x2} V${y2}" fill="none" stroke="#64748b" stroke-width="3" stroke-linejoin="round"/>`;
+  return `<svg viewBox="0 0 530 170" role="img" aria-label="Dijagram kombinovane mreže">${bridge}${drawTopology(left)}<g transform="translate(290,0)">${drawTopology(right)}</g></svg>`;
 }
 function renderTopoLessons(){topologyLessons.innerHTML=topo.map(t=>`<div class="topology-card diff-easy">${topoSvg(t[0],rand(0,1))}<b>${t[1]}</b><p>${t[2]}</p><p><b>Primjer upotrebe:</b> ${t[3]}</p></div>`).join('')}
 let tq=[],ti=0;
@@ -473,7 +500,23 @@ function initPair(){pairOrder=[makePairExample(),makePairExample(),makePairExamp
 function pairAssignments(){let local='—', global='—'; document.querySelectorAll('#s2 .dropzone .ip-chip').forEach(ch=>{let zone=ch.closest('.dropzone').dataset.kind; if(zone==='local') local=ch.dataset.ip; else global=ch.dataset.ip;}); return {local,global}}
 function updatePairDiagram(){let ips=pairOrder[pi]; pairDiagram.innerHTML=networkSvg(ips,pairAssignments())}
 function renderPair(){let ips=pairOrder[pi];pairRound.textContent=`Primjer ${pi+1} / 3`;pairDiagram.innerHTML=networkSvg(ips,{local:'—',global:'—'});pairBank.innerHTML=shuffle(ips).map(ip=>`<div class="ip-chip" draggable="true" data-ip="${ip}">${ip}</div>`).join('');document.querySelectorAll('#s2 .dropzone').forEach(z=>z.innerHTML=`<h4>${z.dataset.kind==='local'?'🟢 Lokalna IP adresa':'🔵 Globalna IP adresa'}</h4>`);pairNextBtn.classList.toggle('hidden',pi===2);pairCheckBtn.classList.toggle('hidden',pi!==2);pairFeedback.className='feedback';pairFeedback.textContent='';if(pi===0)pairResults.innerHTML='';attachDrag(); updatePairDiagram()}
-function attachDrag(){document.querySelectorAll('.ip-chip').forEach(ch=>{ch.addEventListener('dragstart',e=>e.dataTransfer.setData('text/plain',ch.dataset.ip)); ch.addEventListener('click',()=>{document.getElementById('pairBank').appendChild(ch); updatePairDiagram();});});document.getElementById('pairBank').addEventListener('dragover',e=>e.preventDefault());document.getElementById('pairBank').addEventListener('drop',e=>{e.preventDefault();let ip=e.dataTransfer.getData('text/plain'),ch=[...document.querySelectorAll('.ip-chip')].find(x=>x.dataset.ip===ip);if(ch){document.getElementById('pairBank').appendChild(ch); updatePairDiagram();}});document.querySelectorAll('#s2 .dropzone').forEach(z=>{z.addEventListener('dragover',e=>{e.preventDefault();z.classList.add('over')});z.addEventListener('dragleave',()=>z.classList.remove('over'));z.addEventListener('drop',e=>{e.preventDefault();z.classList.remove('over');if(z.querySelector('.ip-chip')) return; let ip=e.dataTransfer.getData('text/plain'),ch=[...document.querySelectorAll('.ip-chip')].find(x=>x.dataset.ip===ip);if(ch){z.appendChild(ch); updatePairDiagram();}})})}
+function attachDrag(){
+  const bank=document.getElementById('pairBank');let selected=null;
+  const select=ch=>{document.querySelectorAll('#s2 .ip-chip').forEach(c=>{c.classList.toggle('selected',c===ch);c.setAttribute('aria-pressed',String(c===ch))});selected=ch};
+  const place=target=>{if(!selected)return;if(target!==bank&&target.querySelector('.ip-chip'))bank.appendChild(target.querySelector('.ip-chip'));target.appendChild(selected);select(null);updatePairDiagram()};
+  document.querySelectorAll('#s2 .ip-chip').forEach(ch=>{
+    ch.tabIndex=0;ch.setAttribute('role','button');ch.setAttribute('aria-pressed','false');
+    ch.onclick=e=>{e.stopPropagation();select(selected===ch?null:ch)};
+    ch.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();ch.click()}};
+    ch.ondragstart=e=>{select(ch);e.dataTransfer.setData('text/plain',ch.dataset.ip)};
+  });
+  [bank,...document.querySelectorAll('#s2 .dropzone')].forEach(target=>{
+    target.tabIndex=0;target.setAttribute('role','group');target.setAttribute('aria-label',target===bank?'Nerazvrstane IP adrese':target.querySelector('h4').textContent);
+    target.onclick=()=>place(target);target.onkeydown=e=>{if(e.target===target&&(e.key==='Enter'||e.key===' ')){e.preventDefault();place(target)}};
+    target.ondragover=e=>{e.preventDefault();target.classList.add('over')};target.ondragleave=()=>target.classList.remove('over');
+    target.ondrop=e=>{e.preventDefault();target.classList.remove('over');place(target)};
+  });
+}
 function pairRead(){let a=[];document.querySelectorAll('#s2 .dropzone .ip-chip').forEach(ch=>a.push({ip:ch.dataset.ip,chosen:ch.closest('.dropzone').dataset.kind}));return a}
 function pairFilled(){return pairRead().length===2}
 function pairSave(){pairAns[pi]=pairRead()}
@@ -497,7 +540,14 @@ const msgSteps=[['Poruka na uređaju','Pošiljalac napiše poruku na mobitelu. P
 let mi=0; const pts=[[76,248],[308,138],[321,285],[663,136],[670,285],[897,138],[1000,248]];
 function packetIconForStep(i){return (i===0||i===6)?'✉️🔓':'✉️🔒'}
 function setLine(id,x1,y1,x2,y2){let el=document.getElementById(id),dx=x2-x1,dy=y2-y1;el.style.left=x1+'px';el.style.top=y1+'px';el.style.width=Math.hypot(dx,dy)+'px';el.style.transform=`rotate(${Math.atan2(dy,dx)*180/Math.PI}deg)`}
-function setupMsg(){setLine('line0',118,270,343,162);setLine('line1',325,206,325,280);setLine('line2',402,302,675,162);setLine('line3',685,206,685,280);setLine('line4',742,302,916,162);setLine('line5',958,162,1084,270);updateMsg(true);renderEncryptionDemo(false)}
+function setupMsg(){updateMsg(true);renderEncryptionDemo(false);requestAnimationFrame(layoutMessage)}
+function layoutMessage(){
+  const map=document.querySelector('.message-map');if(!map.clientWidth)return;
+  const bounds=map.getBoundingClientRect();
+  const nodes=[...map.querySelectorAll('.msg-icon')].map(el=>{const r=el.getBoundingClientRect();return [r.left+r.width/2-bounds.left,r.top+r.height/2-bounds.top]});
+  nodes.slice(1).forEach((p,i)=>setLine('line'+i,...nodes[i],...p));
+  nodes.forEach((p,i)=>pts[i]=[p[0]-29,p[1]-48]);movePacket(mi);
+}
 function movePacket(i){let p=pts[i];msgPacket.textContent=packetIconForStep(i);msgPacket.style.left=p[0]+'px';msgPacket.style.top=p[1]+'px'}
 function updateMsg(force=false){msgTitle.textContent=`Korak ${mi+1}: ${msgSteps[mi][0]}`;msgText.textContent=msgSteps[mi][1];msgPacket.textContent=packetIconForStep(mi);stepDots.innerHTML=msgSteps.map((_,i)=>`<div class="step-dot ${i<=mi?'on':''}"></div>`).join('');if(force)movePacket(mi)}
 function playMsg(){msgPacket.style.transform='scale(1.18)';setTimeout(()=>msgPacket.style.transform='scale(1)',250);movePacket(mi)}
@@ -548,7 +598,7 @@ function renderEncryptionDemo(reveal=false){
     <div class="flow-box" style="margin-top:10px"><b>Šifriranje:</b> tekst se okreće od zadnjeg prema prvom slovu, pa nastaje <b>${esc(ex.reversed)}</b>.</div>
     <div class="flow-box" style="margin-top:10px"><b>Paketi poslije šifriranja:</b><div class="packet-row">${encPartHtml}</div></div>
     <div class="flow-box"><b>Putovanje paketa:</b> pokreni animaciju i na samoj slici prati poruku, pakete, slaganje i konačno dešifrovanje.</div>
-    <div class="route-demo" id="routeDemo">
+    <button class="btn good mobile-animation-button" onclick="openPortraitAnimation()">▶ Klikni za animaciju preko cijelog ekrana</button><div class="route-scroll desktop-packet-view" tabindex="0" aria-label="Putovanje paketa — pomični dijagram"><div class="route-demo" id="routeDemo">
       <div class="route-line" id="rline1"></div><div class="route-line" id="rline2"></div><div class="route-line" id="rline3"></div><div class="route-line" id="rline4"></div><div class="route-line" id="rline5"></div><div class="route-line" id="rline6"></div><div class="route-line" id="rline7"></div>
       <div class="route-bubble sender" id="senderBubble"></div>
       <div class="route-bubble receiver" id="receiverBubble"></div>
@@ -560,9 +610,78 @@ function renderEncryptionDemo(reveal=false){
       <div class="route-node" style="left:640px;top:116px"><div class="route-icon keypriv">🔐</div>Primalac<br>privatni ključ</div>
       ${ex.shuffledPackets.map((p,i)=>`<div class="route-packet" id="p${p.order}">${esc(p.plain)}<br>${p.order}</div>`).join('')}
     </div>
-    <div class="practice-row"><button class="btn good" onclick="runPacketExample()">Pokreni primjer</button><button class="btn secondary" onclick="resetMessageExample()">Sakrij i novi pokušaj</button></div>
+    </div><div class="practice-row"><button class="btn good desktop-packet-start" onclick="runPacketExample()">Pokreni primjer</button><button class="btn secondary" onclick="resetMessageExample()">Sakrij i novi pokušaj</button></div>
     <div class="feedback show ${decryptStatus==='ok'?'ok':'no'}" id="decryptFeedback">${decryptStatus==='ok'?'Tačno! Pogodio/la si skrivenu poruku.':'Poruka nije tačno pogođena, ali u animaciji vidiš kako je sistem šifrira, dijeli na pakete, šalje, slaže i dešifruje.'}</div>`;
   setupRouteDemo();
+}
+let portraitStep=0,portraitTimer=null,portraitReturnFocus=null;
+const portraitSteps=['Početna poruka','Podjela na pakete','Šifriranje','Slanje preko rutera','Putovanje preko servera','Dolazak primaocu','Slaganje paketa','Spajanje poruke','Dešifrovana poruka'];
+function openPortraitAnimation(){
+  if(!revealMessageExample||!matchMedia('(max-width:600px)').matches)return;
+  portraitReturnFocus=document.activeElement;
+  let dialog=document.getElementById('packetDialog');
+  if(!dialog){
+    dialog=document.createElement('dialog');dialog.id='packetDialog';dialog.className='packet-dialog';dialog.setAttribute('aria-labelledby','portraitTitle');
+    dialog.innerHTML=`<header><h3 id="portraitTitle">Putovanje poruke</h3><button class="btn secondary" onclick="closePortraitAnimation()" aria-label="Zatvori animaciju">✕</button></header>
+      <svg class="portrait-map" viewBox="0 0 320 460" role="img" aria-label="Poruka putuje od pošiljaoca kroz ruter i tri servera do primaoca">
+        <g fill="none" stroke="#94a3b8" stroke-width="3"><path d="M160 64 V135 M160 175 L55 260 M160 175 V260 M160 175 L265 260 M55 300 L160 395 M160 300 V395 M265 300 L160 395"/></g>
+        ${[[160,40,'📱','Pošiljalac · javni ključ'],[160,150,'📶','Ruter'],[55,280,'🖥️','Server 1'],[160,280,'🖥️','Server 2'],[265,280,'🖥️','Server 3'],[160,415,'🔐','Primalac · privatni ključ']].map(([x,y,icon,label])=>`<g transform="translate(${x},${y})"><rect x="-25" y="-23" width="50" height="46" rx="12" fill="#fff" stroke="#0f172a" stroke-width="2"/><text text-anchor="middle" y="9" font-size="25">${icon}</text><rect x="-75" y="28" width="150" height="19" fill="#f8fafc"/><text text-anchor="middle" y="42" font-size="12" font-weight="bold" fill="#334155">${label}</text></g>`).join('')}
+        <g id="portraitPackets"></g><g id="portraitMessage"><rect x="-150" y="-15" width="300" height="30" rx="9" fill="#dcfce7" stroke="#86efac"/><text text-anchor="middle" y="4" font-size="12" font-weight="bold" fill="#166534"></text></g>
+      </svg><div class="portrait-status" id="portraitStatus" aria-live="polite"></div>
+      <div class="controls"><button class="btn secondary" id="portraitPrev" onclick="stepPortrait(-1)" aria-label="Prethodni korak">←</button><button class="btn good" id="portraitPlay" onclick="togglePortraitPlayback()">▶ Pokreni</button><button class="btn" id="portraitNext" onclick="stepPortrait(1)" aria-label="Sljedeći korak">→</button></div>`;
+    dialog.addEventListener('cancel',e=>{e.preventDefault();closePortraitAnimation()});
+    document.body.appendChild(dialog);
+  }
+  pausePortrait();portraitStep=0;
+  document.getElementById('portraitPackets').innerHTML=packetExample.numbered.map(p=>`<g class="portrait-packet" id="portraitPacket${p.order}"><rect x="-24" y="-12" width="48" height="24" rx="7" fill="#2563eb"/><text text-anchor="middle" y="4" fill="white" font-size="10" font-weight="bold"></text></g>`).join('');
+  dialog.showModal();document.body.style.overflow='hidden';renderPortraitStep();
+  // A full-viewport dialog also works where the browser Fullscreen API is unavailable.
+  if(dialog.requestFullscreen)dialog.requestFullscreen().catch(()=>{});
+  togglePortraitPlayback();
+}
+function pausePortrait(){clearInterval(portraitTimer);portraitTimer=null;const button=document.getElementById('portraitPlay');if(button)button.textContent=portraitStep===portraitSteps.length-1?'↻ Ponovi':'▶ Pokreni'}
+function closePortraitAnimation(){
+  pausePortrait();const dialog=document.getElementById('packetDialog');
+  if(document.fullscreenElement===dialog&&document.exitFullscreen)document.exitFullscreen().catch(()=>{});
+  if(dialog?.open)dialog.close();document.body.style.overflow='';portraitReturnFocus?.focus();
+}
+function stepPortrait(delta){pausePortrait();portraitStep=Math.max(0,Math.min(portraitSteps.length-1,portraitStep+delta));renderPortraitStep()}
+function togglePortraitPlayback(){
+  if(portraitTimer){pausePortrait();return;}
+  if(portraitStep===portraitSteps.length-1)portraitStep=0;
+  renderPortraitStep();document.getElementById('portraitPlay').textContent='❚❚ Pauza';
+  portraitTimer=setInterval(()=>{portraitStep++;renderPortraitStep();if(portraitStep===portraitSteps.length-1)pausePortrait()},2200);
+}
+function renderPortraitStep(){
+  const ex=packetExample;
+  const texts=[`Pošiljalac piše: <b>${esc(ex.plain)}</b>.`,
+    `Poruka se dijeli na pakete: <b>${ex.numbered.map(p=>esc(p.plain)+' | '+p.order).join(' · ')}</b>.`,
+    `Šifrirana poruka: <b>${esc(ex.reversed)}</b>. Paketi dobijaju redne brojeve.`,
+    'Ruter prosljeđuje šifrirane pakete prema internetu.',
+    `Paketi putuju različitim putanjama: <b>${ex.shuffledPackets.map(p=>esc(p.text)+' | '+p.order).join(' · ')}</b>.`,
+    'Šifrirani paketi stižu primaocu različitim redoslijedom.',
+    `Primalac slaže pakete prema brojevima: <b>${ex.numbered.map(p=>esc(p.text)+' | '+p.order).join(' · ')}</b>.`,
+    `Paketi se spajaju u šifriranu poruku: <b>${esc(ex.reversed)}</b>.`,
+    `Privatnim ključem primalac otključava poruku: <b>${esc(ex.plain)}</b>.`];
+  document.getElementById('portraitStatus').innerHTML=`<b>Korak ${portraitStep+1} / ${portraitSteps.length} · ${portraitSteps[portraitStep]}</b><br>${texts[portraitStep]}`;
+  ex.numbered.forEach((p,i)=>{
+    const el=document.getElementById('portraitPacket'+p.order),server=(p.order-1)%3;
+    const packetX=ex.numbered.length===1?160:30+i*260/(ex.numbered.length-1);
+    let x=packetX,y=105;
+    if(portraitStep===3){x=packetX;y=211;}
+    if(portraitStep===4){x=[55,160,265][server];y=235-Math.floor(i/3)*28;}
+    if(portraitStep===5){const arrival=ex.shuffledPackets.findIndex(pkt=>pkt.order===p.order);x=ex.numbered.length===1?160:30+arrival*260/(ex.numbered.length-1);y=365;}
+    if(portraitStep>=6){x=packetX;y=365;}
+    el.style.transform=`translate(${x}px,${y}px)`;el.style.opacity=portraitStep===0||portraitStep>=7?'0':'1';
+    el.querySelector('text').textContent=(portraitStep<2?p.plain:p.text)+'|'+p.order;
+    el.querySelector('rect').setAttribute('fill',portraitStep<2?'#ea580c':'#2563eb');
+  });
+  const message=document.getElementById('portraitMessage');
+  message.style.display=portraitStep===0||portraitStep>=7?'':'none';
+  message.setAttribute('transform',`translate(160,${portraitStep===0?105:365})`);
+  message.querySelector('text').textContent=portraitStep===7?ex.reversed:ex.plain;
+  document.getElementById('portraitPrev').disabled=portraitStep===0;document.getElementById('portraitNext').disabled=portraitStep===portraitSteps.length-1;
+  if(!portraitTimer)document.getElementById('portraitPlay').textContent=portraitStep===portraitSteps.length-1?'↻ Ponovi':'▶ Pokreni';
 }
 function resetMessageExample(){revealMessageExample=false; decryptStatus=null; renderEncryptionDemo(false)}
 function newDecryptChallenge(){generateMessageExample(); renderEncryptionDemo(false)}
@@ -611,6 +730,9 @@ function checkDecryptGuess(){
   if(fb){fb.className='feedback show no'; fb.textContent='Nije tačno. Prvo ispravno dešifruj poruku, pa će se prikazati animacija.';}
 }
 
+const diagramObserver=new ResizeObserver(()=>{layoutNetworks();layoutMessage()});
+diagramObserver.observe(document.querySelector('.stage'));
+matchMedia('(max-width:600px)').addEventListener('change',()=>updatePairDiagram());
 setupNav(); renderTopoLessons(); generateQuiz(); initPair(); generateCmdIps(); generateMessageExample(); setupMsg();
 </script>
 </body>
